@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 from pymongo import MongoClient
 from werkzeug.utils import secure_filename
 import os
+import webbrowser
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
@@ -59,4 +60,8 @@ def logout():
     return redirect(url_for('login'))
 
 if __name__ == '__main__':
+    # Abrir o navegador automaticamente
+    webbrowser.open('http://127.0.0.1:5000/')
+    
+    # Iniciar a aplicação Flask
     app.run(debug=True)
