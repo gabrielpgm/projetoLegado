@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <h1>Cadastrar Cliente</h1>
+    <form method="POST" enctype="multipart/form-data">
+        <label>Nome:</label>
+        <input type="text" name="nome" required><br>
+        <label>Email:</label>
+        <input type="email" name="email" required><br>
+        <label>Arquivo (PDF ou Imagem):</label>
+        <input type="file" name="arquivo" required><br>
+        <button type="submit">Cadastrar</button>
+    </form>
+</body>
+</html>
