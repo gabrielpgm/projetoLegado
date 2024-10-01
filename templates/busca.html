@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
@@ -10,14 +10,20 @@
             <th>Nome</th>
             <th>Email</th>
             <th>Arquivo</th>
+            <th>Ações</th> <!-- Nova coluna para ações -->
         </tr>
         {% for cliente in clientes %}
         <tr>
             <td>{{ cliente.nome }}</td>
             <td>{{ cliente.email }}</td>
             <td><a href="{{ url_for('static', filename='uploads/' + cliente.arquivo) }}">Download</a></td>
+            <!-- Botão de visualizar cliente individualmente -->
+            <td><a href="{{ url_for('visualizar_cliente', cliente_id=cliente._id) }}">Visualizar</a></td>
         </tr>
         {% endfor %}
     </table>
+
+    <!-- Botão de Voltar -->
+    <a href="{{ url_for('dashboard') }}" class="button">Voltar</a>
 </body>
 </html>

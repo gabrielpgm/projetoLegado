@@ -1,58 +1,70 @@
 from flask import Flask, render_template, request, redirect, url_for, session
-from flask_pymongo import PyMongo
-from bson.objectid import ObjectId
-import os
+from werkzeug.security import generate_password_hash, check_password_hash
+from pymongo import MongoClient
+import config
+import webbrowser  # Importa a biblioteca webbrowser
+from threading import Timer  # Importa threading para rodar o servidor e abrir o navegador
 
 app = Flask(__name__)
-app.config['MONGO_URI'] = "mongodb://localhost:27017/meu_banco"
-app.config['UPLOAD_FOLDER'] = os.path.join('static', 'uploads')
-app.secret_key = 'sua_chave_secreta'
+app.secret_key = config.SECRET_KEY
 
-mongo = PyMongo(app)
+# Conexão com o MongoDB
+client = MongoClient(config.MONGO_URL)
+db = client['safedocsbd']  # Substitua pelo nome do seu banco de dados
 
-# Página de login
-@app.route('/', methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        # Logica de autenticação
-        return redirect(url_for('home'))
+@app.route('/')
+def home():
     return render_template('login.html')
 
-# Página inicial (menu)
-@app.route('/home')
-def home():
-    return render_template('base.html')
+@app.route('/login', methods=['POST'])
+def login():
+    username = request.form['username']
+    password = request.form['password']
+    
+    user = db.users.find_one({'username': username})
+    
+    if user and check_password_hash(user['password'], password):
+        session['username'] = username
+        return redirect(url_for('dashboard'))
+    else:
+        return "Usuário ou senha inválidos", 401
 
-# Página de cadastro de clientes
-@app.route('/cadastro', methods=['GET', 'POST'])
-def cadastro():
+@app.route('/dashboard')
+def dashboard():
+    if 'username' in session:
+        return render_template('dashboard.html')
+    else:
+        return redirect(url_for('home'))
+
+@app.route('/cadastro_cliente', methods=['GET', 'POST'])
+def cadastro_cliente():
     if request.method == 'POST':
-        nome = request.form['nome']
-        email = request.form['email']
-        arquivo = request.files['arquivo']
-        
-        if arquivo and allowed_file(arquivo.filename):
-            # Salvar arquivo no MongoDB
-            mongo.save_file(arquivo.filename, arquivo)
-            mongo.db.clientes.insert_one({
-                'nome': nome,
-                'email': email,
-                'arquivo': arquivo.filename
-            })
-        return redirect(url_for('busca'))
+        # Implementar a lógica de cadastro de cliente
+        return redirect(url_for('dashboard'))
     return render_template('cadastro.html')
 
-# Página de busca de clientes
-@app.route('/busca')
-def busca():
-    clientes = mongo.db.clientes.find()
-    return render_template('busca.html', clientes=clientes)
+@app.route('/busca_cliente', methods=['GET'])
+def busca_cliente():
+    # Implementar a lógica de busca de clientes
+    return render_template('busca.html')
 
-# Função para verificar tipos permitidos
-def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in {'pdf', 'png', 'jpg', 'jpeg'}
+#Busca no banco de dados um cliente especifico pelo ID
+@app.route('/cliente/<cliente_id>')
+def visualizar_cliente(cliente_id):
+    cliente = db.users.find_one({"_id": ObjectId(cliente_id)})
+    if not cliente:
+        return "Cliente não encontrado", 404
+    return render_template('detalhes_cliente.html', cliente=cliente)
+
+@app.route('/logout')
+def logout():
+    session.pop('username', None)
+    return redirect(url_for('home'))
+
+def open_browser():
+    webbrowser.open_new("http://127.0.0.1:5000/")  # URL que será aberta no navegador
 
 if __name__ == '__main__':
+    # Usa um Timer para garantir que o servidor Flask já tenha iniciado antes de abrir o navegador
+    Timer(1, open_browser).start()  
     app.run(debug=True)

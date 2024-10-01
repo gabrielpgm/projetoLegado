@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
@@ -14,5 +14,8 @@
         <input type="file" name="arquivo" required><br>
         <button type="submit">Cadastrar</button>
     </form>
+
+    <!-- Botão de Voltar -->
+    <a href="{{ url_for('dashboard') }}" class="button">Voltar</a>
 </body>
 </html>

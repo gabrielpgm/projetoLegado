@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhe Cliente</title>
+</head>
+<body>
+    <h1>Detalhes do Cliente</h1>
+<p><strong>Nome:</strong> {{ cliente.nome }}</p>
+<p><strong>Email:</strong> {{ cliente.email }}</p>
+
+<h2>Arquivos Enviados</h2>
+<ul>
+    {% for arquivo in cliente.arquivos %}
+    <li><a href="{{ url_for('static', filename='uploads/' + arquivo) }}">{{ arquivo }}</a></li>
+    {% endfor %}
+</ul>
+
+<a href="{{ url_for('busca_cliente') }}">Voltar</a>
+
+</body>
+</html>
