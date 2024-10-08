@@ -181,34 +181,14 @@ def buscar_cliente():
 
     return render_template('busca.html')
 
-
-
-# @app.route('/busca_cliente', methods=['GET', 'POST'])
+# @app.route('/busca_cliente', methods=['GET'])
 # def busca_cliente():
-#     clientes = []
+#     # Busca todos os clientes cadastrados
+#     clientes = list(db.clientes.find())
+
+#     # Definir valores padrão para page e total_pages
 #     page = 1
 #     total_pages = 1
-
-#     if request.method == 'POST':
-#         nome = request.form.get('nome', '').strip()
-#         cpf = request.form.get('cpf', '').strip()
-
-#         # Criar a consulta com base nos campos preenchidos
-#         query = {}
-#         if nome:
-#             query['nome'] = {'$regex': nome, '$options': 'i'}  # Busca insensível a maiúsculas
-#         if cpf:
-#             query['cpf'] = cpf  # Busca exata por CPF
-
-#         # Executar a consulta no banco de dados
-#         clientes = list(db.clientes.find(query))
-        
-#         # Defina a página e total_pages como 1, já que você não está implementando paginação
-#         total_pages = 1  # Ajuste conforme necessário
-
-#     else:
-#         # Busca todos os clientes cadastrados
-#         clientes = list(db.clientes.find())
 
 #     # Renderiza a tabela de clientes na página de busca
 #     return render_template('busca.html', clientes=clientes, page=page, total_pages=total_pages)
@@ -216,11 +196,8 @@ def buscar_cliente():
 @app.route('/busca_cliente', methods=['GET', 'POST'])
 def busca_cliente():
     clientes = []
-    page = request.args.get('page', 1, type=int)  # Pega a página atual da URL, padrão é 1
+    page = 1
     total_pages = 1
-
-    # Definir o número de documentos por página
-    documentos_por_pagina = 10
 
     if request.method == 'POST':
         nome = request.form.get('nome', '').strip()
@@ -235,35 +212,40 @@ def busca_cliente():
 
         # Executar a consulta no banco de dados
         clientes = list(db.clientes.find(query))
+        
+        # Defina a página e total_pages como 1, já que você não está implementando paginação
+        total_pages = 1  # Ajuste conforme necessário
+
     else:
         # Busca todos os clientes cadastrados
         clientes = list(db.clientes.find())
 
-    # Calcular total_pages e aplicar paginação
-    total_clientes = len(clientes)
-    total_pages = (total_clientes + documentos_por_pagina - 1) // documentos_por_pagina  # Arredonda para cima
-    skip_count = (page - 1) * documentos_por_pagina  # Quantidade de documentos a pular
-
-    # Aplicar paginação
-    clientes = clientes[skip_count:skip_count + documentos_por_pagina]
-
-    # Renderiza a tabela de clientes na página de busca, passando 'page' e 'total_pages'
+    # Renderiza a tabela de clientes na página de busca
     return render_template('busca.html', clientes=clientes, page=page, total_pages=total_pages)
 
-
-
-@app.route('/baixar_arquivo/<tipo>/<arquivo>', methods=['GET'])
-def baixar_arquivo(tipo, arquivo):
-    # Caminho completo para o arquivo dentro da pasta de uploads
-    caminho_arquivo = os.path.join('static/uploads', arquivo)
+@app.route('/baixar_arquivo/<tipo>/<numero_identificador>', methods=['GET'])
+def baixar_arquivo(tipo, numero_identificador):
+    # Aqui você deve buscar o cliente no banco de dados para obter o arquivo correspondente
+    cliente = db.clientes.find_one({"numero_identificador": numero_identificador})
     
-    # Verificando se o arquivo existe fisicamente no diretório
-    if not os.path.exists(caminho_arquivo):
-        return "Arquivo não encontrado no servidor.", 404
-    
-    # Retornando o arquivo para download
-    return send_from_directory('static/uploads', arquivo, as_attachment=True)
+    if cliente and cliente.documentos and cliente.documentos[tipo]:
+        arquivo = cliente.documentos[tipo].arquivo
+        return send_from_directory('static/uploads', arquivo, as_attachment=True)
+    return "Arquivo não encontrado.", 404
 
+# @app.route('/visualizar_cliente/<int:numero_identificador>')
+# def visualizar_cliente(numero_identificador):
+#     cliente = db.clientes.find_one({'numero_identificador': numero_identificador})
+#     if cliente is None:
+#         return "Cliente não encontrado", 404  # Para garantir que um cliente seja retornado
+
+#     return render_template('detalhe_cliente.html', cliente=cliente)
+
+
+# @app.route('/visualizar_cliente/<numero_identificador>')
+# def visualizar_cliente(numero_identificador):
+#     cliente = db.clientes.find_one({"numero_identificador": numero_identificador})
+#     return render_template('detalhe_cliente.html', cliente=cliente, modo='visualizar')
 
 @app.route('/visualizar_cliente/<int:numero_identificador>')  # Especificando que é um int
 def visualizar_cliente(numero_identificador):
