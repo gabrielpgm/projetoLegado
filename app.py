@@ -5,9 +5,14 @@ import config
 import webbrowser  # Importa a biblioteca webbrowser
 from threading import Timer  # Importa threading para rodar o servidor e abrir o navegador
 from bson.objectid import ObjectId  # Importa ObjectId para manipular IDs do MongoDB
+import os
+from werkzeug.utils import secure_filename
+
 
 app = Flask(__name__)
 app.secret_key = config.SECRET_KEY
+app.config['UPLOAD_FOLDER'] = os.path.join(app.root_path, 'static/uploads')
+
 
 # Conexão com o MongoDB
 client = MongoClient(config.MONGO_URL)
@@ -65,13 +70,15 @@ def dashboard():
     else:
         return redirect(url_for('home'))
     
-# Salvar arquivos, se existirem
+
+
 def salvar_arquivo(arquivo, nome_arquivo):
     if arquivo:
         caminho = f'static/uploads/{nome_arquivo}'
         arquivo.save(caminho)
         return caminho
     return None
+
 
 @app.route('/cadastro_cliente', methods=['GET', 'POST'])
 def cadastro_cliente():
@@ -137,18 +144,6 @@ def cadastro_cliente():
 
 
 
-
-# @app.route('/detalhe_cliente/<cliente_id>')
-# def detalhe_cliente(cliente_id):
-#     # Buscar o cliente pelo ID
-#     cliente = db.clientes.find_one({'_id': ObjectId(cliente_id)})
-
-#     if not cliente:
-#         return "Cliente não encontrado", 404
-
-#     # Renderizar a página de detalhes com os dados do cliente
-#     return render_template('detalhe_cliente.html', cliente=cliente)
-
 @app.route('/detalhe_cliente/<id>')
 def detalhe_cliente(id):
     # Aqui você busca o cliente no banco de dados usando o ID
@@ -182,36 +177,6 @@ def buscar_cliente():
     return render_template('busca.html')
 
 
-
-# @app.route('/busca_cliente', methods=['GET', 'POST'])
-# def busca_cliente():
-#     clientes = []
-#     page = 1
-#     total_pages = 1
-
-#     if request.method == 'POST':
-#         nome = request.form.get('nome', '').strip()
-#         cpf = request.form.get('cpf', '').strip()
-
-#         # Criar a consulta com base nos campos preenchidos
-#         query = {}
-#         if nome:
-#             query['nome'] = {'$regex': nome, '$options': 'i'}  # Busca insensível a maiúsculas
-#         if cpf:
-#             query['cpf'] = cpf  # Busca exata por CPF
-
-#         # Executar a consulta no banco de dados
-#         clientes = list(db.clientes.find(query))
-        
-#         # Defina a página e total_pages como 1, já que você não está implementando paginação
-#         total_pages = 1  # Ajuste conforme necessário
-
-#     else:
-#         # Busca todos os clientes cadastrados
-#         clientes = list(db.clientes.find())
-
-#     # Renderiza a tabela de clientes na página de busca
-#     return render_template('busca.html', clientes=clientes, page=page, total_pages=total_pages)
 
 @app.route('/busca_cliente', methods=['GET', 'POST'])
 def busca_cliente():
@@ -287,9 +252,6 @@ def visualizar_cliente(numero_identificador):
 
 
 
-
-
-
 @app.route('/editar_cliente/<int:numero_identificador>', methods=['GET', 'POST'])
 def editar_cliente(numero_identificador):
     if 'username' not in session:
@@ -305,39 +267,50 @@ def editar_cliente(numero_identificador):
         # Atualizando os dados do cliente sem alterar o numero_identificador
         nome = request.form['nome']
         cpf = request.form['cpf']
-        
+
         # Comentários
         comentario_identidade = request.form.get('comentario_identidade', '')
         comentario_cnh = request.form.get('comentario_cnh', '')
         comentario_comprovante = request.form.get('comentario_comprovante', '')
         comentario_outros = request.form.get('comentario_outros', '')
 
-        # Verificar e salvar arquivos
-        identidade_arquivo = salvar_arquivo(request.files.get('identidade'), f'identidade_{numero_identificador}.pdf')
-        cnh_arquivo = salvar_arquivo(request.files.get('cnh'), f'cnh_{numero_identificador}.pdf')
-        comprovante_arquivo = salvar_arquivo(request.files.get('comprovante_endereco'), f'comprovante_{numero_identificador}.pdf')
-        outros_arquivo = salvar_arquivo(request.files.get('outros'), f'outros_{numero_identificador}.pdf')
-
-        # Construindo o documento atualizado
+        # Inicializando o dicionário de documentos com valores existentes
         documentos = {
             "identidade": {
-                "arquivo": identidade_arquivo or cliente['documentos'].get('identidade', {}).get('arquivo'),
+                "arquivo": cliente['documentos'].get('identidade', {}).get('arquivo'),
                 "comentario": comentario_identidade
             },
             "cnh": {
-                "arquivo": cnh_arquivo or cliente['documentos'].get('cnh', {}).get('arquivo'),
+                "arquivo": cliente['documentos'].get('cnh', {}).get('arquivo'),
                 "comentario": comentario_cnh
             },
             "comprovante_endereco": {
-                "arquivo": comprovante_arquivo or cliente['documentos'].get('comprovante_endereco', {}).get('arquivo'),
+                "arquivo": cliente['documentos'].get('comprovante_endereco', {}).get('arquivo'),
                 "comentario": comentario_comprovante
             },
             "outros": {
-                "arquivo": outros_arquivo or cliente['documentos'].get('outros', {}).get('arquivo'),
+                "arquivo": cliente['documentos'].get('outros', {}).get('arquivo'),
                 "comentario": comentario_outros
             }
         }
 
+        # Atualiza o arquivo somente se um novo arquivo for enviado
+        def salvar_documento(campo, tipo_documento):
+            if campo in request.files and request.files[campo]:
+                arquivo = request.files[campo]
+                # Extrair a extensão original do arquivo
+                extensao = arquivo.filename.split('.')[-1]  # Obtém a extensão
+                novo_nome = f'{tipo_documento}_{numero_identificador}.{extensao}'  # Mantém a extensão original
+                return salvar_arquivo(arquivo, novo_nome)
+            return None
+
+        # Salva os documentos mantendo a extensão original
+        documentos['identidade']['arquivo'] = salvar_documento('identidade', 'identidade') or documentos['identidade']['arquivo']
+        documentos['cnh']['arquivo'] = salvar_documento('cnh', 'cnh') or documentos['cnh']['arquivo']
+        documentos['comprovante_endereco']['arquivo'] = salvar_documento('comprovante_endereco', 'comprovante_endereco') or documentos['comprovante_endereco']['arquivo']
+        documentos['outros']['arquivo'] = salvar_documento('outros', 'outros') or documentos['outros']['arquivo']
+
+        # Atualizando os dados do cliente no banco de dados
         db.clientes.update_one(
             {"numero_identificador": numero_identificador},
             {
@@ -352,25 +325,18 @@ def editar_cliente(numero_identificador):
         flash('Dados do cliente atualizados com sucesso!')
         return redirect(url_for('visualizar_cliente', numero_identificador=numero_identificador))
 
-    # Renderizar a página de cadastro com os dados do cliente preenchidos
+
+    # Extrair apenas o nome do arquivo sem o caminho
+    if cliente:
+        for doc_key in cliente['documentos']:
+            arquivo_atual = cliente['documentos'][doc_key].get('arquivo')
+            if arquivo_atual:  # Verifica se arquivo_atual não é None
+                cliente['documentos'][doc_key]['arquivo'] = os.path.basename(arquivo_atual)
+
     return render_template('cadastro.html', cliente=cliente, modo='editar')
 
 
 
-
-
-
-
-
-
-# @app.route('/visualizar_cliente/<numero_identificador>')
-# def visualizar_cliente(numero_identificador):
-#     # Agora buscamos pelo campo numero_identificador
-#     cliente = collection.find_one({'numero_identificador': numero_identificador})  
-#     if cliente:
-#         return render_template('detalhe_cliente.html', cliente=cliente)
-#     else:
-#         return "Cliente não encontrado!", 404  # Para garantir que um cliente seja retornado
 
 @app.route('/logout')
 def logout():

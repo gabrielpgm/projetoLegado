@@ -1,5 +1,6 @@
 from pymongo import MongoClient
 
+
 # Configurações do banco de dados MongoDB
 MONGO_URL = 'mongodb://localhost:27017'  # URI padrão do MongoDB
 client = MongoClient(MONGO_URL)
