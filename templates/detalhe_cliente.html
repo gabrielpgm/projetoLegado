@@ -5,12 +5,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalhes do Cliente</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script>
+        function mostrarOverlay(url) {
+            const overlay = document.createElement('div');
+            overlay.style.position = 'fixed';
+            overlay.style.top = '0';
+            overlay.style.left = '0';
+            overlay.style.width = '100%';
+            overlay.style.height = '100%';
+            overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
+            overlay.style.display = 'flex';
+            overlay.style.justifyContent = 'center';
+            overlay.style.alignItems = 'center';
+            overlay.style.zIndex = '1000';
+
+            const iframe = document.createElement('iframe');
+            iframe.src = url;
+            iframe.style.width = '80%';
+            iframe.style.height = '80%';
+            iframe.style.border = 'none';
+            iframe.style.borderRadius = '10px';
+
+            const botaoFechar = document.createElement('button');
+            botaoFechar.innerText = 'Fechar';
+            botaoFechar.style.position = 'absolute';
+            botaoFechar.style.top = '20px';
+            botaoFechar.style.right = '20px';
+            botaoFechar.onclick = function () {
+                document.body.removeChild(overlay);
+            };
+
+            overlay.appendChild(iframe);
+            overlay.appendChild(botaoFechar);
+            document.body.appendChild(overlay);
+        }
+    </script>
 </head>
 
 <body>
     <h1>Detalhes do Cliente</h1>
 
-    <!-- Verifica se estamos no modo de visualização ou edição -->
     {% if modo == 'visualizar' %}
     <p><strong>Número Identificador:</strong> {{ cliente.numero_identificador }}</p>
     <p><strong>Nome:</strong> {{ cliente.nome }}</p>
@@ -18,12 +53,11 @@
 
     <h3>Documentos</h3>
 
-    <!-- Verifica se existe documentos antes de tentar acessar -->
     {% if cliente.documentos %}
     
     <p><strong>Identidade:</strong> 
         {% if cliente.documentos.identidade and cliente.documentos.identidade.arquivo %}
-            <a href="{{ url_for('static', filename=cliente.documentos.identidade.arquivo) }}" target="_blank">Visualizar</a>
+            <button onclick="mostrarOverlay('{{ url_for('static', filename='uploads/' + cliente.documentos.identidade.arquivo.split('/')[-1]) }}')">Visualizar</button>
             <a href="{{ url_for('baixar_arquivo', tipo='identidade', arquivo=cliente.documentos.identidade.arquivo.split('/')[-1]) }}">Baixar</a>
         {% else %}
             Não enviado
@@ -32,39 +66,44 @@
     <p><strong>Comentário Identidade:</strong> 
         {{ cliente.documentos.identidade.comentario or 'Nenhum comentário' }}
     </p>
+       
 
-    <p><strong>CNH:</strong> 
+    <p>
+        <strong>CNH:</strong> 
         {% if cliente.documentos.cnh and cliente.documentos.cnh.arquivo %}
-            <a href="{{ url_for('static', filename=cliente.documentos.cnh.arquivo) }}" target="_blank">Visualizar</a>
+            <button onclick="mostrarOverlay('{{ url_for('static', filename='uploads/' + cliente.documentos.cnh.arquivo.split('/')[-1]) }}')">Visualizar</button>
             <a href="{{ url_for('baixar_arquivo', tipo='cnh', arquivo=cliente.documentos.cnh.arquivo.split('/')[-1]) }}">Baixar</a>
         {% else %}
             Não enviado
         {% endif %}
     </p>
+    
     <p><strong>Comentário CNH:</strong> 
         {{ cliente.documentos.cnh.comentario or 'Nenhum comentário' }}
     </p>
     
     <p><strong>Comprovante de Endereço:</strong> 
         {% if cliente.documentos.comprovante_endereco and cliente.documentos.comprovante_endereco.arquivo %}
-            <a href="{{ url_for('static', filename=cliente.documentos.comprovante_endereco.arquivo) }}" target="_blank">Visualizar</a>
+            <button onclick="mostrarOverlay('{{ url_for('static', filename='uploads/' + cliente.documentos.comprovante_endereco.arquivo.split('/')[-1]) }}')">Visualizar</button>
             <a href="{{ url_for('baixar_arquivo', tipo='comprovante_endereco', arquivo=cliente.documentos.comprovante_endereco.arquivo.split('/')[-1]) }}">Baixar</a>
         {% else %}
             Não enviado
         {% endif %}
     </p>
+    
     <p><strong>Comentário Comprovante de Endereço:</strong> 
         {{ cliente.documentos.comprovante_endereco.comentario or 'Nenhum comentário' }}
     </p>
 
     <p><strong>Outros:</strong> 
         {% if cliente.documentos.outros and cliente.documentos.outros.arquivo %}
-            <a href="{{ url_for('static', filename=cliente.documentos.outros.arquivo) }}" target="_blank">Visualizar</a>
+            <button onclick="mostrarOverlay('{{ url_for('static', filename='uploads/' + cliente.documentos.outros.arquivo.split('/')[-1]) }}')">Visualizar</button>
             <a href="{{ url_for('baixar_arquivo', tipo='outros', arquivo=cliente.documentos.outros.arquivo.split('/')[-1]) }}">Baixar</a>
         {% else %}
             Não enviado
         {% endif %}
     </p>
+    
     <p><strong>Comentário Outros:</strong> 
         {{ cliente.documentos.outros.comentario or 'Nenhum comentário' }}
     </p>
@@ -95,7 +134,6 @@
         <label for="cpf">CPF:</label>
         <input type="text" id="cpf" name="cpf" value="{{ cliente.cpf }}" required><br><br>
 
-        <!-- Verifica se existe documentos antes de tentar acessar -->
         {% if cliente.documentos %}
         <label for="comentario_identidade">Comentário Identidade:</label>
         <input type="text" id="comentario_identidade" name="comentario_identidade"
@@ -119,7 +157,6 @@
         <button type="submit">Salvar</button>
     </form>
 
-    <!-- Botão para voltar ao modo de visualização -->
     <form action="{{ url_for('visualizar_cliente', numero_identificador=cliente.numero_identificador) }}" method="GET">
         <button type="submit">Cancelar</button>
     </form>
