@@ -5,17 +5,65 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <title>Login</title>
+    <script>
+        function mostrarOverlay(mensagem) {
+            const overlay = document.createElement('div');
+            overlay.style.position = 'fixed';
+            overlay.style.top = '0';
+            overlay.style.left = '0';
+            overlay.style.width = '100%';
+            overlay.style.height = '100%';
+            overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
+            overlay.style.display = 'flex';
+            overlay.style.justifyContent = 'center';
+            overlay.style.alignItems = 'center';
+            overlay.style.zIndex = '1000';
+
+            const mensagemDiv = document.createElement('div');
+            mensagemDiv.style.backgroundColor = 'white';
+            mensagemDiv.style.padding = '20px';
+            mensagemDiv.style.borderRadius = '10px';
+            mensagemDiv.style.textAlign = 'center';
+            mensagemDiv.innerText = mensagem;
+
+            const botaoFechar = document.createElement('button');
+            botaoFechar.innerText = 'Fechar';
+            botaoFechar.onclick = function () {
+                document.body.removeChild(overlay);
+            };
+
+            mensagemDiv.appendChild(botaoFechar);
+            overlay.appendChild(mensagemDiv);
+            document.body.appendChild(overlay);
+        }
+        
+        function usuarioDesativado() {
+            mostrarOverlay("O usuário está desativado. Favor contactar o Administrador!");
+        }
+
+        function usuarioInvalido() {
+            mostrarOverlay("Usuário ou senha inválidos!");
+        }
+    </script>
 </head>
 <body>
-    <h2>Login</h2>
-    <form action="{{ url_for('login') }}" method="POST">
-        <label for="username">Usuário:</label>
-        <input type="text" id="username" name="username" required>
-        <br>
-        <label for="password">Senha:</label>
-        <input type="password" id="password" name="password" required>
-        <br>
+    <h1>Login</h1>
+    <form method="POST" action="{{ url_for('login') }}">
+        <input type="text" name="username" placeholder="Nome de Usuário" required>
+        <input type="password" name="senha" placeholder="Senha" required>
         <button type="submit">Entrar</button>
     </form>
+
+    {% if usuario_desativado %}
+    <script>
+        usuarioDesativado();
+    </script>
+    {% endif %}
+    
+    {% if usuario_invalido %}
+    <script>
+        usuarioInvalido();
+    </script>
+    {% endif %}
 </body>
 </html>

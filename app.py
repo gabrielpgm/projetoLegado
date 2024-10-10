@@ -51,28 +51,65 @@ def home():
     return render_template('login.html')
 
 
-@app.route('/login', methods=['POST'])
-def login():
-    username = request.form['username']
-    password = request.form['password']
+# @app.route('/login', methods=['POST'])
+# def login():
+#     username = request.form['username']
+#     password = request.form['password']
      
-    user = db.users.find_one({'username': username})
+#     user = db.users.find_one({'username': username})
         
-    if user and check_password_hash(user['password'], password):
-        session['username'] = username
-        session['nome'] = user['nome']
-        return redirect(url_for('dashboard'))
-    else:
-        return "Usuário ou senha inválidos", 401
+#     if user and check_password_hash(user['password'], password):
+#         session['username'] = username
+#         session['nome'] = user['nome']
+#         return redirect(url_for('dashboard'))
+#     else:
+#         return "Usuário ou senha inválidos", 401
     
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['senha']  # Corrigido para 'senha'
+
+        # Verificar se o usuário existe
+        user = db.users.find_one({'username': username})
+        # Verificar se o usuário foi encontrado e se a senha está correta
+        if user and check_password_hash(user['password'], password):
+            # Verificar se o usuário está ativo
+            if user['status_usuario']:
+                session['username'] = user['username']
+                session['nome'] = user['nome']
+                return redirect(url_for('dashboard'))  # Redireciona para o dashboard
+            else:
+                # Usuário desativado
+                return render_template('login.html', usuario_desativado=True)
+
+        # Se o usuário não existe ou a senha está incorreta
+        return render_template('login.html', usuario_invalido=True)
+
+    return render_template('login.html')
+
+
+
+
+# @app.route('/dashboard')
+# def dashboard():
+#     if 'username' in session:
+#         return render_template('dashboard.html')
+#     else:
+#         return redirect(url_for('home'))
 
 @app.route('/dashboard')
 def dashboard():
     if 'username' in session:
-        return render_template('dashboard.html')
+        # Obter os detalhes do usuário logado
+        user = db.users.find_one({'username': session['username']})
+        session['tipo_acesso'] = user['tipo_acesso']  # Adiciona o tipo de acesso à sessão
+        return render_template('dashboard.html', tipo_acesso=session['tipo_acesso'])
     else:
         return redirect(url_for('home'))
-    
+
+  
 
 
 def salvar_arquivo(arquivo, nome_arquivo):
@@ -341,8 +378,40 @@ def editar_cliente(numero_identificador):
 
 
 
+# @app.route('/cadastro_usuario', methods=['GET', 'POST'])
+# def cadastro_usuario():
+#     if request.method == 'POST':
+#         nome = request.form['nome']
+#         username = request.form['username']
+#         senha = request.form['senha']
+#         tipo_acesso = request.form['tipo_acesso']
+
+#         # Verificar se o nome de usuário já existe
+#         usuario_existente = db.users.find_one({'username': username})
+#         if usuario_existente:
+#             # Retornar mensagem de erro se o usuário já existe
+#             return render_template('cadastro_usuario.html', usuario_duplicado=True)
+        
+#         # Hash da senha
+#         senha_hash = generate_password_hash(senha)
+
+#         # Salvar o novo usuário no banco de dados
+#         db.users.insert_one({
+#             'nome': nome,
+#             'username': username,
+#             'password': senha_hash,
+#             'tipo_acesso': tipo_acesso
+#         })
+
+#         # Você pode adicionar uma mensagem de sucesso aqui, se desejar
+#         return render_template('cadastro_usuario.html', usuario_cadastrado=True)
+
+#     return render_template('cadastro_usuario.html')
+
 @app.route('/cadastro_usuario', methods=['GET', 'POST'])
 def cadastro_usuario():
+    usuarios = list(db.users.find())  # Busca todos os usuários cadastrados
+
     if request.method == 'POST':
         nome = request.form['nome']
         username = request.form['username']
@@ -352,9 +421,8 @@ def cadastro_usuario():
         # Verificar se o nome de usuário já existe
         usuario_existente = db.users.find_one({'username': username})
         if usuario_existente:
-            # Retornar mensagem de erro se o usuário já existe
-            return render_template('cadastro_usuario.html', usuario_duplicado=True)
-        
+            return render_template('cadastro_usuario.html', usuario_duplicado=True, usuarios=usuarios)
+
         # Hash da senha
         senha_hash = generate_password_hash(senha)
 
@@ -366,18 +434,31 @@ def cadastro_usuario():
             'tipo_acesso': tipo_acesso
         })
 
-        # Você pode adicionar uma mensagem de sucesso aqui, se desejar
-        return render_template('cadastro_usuario.html', usuario_cadastrado=True)
+        return render_template('cadastro_usuario.html', usuario_cadastrado=True, usuarios=usuarios)
 
-    return render_template('cadastro_usuario.html')
+    return render_template('cadastro_usuario.html', usuarios=usuarios)
+
+@app.route('/toggle_usuario/<username>', methods=['POST'])
+def toggle_usuario(username):
+    usuario = db.users.find_one({'username': username})
+    if usuario:
+        novo_status = not usuario['status_usuario']  # Inverte o status
+        db.users.update_one({'username': username}, {'$set': {'status_usuario': novo_status}})
+    return redirect(url_for('cadastro_usuario'))  # Redireciona de volta para a página de cadastro
+
+
+@app.route('/resetar_senha/<username>', methods=['POST'])
+def resetar_senha(username):
+    senha_hash = generate_password_hash('123')  # Cria o hash da senha padrão
+    db.users.update_one({'username': username}, {'$set': {'password': senha_hash}})
+    return redirect(url_for('cadastro_usuario'))  # Redireciona de volta para a página de cadastro
+
 
 
 @app.route('/logout')
 def logout():
     session.pop('username', None)
     return redirect(url_for('home'))
-
-import os  # Adicionar import da biblioteca os
 
 def open_browser():
     if os.environ.get('WERKZEUG_RUN_MAIN') == 'true':  # Apenas abre o navegador na execução principal

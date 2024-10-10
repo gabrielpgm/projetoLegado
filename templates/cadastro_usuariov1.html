@@ -3,7 +3,6 @@
 <head>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <script>
-        
         function mostrarOverlay(mensagem) {
             const overlay = document.createElement('div');
             overlay.style.position = 'fixed';
@@ -34,19 +33,19 @@
             overlay.appendChild(mensagemDiv);
             document.body.appendChild(overlay);
         }
-        
+
         function usuarioDuplicado() {
             mostrarOverlay("O usuário informado já está cadastrado. Por favor, utilize um usuário diferente.");
         }
 
-        function usuarioCadastradoSucesso(){
-            mostrarOverlay("Usuário cadastrado com sucesso!")
+        function usuarioCadastradoSucesso() {
+            mostrarOverlay("Usuário cadastrado com sucesso!");
         }
     </script>
 </head>
 <body>
     <h1>Cadastrar Usuário</h1>
-    <form onsubmit="cadastrarUsuario(event)">
+    <form method="POST">
         <input type="text" name="nome" placeholder="Nome" required>
         <input type="text" name="username" placeholder="Nome de Usuário" required>
         <input type="password" name="senha" placeholder="Senha" required>
@@ -57,7 +56,7 @@
         </label>
         <button type="submit">Cadastrar</button>
     </form>
-    
+
     {% if usuario_duplicado %}
     <script>
         usuarioDuplicado();
@@ -68,6 +67,6 @@
         usuarioCadastradoSucesso();
     </script>
     {% endif %}
-   
+    <a href="{{ url_for('dashboard') }}" class="button">Voltar</a>
 </body>
 </html>

@@ -33,19 +33,19 @@
             overlay.appendChild(mensagemDiv);
             document.body.appendChild(overlay);
         }
-
+        
         function usuarioDuplicado() {
             mostrarOverlay("O usuário informado já está cadastrado. Por favor, utilize um usuário diferente.");
         }
 
-        function usuarioCadastradoSucesso() {
-            mostrarOverlay("Usuário cadastrado com sucesso!");
+        function usuarioCadastradoSucesso(){
+            mostrarOverlay("Usuário cadastrado com sucesso!")
         }
     </script>
 </head>
 <body>
     <h1>Cadastrar Usuário</h1>
-    <form method="POST">
+    <form onsubmit="cadastrarUsuario(event)">
         <input type="text" name="nome" placeholder="Nome" required>
         <input type="text" name="username" placeholder="Nome de Usuário" required>
         <input type="password" name="senha" placeholder="Senha" required>
@@ -56,7 +56,7 @@
         </label>
         <button type="submit">Cadastrar</button>
     </form>
-
+    
     {% if usuario_duplicado %}
     <script>
         usuarioDuplicado();
@@ -67,6 +67,31 @@
         usuarioCadastradoSucesso();
     </script>
     {% endif %}
+
+    <h2>Usuários Cadastrados</h2>
+    <table>
+        <tr>
+            <th>Nome</th>
+            <th>Nome de Usuário</th>
+            <th>Ações</th>
+        </tr>
+        {% for usuario in usuarios %}
+        <tr>
+            <td>{{ usuario.nome }}</td>
+            <td>{{ usuario.username }}</td>
+            <td>
+                <form action="{{ url_for('toggle_usuario', username=usuario.username) }}" method="POST" style="display:inline;">
+                    <button type="submit">{{ 'Desativar' if usuario.status_usuario else 'Ativar' }}</button>
+                </form>
+                <form action="{{ url_for('resetar_senha', username=usuario.username) }}" method="POST" style="display:inline;">
+                    <button type="submit">Resetar Senha</button>
+                </form>
+            </td>
+            
+        </tr>
+        {% endfor %}
+    </table>
+
     <a href="{{ url_for('dashboard') }}" class="button">Voltar</a>
 </body>
 </html>
