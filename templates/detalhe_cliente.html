@@ -20,6 +20,7 @@
 
     <!-- Verifica se existe documentos antes de tentar acessar -->
     {% if cliente.documentos %}
+    
     <p><strong>Identidade:</strong> 
         {% if cliente.documentos.identidade and cliente.documentos.identidade.arquivo %}
             <a href="{{ url_for('static', filename=cliente.documentos.identidade.arquivo) }}" target="_blank">Visualizar</a>
@@ -28,7 +29,10 @@
             Não enviado
         {% endif %}
     </p>
-    
+    <p><strong>Comentário Identidade:</strong> 
+        {{ cliente.documentos.identidade.comentario or 'Nenhum comentário' }}
+    </p>
+
     <p><strong>CNH:</strong> 
         {% if cliente.documentos.cnh and cliente.documentos.cnh.arquivo %}
             <a href="{{ url_for('static', filename=cliente.documentos.cnh.arquivo) }}" target="_blank">Visualizar</a>
@@ -36,6 +40,9 @@
         {% else %}
             Não enviado
         {% endif %}
+    </p>
+    <p><strong>Comentário CNH:</strong> 
+        {{ cliente.documentos.cnh.comentario or 'Nenhum comentário' }}
     </p>
     
     <p><strong>Comprovante de Endereço:</strong> 
@@ -46,7 +53,10 @@
             Não enviado
         {% endif %}
     </p>
-    
+    <p><strong>Comentário Comprovante de Endereço:</strong> 
+        {{ cliente.documentos.comprovante_endereco.comentario or 'Nenhum comentário' }}
+    </p>
+
     <p><strong>Outros:</strong> 
         {% if cliente.documentos.outros and cliente.documentos.outros.arquivo %}
             <a href="{{ url_for('static', filename=cliente.documentos.outros.arquivo) }}" target="_blank">Visualizar</a>
@@ -55,20 +65,10 @@
             Não enviado
         {% endif %}
     </p>
-    
-
-    <p><strong>Comentário Comprovante de Endereço:</strong> {{ cliente.documentos.comprovante_endereco.comentario }}</p>
-
-    <p><strong>Outros:</strong>
-        {% if cliente.documentos.outros and cliente.documentos.outros.arquivo %}
-        <a href="{{ url_for('static', filename=cliente.documentos.outros.arquivo) }}" target="_blank">Visualizar</a>
-        <a
-            href="{{ url_for('baixar_arquivo', tipo='outros', numero_identificador=cliente.numero_identificador) }}">Baixar</a>
-        {% else %}
-        Não enviado
-        {% endif %}
+    <p><strong>Comentário Outros:</strong> 
+        {{ cliente.documentos.outros.comentario or 'Nenhum comentário' }}
     </p>
-    <p><strong>Comentário Outros:</strong> {{ cliente.documentos.outros.comentario }}</p>
+
     {% else %}
     <p>Nenhum documento enviado.</p>
     {% endif %}
@@ -100,6 +100,18 @@
         <label for="comentario_identidade">Comentário Identidade:</label>
         <input type="text" id="comentario_identidade" name="comentario_identidade"
             value="{{ cliente.documentos.identidade.comentario }}"><br><br>
+
+        <label for="comentario_cnh">Comentário CNH:</label>
+        <input type="text" id="comentario_cnh" name="comentario_cnh"
+            value="{{ cliente.documentos.cnh.comentario }}"><br><br>
+
+        <label for="comentario_comprovante_endereco">Comentário Comprovante de Endereço:</label>
+        <input type="text" id="comentario_comprovante_endereco" name="comentario_comprovante_endereco"
+            value="{{ cliente.documentos.comprovante_endereco.comentario }}"><br><br>
+
+        <label for="comentario_outros">Comentário Outros:</label>
+        <input type="text" id="comentario_outros" name="comentario_outros"
+            value="{{ cliente.documentos.outros.comentario }}"><br><br>
         {% else %}
         <p>Nenhuma informação de documentos disponível para edição.</p>
         {% endif %}
@@ -112,6 +124,7 @@
         <button type="submit">Cancelar</button>
     </form>
     {% endif %}
+
 </body>
 
 </html>

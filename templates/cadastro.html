@@ -46,6 +46,105 @@
             overlay.appendChild(mensagemDiv);
             document.body.appendChild(overlay);
         }
+        
+
+
+
+
+
+
+
+       function capturarImagem(inputId) {
+        const inputFile = document.getElementById(inputId);
+        const constraints = { video: true };
+
+        navigator.mediaDevices.getUserMedia(constraints)
+            .then(function (stream) {
+                const video = document.createElement('video');
+                video.srcObject = stream;
+                video.autoplay = true;
+
+                // Cria sobreposição para exibir a câmera
+                const overlay = document.createElement('div');
+                overlay.style.position = 'fixed';
+                overlay.style.top = '0';
+                overlay.style.left = '0';
+                overlay.style.width = '100%';
+                overlay.style.height = '100%';
+                overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
+                overlay.appendChild(video);
+
+                const captureButton = document.createElement('button');
+                captureButton.innerText = 'Capturar';
+                captureButton.onclick = function () {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = video.videoWidth;
+                    canvas.height = video.videoHeight;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(video, 0, 0);
+                    
+                    // Converte a imagem para base64 e depois para Blob
+                    const imageData = canvas.toDataURL('image/png');
+                    const blob = dataURLtoBlob(imageData);
+
+                    // Cria um novo arquivo a partir do Blob
+                    const fileName = 'captured-image.png';
+                    const newFile = new File([blob], fileName, { type: 'image/png' });
+
+                    // Associa o arquivo ao input de arquivo
+                    const dataTransfer = new DataTransfer();
+                    dataTransfer.items.add(newFile);
+                    inputFile.files = dataTransfer.files;
+
+                    // Atualiza o nome do arquivo exibido
+                    inputFile.nextElementSibling.textContent = fileName;
+
+                    // Fecha a sobreposição e para a stream de vídeo
+                    stopStream(stream, overlay);
+                };
+
+                const cancelButton = document.createElement('button');
+                cancelButton.innerText = 'Cancelar';
+                cancelButton.onclick = function () {
+                    stopStream(stream, overlay);
+                };
+
+                // Adiciona os botões na sobreposição
+                overlay.appendChild(captureButton);
+                overlay.appendChild(cancelButton);
+                document.body.appendChild(overlay);
+            })
+            .catch(function (error) {
+                console.error("Erro ao acessar a câmera:", error);
+            });
+        }
+
+function stopStream(stream, overlay) {
+    stream.getTracks().forEach(track => track.stop());
+    document.body.removeChild(overlay);
+}
+
+// Função para converter base64 para Blob
+function dataURLtoBlob(dataURL) {
+    const byteString = atob(dataURL.split(',')[1]);
+    const mimeString = dataURL.split(',')[0].split(':')[1].split(';')[0];
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ab], { type: mimeString });
+}
+
+
+        function stopStream(stream, overlay) {
+            stream.getTracks().forEach(track => track.stop());
+            document.body.removeChild(overlay);
+        } 
+
+
+
+
 
         // Funções específicas para CPF
         function cpfInvalido() {
