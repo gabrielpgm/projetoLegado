@@ -453,6 +453,25 @@ def resetar_senha(username):
     db.users.update_one({'username': username}, {'$set': {'password': senha_hash}})
     return redirect(url_for('cadastro_usuario'))  # Redireciona de volta para a página de cadastro
 
+@app.route('/alterar_senha', methods=['POST'])
+def alterar_senha():
+    senha_anterior = request.form['senha_anterior']
+    nova_senha = request.form['nova_senha']
+    confirmar_senha = request.form['confirmar_senha']
+
+    # Verifique se a nova senha e a confirmação são iguais
+    if nova_senha != confirmar_senha:
+        return render_template('dashboard.html', erro='As senhas não conferem.')
+
+    # Verifique se a senha anterior está correta
+    username = session['username']
+    user = db.users.find_one({'username': username})
+    if user and check_password_hash(user['password'], senha_anterior):
+        # Atualiza a senha
+        db.users.update_one({'username': username}, {'$set': {'password': generate_password_hash(nova_senha)}})
+        return render_template('dashboard.html', sucesso='Senha alterada com sucesso.')
+    else:
+        return render_template('dashboard.html', erro='Senha anterior incorreta.')
 
 
 @app.route('/logout')

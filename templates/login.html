@@ -47,12 +47,22 @@
     </script>
 </head>
 <body>
-    <h1>Login</h1>
-    <form method="POST" action="{{ url_for('login') }}">
-        <input type="text" name="username" placeholder="Nome de Usuário" required>
-        <input type="password" name="senha" placeholder="Senha" required>
-        <button type="submit">Entrar</button>
+    <div>
+        <h1>Login</h1>
+        <form method="POST" action="{{ url_for('login') }}">
+        <p>
+            <input type="text" name="username" placeholder="Nome de Usuário" required>
+        </p>
+        <p>
+           <input type="password" name="senha" placeholder="Senha" required> 
+        </p>
+        <p>
+            <button type="submit">Entrar</button>
+        </p>
+        
     </form>
+    </div>
+    
 
     {% if usuario_desativado %}
     <script>

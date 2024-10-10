@@ -5,29 +5,74 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <title>Dashboard</title>
+    <style>
+        /* Estilos para o overlay */
+        #overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            display: none; /* Inicialmente escondido */
+        }
+        
+        /* Estilos para o popup */
+        #popup {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+    </style>
 </head>
 <body>
-    <h1>Bem-vindo, {{ session['nome'] }}!</h1>
+    <h1>Bem-vindo, {{ session['nome'] }}!</h1> 
+    <a href="#" onclick="abrirPopup()">Alterar minha senha!</a>
     
-    {% if tipo_acesso == 'administrador' %}
-    <button onclick="window.location.href='{{ url_for('cadastro_usuario') }}'">Gerenciar Usuários</button>
-    {% endif %}
-    
-    <button onclick="window.location.href='{{ url_for('cadastro_cliente') }}'">Cadastrar Cliente</button>
-    <button onclick="window.location.href='{{ url_for('busca_cliente') }}'">Buscar Cliente</button>
+    <div id="overlay">
+        <div id="popup">
+            <h2>Alterar Senha</h2>
+            <form id="alterarSenhaForm" method="POST" action="{{ url_for('alterar_senha') }}">
+                <p>
+                    <input type="password" name="senha_anterior" placeholder="Senha Anterior" required>
+                </p>
+                <p> 
+                    <input type="password" name="nova_senha" placeholder="Nova Senha" required>
+                </p>
+                <p>
+                    <input type="password" name="confirmar_senha" placeholder="Confirmar Nova Senha" required>
+                </p>
+                
+                <button type="submit">Alterar Senha</button>
+            </form>
+            <button onclick="fecharPopup()">Fechar</button>
+        </div>
+    </div>
 
+    <script>
+        function abrirPopup() {
+            document.getElementById('overlay').style.display = 'flex'; // Mostra o overlay
+        }
+
+        function fecharPopup() {
+            document.getElementById('overlay').style.display = 'none'; // Esconde o overlay
+        }
+    </script>
+    <p>
+        <button onclick="window.location.href='{{ url_for('cadastro_cliente') }}'">Cadastrar Cliente</button>
+
+        <button onclick="window.location.href='{{ url_for('busca_cliente') }}'">Buscar Cliente</button>
+        {% if tipo_acesso == 'administrador' %}
+        <button onclick="window.location.href='{{ url_for('cadastro_usuario') }}'">Gerenciar Usuários</button>
+        {% endif %}
+    </p>
+       
+    
     <a href="{{ url_for('logout') }}">Sair</a>
 </body>
-
-<!-- <body>
-    <h1>Bem-vindo, {{ session['nome'] }}!</h1>
-     
-    <button onclick="window.location.href='{{ url_for('cadastro_cliente') }}'">Cadastrar Cliente</button>
-    <button onclick="window.location.href='{{ url_for('busca_cliente') }}'">Buscar Cliente</button>
-    <button onclick="window.location.href='{{ url_for('cadastro_usuario') }}'">Gerenciar Usuário</button>
-
-    <a href="{{ url_for('logout') }}">Sair</a>
-</body> -->
 </html>
-
-
