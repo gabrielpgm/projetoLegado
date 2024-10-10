@@ -10,22 +10,13 @@
             let value = input.value.replace(/\D/g, ''); // Remove caracteres não numéricos
             if (value.length > 11) value = value.slice(0, 11); // Limita a 11 dígitos
             const formattedCpf = value.replace(/(\d{3})(\d)/, '$1.$2') // Adiciona o primeiro ponto
-                                       .replace(/(\d{3})(\d)/, '$1.$2') // Adiciona o segundo ponto
-                                       .replace(/(\d{3})(\d{1,2})$/, '$1-$2'); // Adiciona o hífen
+                                        .replace(/(\d{3})(\d)/, '$1.$2') // Adiciona o segundo ponto
+                                        .replace(/(\d{3})(\d{1,2})$/, '$1-$2'); // Adiciona o hífen
             input.value = formattedCpf; // Atualiza o valor do input
         }
 
-        function capturarImagem(inputId) {
-    const inputFile = document.getElementById(inputId);
-    const constraints = {
-        video: true
-    };
-    navigator.mediaDevices.getUserMedia(constraints)
-        .then(function (stream) {
-            const video = document.createElement('video');
-            video.srcObject = stream;
-            video.autoplay = true;
-
+        // Função para mostrar a sobreposição de erro
+        function mostrarOverlay(mensagem) {
             const overlay = document.createElement('div');
             overlay.style.position = 'fixed';
             overlay.style.top = '0';
@@ -33,63 +24,40 @@
             overlay.style.width = '100%';
             overlay.style.height = '100%';
             overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
-            overlay.appendChild(video);
+            overlay.style.display = 'flex';
+            overlay.style.justifyContent = 'center';
+            overlay.style.alignItems = 'center';
+            overlay.style.zIndex = '1000';
 
-            const captureButton = document.createElement('button');
-            captureButton.innerText = 'Capturar';
-            captureButton.onclick = function () {
-                const canvas = document.createElement('canvas');
-                canvas.width = video.videoWidth;
-                canvas.height = video.videoHeight;
-                canvas.getContext('2d').drawImage(video, 0, 0);
-                const imageData = canvas.toDataURL(); // Remove a especificação de 'image/png'
+            const mensagemDiv = document.createElement('div');
+            mensagemDiv.style.backgroundColor = 'white';
+            mensagemDiv.style.padding = '20px';
+            mensagemDiv.style.borderRadius = '10px';
+            mensagemDiv.style.textAlign = 'center';
+            mensagemDiv.innerText = mensagem;
 
-                const blob = dataURLtoBlob(imageData);
-                const extension = imageData.split(';')[0].split('/')[1]; // Obtendo a extensão do dataURL
-                const fileName = `captured-image.${extension}`; // Definindo o nome do arquivo com a extensão correta
-                const newFile = new File([blob], fileName, { type: `image/${extension}` });
-
-                const dataTransfer = new DataTransfer();
-                dataTransfer.items.add(newFile);
-                inputFile.files = dataTransfer.files;
-
-                inputFile.nextElementSibling.textContent = fileName; // Atualiza o nome do arquivo
-                stopStream(stream, overlay);
+            const botaoFechar = document.createElement('button');
+            botaoFechar.innerText = 'Fechar';
+            botaoFechar.onclick = function () {
+                document.body.removeChild(overlay);
             };
 
-            const cancelButton = document.createElement('button');
-            cancelButton.innerText = 'Cancelar';
-            cancelButton.onclick = function () {
-                stopStream(stream, overlay);
-            };
-
-            overlay.appendChild(captureButton);
-            overlay.appendChild(cancelButton);
+            mensagemDiv.appendChild(botaoFechar);
+            overlay.appendChild(mensagemDiv);
             document.body.appendChild(overlay);
-        })
-        .catch(function (error) {
-            console.error("Erro ao acessar a câmera:", error);
-        });
-}
-
-
-        function stopStream(stream, overlay) {
-            stream.getTracks().forEach(track => track.stop());
-            document.body.removeChild(overlay);
         }
 
-        function dataURLtoBlob(dataURL) {
-            const byteString = atob(dataURL.split(',')[1]);
-            const mimeString = dataURL.split(',')[0].split(':')[1].split(';')[0];
-            const ab = new ArrayBuffer(byteString.length);
-            const ia = new Uint8Array(ab);
-            for (let i = 0; i < byteString.length; i++) {
-                ia[i] = byteString.charCodeAt(i);
-            }
-            return new Blob([ab], { type: mimeString });
+        // Funções específicas para CPF
+        function cpfInvalido() {
+            mostrarOverlay("O CPF informado é inválido. Por favor, verifique e tente novamente.");
+        }
+
+        function cpfDuplicado() {
+            mostrarOverlay("O CPF informado já está cadastrado. Por favor, utilize um CPF diferente.");
         }
     </script>
 </head>
+    
 <body>
     <h1>{{ 'Editar Cliente' if modo == 'editar' else 'Cadastro de Cliente' }}</h1>
 
