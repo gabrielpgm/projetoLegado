@@ -341,6 +341,69 @@ def editar_cliente(numero_identificador):
 
 
 
+@app.route('/cadastro_usuario', methods=['GET', 'POST'])
+def cadastro_usuario():
+    if request.method == 'POST':
+        nome = request.form['nome']
+        username = request.form['username']
+        senha = request.form['senha']
+        tipo_acesso = request.form['tipo_acesso']
+
+        # Verificar se o nome de usuário já existe
+        usuario_existente = db.users.find_one({'username': username})
+        if usuario_existente:
+            # Retornar mensagem de erro se o usuário já existe
+            return render_template('cadastro_usuario.html', usuario_duplicado=True)
+        
+        # Hash da senha
+        senha_hash = generate_password_hash(senha)
+
+        # Salvar o novo usuário no banco de dados
+        db.users.insert_one({
+            'nome': nome,
+            'username': username,
+            'password': senha_hash,
+            'tipo_acesso': tipo_acesso
+        })
+
+        # Você pode adicionar uma mensagem de sucesso aqui, se desejar
+        return render_template('cadastro_usuario.html', usuario_cadastrado=True)
+
+    return render_template('cadastro_usuario.html')
+
+
+
+# @app.route('/cadastro_usuario', methods=['GET', 'POST'])
+# def cadastro_usuario():
+#     if request.method == 'POST':
+#         nome = request.form['nome']
+#         username = request.form['username']
+#         senha = request.form['senha']
+#         tipo_acesso = request.form['tipo_acesso']
+
+#         # Verificar se o nome de usuário já existe
+#         usuario_existente = db.users.find_one({'username': username})
+#         if usuario_existente:
+#             # Renderizar a página de cadastro com uma mensagem de erro
+#             return render_template('cadastro_usuario.html', usuario_existente=True)
+
+#         # Hash da senha
+#         senha_hash = generate_password_hash(senha)
+
+#         # Salvar o novo usuário no banco de dados
+#         db.users.insert_one({
+#             'nome': nome,
+#             'username': username,
+#             'password': senha_hash,
+#             'tipo_acesso': tipo_acesso
+#         })
+
+#         # Redirecionar para uma página de sucesso ou para o dashboard
+#         return redirect(url_for('dashboard'))
+
+#     return render_template('cadastro_usuario.html')
+
+
 @app.route('/logout')
 def logout():
     session.pop('username', None)

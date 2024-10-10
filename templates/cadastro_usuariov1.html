@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script>
+        
+        function mostrarOverlay(mensagem) {
+            const overlay = document.createElement('div');
+            overlay.style.position = 'fixed';
+            overlay.style.top = '0';
+            overlay.style.left = '0';
+            overlay.style.width = '100%';
+            overlay.style.height = '100%';
+            overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
+            overlay.style.display = 'flex';
+            overlay.style.justifyContent = 'center';
+            overlay.style.alignItems = 'center';
+            overlay.style.zIndex = '1000';
+
+            const mensagemDiv = document.createElement('div');
+            mensagemDiv.style.backgroundColor = 'white';
+            mensagemDiv.style.padding = '20px';
+            mensagemDiv.style.borderRadius = '10px';
+            mensagemDiv.style.textAlign = 'center';
+            mensagemDiv.innerText = mensagem;
+
+            const botaoFechar = document.createElement('button');
+            botaoFechar.innerText = 'Fechar';
+            botaoFechar.onclick = function () {
+                document.body.removeChild(overlay);
+            };
+
+            mensagemDiv.appendChild(botaoFechar);
+            overlay.appendChild(mensagemDiv);
+            document.body.appendChild(overlay);
+        }
+        
+        function usuarioDuplicado() {
+            mostrarOverlay("O usuário informado já está cadastrado. Por favor, utilize um usuário diferente.");
+        }
+
+        function usuarioCadastradoSucesso(){
+            mostrarOverlay("Usuário cadastrado com sucesso!")
+        }
+    </script>
+</head>
+<body>
+    <h1>Cadastrar Usuário</h1>
+    <form onsubmit="cadastrarUsuario(event)">
+        <input type="text" name="nome" placeholder="Nome" required>
+        <input type="text" name="username" placeholder="Nome de Usuário" required>
+        <input type="password" name="senha" placeholder="Senha" required>
+        <label>
+            Tipo de Acesso:
+            <input type="radio" name="tipo_acesso" value="Administrador" required> Administrador
+            <input type="radio" name="tipo_acesso" value="Padrão" required> Padrão
+        </label>
+        <button type="submit">Cadastrar</button>
+    </form>
+    
+    {% if usuario_duplicado %}
+    <script>
+        usuarioDuplicado();
+    </script>
+    {% endif %}
+    {% if usuario_cadastrado %}
+    <script>
+        usuarioCadastradoSucesso();
+    </script>
+    {% endif %}
+   
+</body>
+</html>
