@@ -7,10 +7,11 @@
     <title>Dashboard</title>
 </head>
 <body>
-    <h2>Bem-vindo, {{ session['username'] }}!</h2>
-    <a href="{{ url_for('logout') }}">Sair</a>
-    <h3>Ações</h3>
+    <h1>Bem-vindo, {{ session['nome'] }}!</h1>
+     
     <button onclick="window.location.href='{{ url_for('cadastro_cliente') }}'">Cadastrar Cliente</button>
     <button onclick="window.location.href='{{ url_for('busca_cliente') }}'">Buscar Cliente</button>
+
+    <a href="{{ url_for('logout') }}">Sair</a>
 </body>
 </html>

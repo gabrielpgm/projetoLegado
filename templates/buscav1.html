@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 
     <script>
-        function formatarCpf(event) {
+         function formatarCpf(event) {
             const input = event.target;
             let value = input.value.replace(/\D/g, ''); // Remove caracteres não numéricos
             if (value.length > 11) value = value.slice(0, 11); // Limita a 11 dígitos
@@ -13,22 +13,13 @@
                                        .replace(/(\d{3})(\d{1,2})$/, '$1-$2'); // Adiciona o hífen
             input.value = formattedCpf; // Atualiza o valor do input
         }
-
-        function limparCampos() {
-            // Limpar os campos de busca
-            document.querySelector('input[name="nome"]').value = '';
-            document.querySelector('input[name="cpf"]').value = '';
-            
-            // Submeter o formulário sem filtros para restaurar o estado original
-            document.querySelector('form').submit();
-        }
     </script>
 </head>
 <body>
     <h1>Buscar Clientes</h1>
     <form method="POST">
         <input type="text" name="nome" placeholder="Nome">
-        <input type="text" name="cpf" placeholder="CPF" oninput="formatarCpf(event)">
+        <input type="text" name="cpf" placeholder="CPF" oninput="formatarCpf(event)"> <!-- Adicionado oninput -->
         <button type="submit">Buscar</button>
         <button type="button" onclick="limparCampos()">Limpar</button>
     </form>

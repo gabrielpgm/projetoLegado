@@ -50,18 +50,21 @@ def validar_cpf(cpf):
 def home():
     return render_template('login.html')
 
+
 @app.route('/login', methods=['POST'])
 def login():
     username = request.form['username']
     password = request.form['password']
-    
+     
     user = db.users.find_one({'username': username})
-    
+        
     if user and check_password_hash(user['password'], password):
         session['username'] = username
+        session['nome'] = user['nome']
         return redirect(url_for('dashboard'))
     else:
         return "Usuário ou senha inválidos", 401
+    
 
 @app.route('/dashboard')
 def dashboard():
@@ -78,69 +81,6 @@ def salvar_arquivo(arquivo, nome_arquivo):
         arquivo.save(caminho)
         return caminho
     return None
-
-
-# @app.route('/cadastro_cliente', methods=['GET', 'POST'])
-# def cadastro_cliente():
-#     if request.method == 'POST':
-#         nome = request.form['nome']
-#         cpf = request.form['cpf']
-        
-#         # Validação do CPF
-#         if not validar_cpf(cpf):
-#             return render_template('cadastro.html', cpf_invalido=True, cliente=None)
-        
-#         # Verificar se o CPF já está cadastrado
-#         cliente_existente = db.clientes.find_one({'cpf': cpf})
-#         if cliente_existente:
-#             # Renderizar a página de cadastro com a mensagem de CPF duplicado
-#             return render_template('cadastro.html', cpf_duplicado=True, cliente=None)
-
-#         # Arquivos e Comentários
-#         identidade = request.files.get('identidade')
-#         comentario_identidade = request.form.get('comentario_identidade', '')
-
-#         cnh = request.files.get('cnh')
-#         comentario_cnh = request.form.get('comentario_cnh', '')
-
-#         comprovante_endereco = request.files.get('comprovante_endereco')
-#         comentario_comprovante = request.form.get('comentario_comprovante', '')
-
-#         outros = request.files.get('outros')
-#         comentario_outros = request.form.get('comentario_outros', '')
-
-#         caminho_identidade = salvar_arquivo(identidade, identidade.filename) if identidade else None
-#         caminho_cnh = salvar_arquivo(cnh, cnh.filename) if cnh else None
-#         caminho_comprovante = salvar_arquivo(comprovante_endereco, comprovante_endereco.filename) if comprovante_endereco else None
-#         caminho_outros = salvar_arquivo(outros, outros.filename) if outros else None
-
-#         # Buscar o último número identificador e incrementar corretamente
-#         ultimo_cliente = db.clientes.find().sort("numero_identificador", -1).limit(1)
-#         ultimo_cliente = list(ultimo_cliente)  # Convertendo cursor em lista
-
-#         if len(ultimo_cliente) > 0:  # Verificando se há clientes existentes
-#             novo_numero_identificador = ultimo_cliente[0]['numero_identificador'] + 1
-#         else:
-#             novo_numero_identificador = 1
-
-#         # Inserir o cliente com os documentos e comentários no banco de dados
-#         cliente_inserido = db.clientes.insert_one({
-#             'nome': nome,
-#             'cpf': cpf,
-#             'documentos': {
-#                 'identidade': {'arquivo': caminho_identidade, 'comentario': comentario_identidade},
-#                 'cnh': {'arquivo': caminho_cnh, 'comentario': comentario_cnh},
-#                 'comprovante_endereco': {'arquivo': caminho_comprovante, 'comentario': comentario_comprovante},
-#                 'outros': {'arquivo': caminho_outros, 'comentario': comentario_outros}
-#             },
-#             'numero_identificador': novo_numero_identificador
-#         })
-
-#         # Redirecionar para a página de detalhes do cliente recém-cadastrado
-#         return redirect(url_for('visualizar_cliente', numero_identificador=novo_numero_identificador))
-
-#     # Renderizando a página de cadastro sem um cliente (para um novo cadastro)
-#     return render_template('cadastro.html', cliente=None)
 
 @app.route('/cadastro_cliente', methods=['GET', 'POST'])
 def cadastro_cliente():
