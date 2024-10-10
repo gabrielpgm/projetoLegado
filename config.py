@@ -2,7 +2,7 @@ from pymongo import MongoClient
 
 
 # Configurações do banco de dados MongoDB
-MONGO_URL = 'mongodb://localhost:27017'  # URI padrão do MongoDB
+MONGO_URL = 'mongodb://localhost:27017'  # URL padrão do MongoDB
 client = MongoClient(MONGO_URL)
 db = client['safedocsbd']  # Nome do seu banco de dados
 
