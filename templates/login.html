@@ -8,22 +8,11 @@
     <script>
         function mostrarOverlay(mensagem) {
             const overlay = document.createElement('div');
-            overlay.style.position = 'fixed';
-            overlay.style.top = '0';
-            overlay.style.left = '0';
-            overlay.style.width = '100%';
-            overlay.style.height = '100%';
-            overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
-            overlay.style.display = 'flex';
-            overlay.style.justifyContent = 'center';
-            overlay.style.alignItems = 'center';
-            overlay.style.zIndex = '1000';
+            overlay.classList.add('overlay');
 
             const mensagemDiv = document.createElement('div');
-            mensagemDiv.style.backgroundColor = 'white';
-            mensagemDiv.style.padding = '20px';
-            mensagemDiv.style.borderRadius = '10px';
-            mensagemDiv.style.textAlign = 'center';
+            mensagemDiv.classList.add('mensagem');
+
             mensagemDiv.innerText = mensagem;
 
             const botaoFechar = document.createElement('button');
@@ -36,6 +25,7 @@
             overlay.appendChild(mensagemDiv);
             document.body.appendChild(overlay);
         }
+
         
         function usuarioDesativado() {
             mostrarOverlay("O usuário está desativado. Favor contactar o Administrador!");
