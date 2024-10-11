@@ -4,74 +4,70 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <title>Dashboard</title>
-    <style>
-        /* Estilos para o overlay */
-        #overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            display: none; /* Inicialmente escondido */
-        }
-        
-        /* Estilos para o popup */
-        #popup {
-            background-color: white;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-        }
-    </style>
 </head>
 <body>
-    <h1>Bem-vindo, {{ session['nome'] }}!</h1> 
-    <a href="#" onclick="abrirPopup()">Alterar minha senha!</a>
     
-    <div id="overlay">
-        <div id="popup">
-            <h2>Alterar Senha</h2>
-            <form id="alterarSenhaForm" method="POST" action="{{ url_for('alterar_senha') }}">
-                <p>
-                    <input type="password" name="senha_anterior" placeholder="Senha Anterior" required>
-                </p>
-                <p> 
-                    <input type="password" name="nova_senha" placeholder="Nova Senha" required>
-                </p>
-                <p>
-                    <input type="password" name="confirmar_senha" placeholder="Confirmar Nova Senha" required>
-                </p>
-                
-                <button type="submit">Alterar Senha</button>
-            </form>
-            <button onclick="fecharPopup()">Fechar</button>
+<div id="cx-extdash">
+    <div id="cx-intdash">
+        <h1 id="welcome-message">
+            <span class="welcome-text">Bem-vindo,</span> 
+            <span class="welcome-name">{{ session['nome'] }}!</span>
+        </h1>   
+        <div class="button-container">
+            <button class="custom-button" id="btn-cadast">Cadastrar Cliente</button>
+            <button class="custom-button" id="btn-busca">Buscar Cliente</button>
+            <button class="custom-button" id="btn-geruser">Gerenciar Usuários</button>
         </div>
+                
+        
     </div>
+    <div class="icon-container">
+        <a href="javascript:void(0);" onclick="abrirPopup()" class="unlock-icon">
+            <i class="fas fa-unlock-alt fa-2x"></i>
+        </a>
+        <a href="{{ url_for('logout') }}" class="logout-icon">
+            <i class="fas fa-sign-out-alt fa-2x"></i>
+        </a>
+    </div>
+</div>
 
-    <script>
-        function abrirPopup() {
-            document.getElementById('overlay').style.display = 'flex'; // Mostra o overlay
-        }
-
-        function fecharPopup() {
-            document.getElementById('overlay').style.display = 'none'; // Esconde o overlay
-        }
-    </script>
-    <p>
-        <button onclick="window.location.href='{{ url_for('cadastro_cliente') }}'">Cadastrar Cliente</button>
-
-        <button onclick="window.location.href='{{ url_for('busca_cliente') }}'">Buscar Cliente</button>
-        {% if tipo_acesso == 'administrador' %}
-        <button onclick="window.location.href='{{ url_for('cadastro_usuario') }}'">Gerenciar Usuários</button>
-        {% endif %}
-    </p>
+<div id="overlay">
+    <div id="popup">
+        <h2>Alterar Senha</h2>
+        <form id="alterarSenhaForm" method="POST" action="{{ url_for('alterar_senha') }}" onsubmit="return false;">
+            <p>
+                <input type="password" name="senha_anterior" placeholder="Senha Anterior" required>
+            </p>
+            <p> 
+                <input type="password" name="nova_senha" placeholder="Nova Senha" required>
+            </p>
+            <p>
+                <input type="password" name="confirmar_senha" placeholder="Confirmar Nova Senha" required>
+            </p>
+            
+            <button type="button" onclick="enviarAlterarSenha()">Alterar Senha</button>
+        </form>
+        <button onclick="fecharPopup()">Fechar</button>
+    </div>
+</div>
      
-    <a href="{{ url_for('logout') }}">Sair</a>
+<script>
+    function abrirPopup() {
+        document.getElementById('overlay').style.display = 'flex'; // Mostra o overlay
+    }
+
+    function fecharPopup() {
+        document.getElementById('overlay').style.display = 'none'; // Esconde o overlay
+    }
+
+    function enviarAlterarSenha() {
+        const form = document.getElementById('alterarSenhaForm');
+        form.submit(); // Agora submete o formulário após as validações
+        fecharPopup(); // Fecha o popup após a submissão
+    }
+</script>
 </body>
 </html>

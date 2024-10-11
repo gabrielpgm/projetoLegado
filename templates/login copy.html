@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <title>Login</title>
+    <script>
+        function mostrarOverlay(mensagem) {
+            const overlay = document.createElement('div');
+            overlay.classList.add('overlay');
+
+            const mensagemDiv = document.createElement('div');
+            mensagemDiv.classList.add('mensagem');
+
+            mensagemDiv.innerText = mensagem;
+
+            const botaoFechar = document.createElement('button');
+            botaoFechar.innerText = 'Fechar';
+            botaoFechar.onclick = function () {
+                document.body.removeChild(overlay);
+            };
+
+            mensagemDiv.appendChild(botaoFechar);
+            overlay.appendChild(mensagemDiv);
+            document.body.appendChild(overlay);
+        }
+        
+        function usuarioDesativado() {
+            mostrarOverlay("O usuário está desativado. Favor contactar o Administrador!");
+        }
+
+        function usuarioInvalido() {
+            mostrarOverlay("Usuário ou senha inválidos!");
+        }
+    </script>
+</head>
+<body>
+    <div>
+       <fieldset>
+            <form method="POST" action="{{ url_for('login') }}">
+
+                <fieldset>
+                    <p>
+                    <input type="text" name="username" placeholder="Nome de Usuário" required>
+                    </p>
+                    <p>
+                    <input type="password" name="senha" placeholder="Senha" required> 
+                    </p>
+                    <p>
+                        <button type="submit">Entrar</button>
+                    </p>
+                </fieldset>
+                
+            </form> 
+       </fieldset>
+       
+    </div>
+    
+
+    {% if usuario_desativado %}
+    <script>
+        usuarioDesativado();
+    </script>
+    {% endif %}
+    
+    {% if usuario_invalido %}
+    <script>
+        usuarioInvalido();
+    </script>
+    {% endif %}
+</body>
+</html>

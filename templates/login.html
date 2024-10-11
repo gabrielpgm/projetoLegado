@@ -4,55 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
     <title>Login</title>
-    <script>
-        function mostrarOverlay(mensagem) {
-            const overlay = document.createElement('div');
-            overlay.classList.add('overlay');
-
-            const mensagemDiv = document.createElement('div');
-            mensagemDiv.classList.add('mensagem');
-
-            mensagemDiv.innerText = mensagem;
-
-            const botaoFechar = document.createElement('button');
-            botaoFechar.innerText = 'Fechar';
-            botaoFechar.onclick = function () {
-                document.body.removeChild(overlay);
-            };
-
-            mensagemDiv.appendChild(botaoFechar);
-            overlay.appendChild(mensagemDiv);
-            document.body.appendChild(overlay);
-        }
-
-        
-        function usuarioDesativado() {
-            mostrarOverlay("O usuário está desativado. Favor contactar o Administrador!");
-        }
-
-        function usuarioInvalido() {
-            mostrarOverlay("Usuário ou senha inválidos!");
-        }
-    </script>
 </head>
 <body>
-    <div>
-        <h1>Login</h1>
-        <form method="POST" action="{{ url_for('login') }}">
-        <p>
-            <input type="text" name="username" placeholder="Nome de Usuário" required>
-        </p>
-        <p>
-           <input type="password" name="senha" placeholder="Senha" required> 
-        </p>
-        <p>
-            <button type="submit">Entrar</button>
-        </p>
-        
-    </form>
+    <div id="cx-extlgn">
+        <div id="logo-container">
+            <img src="static/uploads/logo.png" alt="Logotipo" id="logo">
+        </div>
+        <div id="cx-intlgn">
+            <form method="POST" action="{{ url_for('login') }}">
+                <fieldset id="cxint-form">
+                    <p id="cxint-formp1">
+                        <input type="text" name="username" placeholder="Nome de Usuário" required>
+                    </p>
+                    <p id="cxint-formp2">
+                        <input type="password" name="senha" placeholder="Senha" required>
+                    </p>
+                    <p id="cxint-formp3">
+                        <button id="botao-login" type="submit">Entrar</button>
+                    </p>
+                </fieldset>
+            </form>
+        </div>
     </div>
-    
+
+    <div id="overlay">
+        <div id="popup">
+            <div class="mensagem"></div>
+            <button onclick="fecharPopup()">Fechar</button>
+        </div>
+    </div>
 
     {% if usuario_desativado %}
     <script>
