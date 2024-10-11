@@ -50,20 +50,6 @@ def validar_cpf(cpf):
 def home():
     return render_template('login.html')
 
-
-# @app.route('/login', methods=['POST'])
-# def login():
-#     username = request.form['username']
-#     password = request.form['password']
-     
-#     user = db.users.find_one({'username': username})
-        
-#     if user and check_password_hash(user['password'], password):
-#         session['username'] = username
-#         session['nome'] = user['nome']
-#         return redirect(url_for('dashboard'))
-#     else:
-#         return "Usuário ou senha inválidos", 401
     
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -90,15 +76,6 @@ def login():
     return render_template('login.html')
 
 
-
-
-# @app.route('/dashboard')
-# def dashboard():
-#     if 'username' in session:
-#         return render_template('dashboard.html')
-#     else:
-#         return redirect(url_for('home'))
-
 @app.route('/dashboard')
 def dashboard():
     if 'username' in session:
@@ -110,8 +87,6 @@ def dashboard():
         return redirect(url_for('home'))
 
   
-
-
 def salvar_arquivo(arquivo, nome_arquivo):
     if arquivo:
         caminho = f'static/uploads/{nome_arquivo}'
@@ -375,38 +350,6 @@ def editar_cliente(numero_identificador):
 
     return render_template('cadastro.html', cliente=cliente, modo='editar')
 
-
-
-
-# @app.route('/cadastro_usuario', methods=['GET', 'POST'])
-# def cadastro_usuario():
-#     if request.method == 'POST':
-#         nome = request.form['nome']
-#         username = request.form['username']
-#         senha = request.form['senha']
-#         tipo_acesso = request.form['tipo_acesso']
-
-#         # Verificar se o nome de usuário já existe
-#         usuario_existente = db.users.find_one({'username': username})
-#         if usuario_existente:
-#             # Retornar mensagem de erro se o usuário já existe
-#             return render_template('cadastro_usuario.html', usuario_duplicado=True)
-        
-#         # Hash da senha
-#         senha_hash = generate_password_hash(senha)
-
-#         # Salvar o novo usuário no banco de dados
-#         db.users.insert_one({
-#             'nome': nome,
-#             'username': username,
-#             'password': senha_hash,
-#             'tipo_acesso': tipo_acesso
-#         })
-
-#         # Você pode adicionar uma mensagem de sucesso aqui, se desejar
-#         return render_template('cadastro_usuario.html', usuario_cadastrado=True)
-
-#     return render_template('cadastro_usuario.html')
 
 @app.route('/cadastro_usuario', methods=['GET', 'POST'])
 def cadastro_usuario():
