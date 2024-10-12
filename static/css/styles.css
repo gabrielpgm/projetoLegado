@@ -141,7 +141,7 @@ form {
 #cx-intdash {
     position: fixed; /* Permite que a caixa externa permaneça fixa no topo */
     top: 0; /* Inicia no topo da tela */
-    width: 69vw; /* Ocupa 70% da largura da tela em telas maiores */
+    width: 67vw; /* Ocupa 70% da largura da tela em telas maiores */
     height: 70px; /* Ocupa 60% da altura da tela */
     background-color: #ffffff; /* Cor de fundo */
     border-radius: 0 0 15px 15px; /* Bordas arredondadas nas bordas inferiores */
@@ -153,19 +153,20 @@ form {
 }   
 
 .button-container {
-    display: flex; /* Ativa o modelo de layout flexível */
-    flex-direction: column; /* Alinha os itens na coluna */
-    align-items: center; /* Alinha os itens ao centro horizontalmente */
-    margin: 70px; /* Adiciona margem externa se necessário */
+    display: flex; /* Torna o contêiner flexível */
+    align-items: center; /* Alinha os itens ao centro verticalmente */
+    justify-content: center; /* Centraliza os botões no eixo horizontal */
+    gap: 10px; /* Espaçamento entre os botões */
+    margin-top: 20px; /* Espaço acima do contêiner, se desejado */
 }
 
 .custom-button{
-    font-family: "Outfit", sans-serif;; /* Defina a fonte que você deseja */
-    margin: 30 20 30 20;
+    font-family: "Outfit", sans-serif; /* Defina a fonte que você deseja */
+    margin: 50 20 30 20;
     margin: 10px 0; /* Margem vertical de 10px */
     background-color: #ffffff; /* Cor de fundo */
     color: #003338; /* Cor do texto */
-    width: 250px; /* Largura fixa */
+    width: 240px; /* Largura fixa */
     height: 150px;
     border: none; /* Remove a borda padrão */
     cursor: pointer; /* Muda o cursor para indicar que é clicável */
@@ -173,27 +174,27 @@ form {
     font-weight: bold; /* Fonte em negrito */
     transition: background-color 0.3s; /* Efeito de transição */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra padrão dos botões */
-}
+    }
 
 
 
 /* Efeito de hover para o botão Cadastrar Cliente */
 #btn-cadast:hover {
-    background-color: rgb(69, 160, 73); /* Cor de fundo quando o mouse passa sobre o botão */
+    background-color: #64c5cf; /* Cor de fundo quando o mouse passa sobre o botão */
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Sombra aumentada ao passar o mouse */
 }
 
 
 /* Efeito de hover para o botão Buscar Cliente */
 #btn-busca:hover {
-    background-color: #1976D2; /* Cor de fundo quando o mouse passa sobre o botão */
+    background-color: #64c5cf; /* Cor de fundo quando o mouse passa sobre o botão */
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Sombra aumentada ao passar o mouse */
 }
 
 
 /* Efeito de hover para o botão Gerenciar Usuários */
 #btn-geruser:hover {
-    background-color: #FB8C00; /* Cor de fundo quando o mouse passa sobre o botão */
+    background-color: #64c5cf; /* Cor de fundo quando o mouse passa sobre o botão */
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Sombra aumentada ao passar o mouse */
 }
 
@@ -334,4 +335,117 @@ button:hover {
     padding: 20px;
     border-radius: 10px;
     text-align: center;
+}
+
+/* Janela cadastro */
+
+#cx-extcad {
+    font-family: "Outfit", sans-serif;
+    position: fixed; /* Permite que a caixa externa permaneça fixa no topo */
+    top: 0; /* Inicia no topo da tela */
+    width: 70vw; /* Ocupa 70% da largura da tela em telas maiores */
+    height: 90px; /* Ocupa 60% da altura da tela */
+    background-color: #16737d; /* Cor de fundo */
+    border-radius: 0 0 15px 15px; /* Bordas arredondadas nas bordas inferiores */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); /* Adiciona sombra */
+    box-sizing: border-box; /* Inclui borda e preenchimento no cálculo da largura */
+    left: 50%; /* Centraliza horizontalmente */
+    transform: translateX(-50%); /* Garante que a caixa externa esteja centralizada */
+}  
+#cx-intcad {
+    position: fixed; /* Permite que a caixa externa permaneça fixa no topo */
+    top: 100px; /* Inicia no topo da tela */
+    width: 70vw; /* Ocupa 70% da largura da tela em telas maiores */
+    height: 1070px; /* Ocupa 60% da altura da tela */
+    background-color: #ffffff; /* Cor de fundo */
+    border-radius: 15px; /* Bordas arredondadas nas bordas inferiores */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); /* Adiciona sombra */
+    box-sizing: border-box; /* Inclui borda e preenchimento no cálculo da largura */
+    left: 50%; /* Centraliza horizontalmente */
+    transform: translateX(-50%); /* Garante que a caixa externa esteja centralizada */
+} 
+.custom-fieldcad {
+    border: .5px solid #ccc; /* Borda padrão */
+    border-radius: 15px; /* Bordas arredondadas */
+    padding: 50px; /* Espaçamento interno */
+    margin-bottom: 15px; /* Espaçamento entre fieldsets */
+    background-color: #f9f9f9; /* Cor de fundo suave */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Sombra sutil */
+}
+.custom-fieldcad label {
+    font-weight: bold; /* Negrito para os rótulos */
+    margin-bottom: 8px; /* Espaço abaixo dos rótulos */
+    display: block; /* Exibe rótulos em blocos */
+}
+
+.custom-fieldcad input[type="text"],
+.custom-fieldcad input[type="file"] {
+    width: 100%; /* Largura total do input */
+    padding: 10px; /* Espaçamento interno */
+    border: 1px solid #ccc; /* Borda padrão dos inputs */
+    border-radius: 15px; /* Bordas arredondadas nos inputs */
+    margin-top: 1px; /* Espaço acima dos inputs */
+    box-sizing: border-box; /* Inclui padding e borda no cálculo da largura */
+}
+
+
+
+.custom-fieldcad.button {
+    display: flex;               /* Habilita Flexbox */
+    flex-direction: column;      /* Alinha os itens em coluna */
+    align-items: center;        /* Alinha horizontalmente ao centro */
+    justify-content: center;    /* Alinha verticalmente ao centro */
+    height: 80px;               /* Altura do botão */
+    width: 80px;               /* Largura do botão */
+    border: none;               /* Remove a borda padrão */
+    background-color: #ffffff;  /* Cor de fundo do botão */
+    color: #000000;             /* Cor do texto do botão */
+    border-radius: 15px;       /* Bordas arredondadas */
+    cursor: pointer;            /* Cursor de ponteiro ao passar sobre o botão */
+    font-weight: bold;  /* negrito */
+}
+
+.custom-fieldcad button:hover {
+    background-color: #1da5b4; /* Cor do botão ao passar o mouse */
+}
+
+.custom-fieldcad.button i {
+    font-size: 27px;            /* Tamanho do ícone */
+    margin-bottom: 4px;         /* Espaço abaixo do ícone */
+    color: #000000;             /* Cor do ícone */
+}
+
+.custom-fieldcad span {
+    font-style: italic; /* Estilo itálico para o texto dos arquivos */
+    font-size: 12px;
+    color: #ffffff; /* Cor do texto dos arquivos */
+    display: block; /* Exibe o span em bloco */
+    margin-top: 4px; /* Espaço acima do texto */
+}
+
+.document-row {
+    display: flex; /* Ativa o layout flexbox */
+    justify-content: space-between; /* Espaço entre as colunas */
+    margin-bottom: 20px; /* Espaço entre as linhas de documentos */
+}
+
+.document-column {
+    flex: 1; /* Cada coluna ocupa uma parte igual do espaço disponível */
+    margin-right: 30px; /* Espaço à direita da coluna */
+    border: 0px solid #ccc; /* Borda padrão */
+    background-color: #9b7c18;
+    padding: 5px;
+    border-radius: 15px;
+    height: 250px;
+    width: 250px;
+     
+}
+
+.document-column:last-child {
+    margin-right: 0; /* Remove a margem direita da última coluna */
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
 }
