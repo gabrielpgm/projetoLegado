@@ -44,7 +44,7 @@ body {
 
 
 
-/* Est */
+/* Estilo para o fieldset */
 #cxint-form {
     display: flex;
     flex-direction: column;
@@ -117,7 +117,7 @@ form {
     font-family: "Outfit", sans-serif;
     font-size: 30px;  /* Tamanho da fonte para o nome */
     font-weight: bold; /* Deixa o texto em negrito */
-    color: #012c30;   /* Substitua pela cor que você deseja */
+    color: #003338;   /* Substitua pela cor que você deseja */
     text-decoration: underline; /* Adiciona o sublinhado */
 }
 
@@ -170,7 +170,7 @@ form {
     margin: 50 20 30 20;
     margin: 10px 0; /* Margem vertical de 10px */
     background-color: #ffffff; /* Cor de fundo */
-    color: #012c30; /* Cor do texto */
+    color: #003338; /* Cor do texto */
     width: 240px; /* Largura fixa */
     height: 150px;
     border: none; /* Remove a borda padrão */
@@ -184,21 +184,21 @@ form {
 
 
 /* Efeito de hover para o botão Cadastrar Cliente */
-#btndash-cadast:hover {
+#btn-cadast:hover {
     background-color: #64c5cf; /* Cor de fundo quando o mouse passa sobre o botão */
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Sombra aumentada ao passar o mouse */
 }
 
 
 /* Efeito de hover para o botão Buscar Cliente */
-#btndash-busca:hover {
+#btn-busca:hover {
     background-color: #64c5cf; /* Cor de fundo quando o mouse passa sobre o botão */
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Sombra aumentada ao passar o mouse */
 }
 
 
 /* Efeito de hover para o botão Gerenciar Usuários */
-#btndash-geruser:hover {
+#btn-geruser:hover {
     background-color: #64c5cf; /* Cor de fundo quando o mouse passa sobre o botão */
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Sombra aumentada ao passar o mouse */
 }
@@ -220,7 +220,7 @@ form {
 /* Estilos para o ícone de desbloqueio */
 .unlock-icon {
     margin: 0 3px 35px 0;
-    color: #012c30;
+    color: #003338;
     font-size: 22px;
     text-decoration: none;
 }
@@ -228,7 +228,7 @@ form {
 /* Estilos para o ícone de logout */
 .logout-icon {
     margin: 0 0 20px 0;
-    color: #012c30;
+    color: #003338;
     font-size: 22px;
     text-decoration: none;
 }
@@ -263,7 +263,7 @@ button {
     background-color: #16737D;
     color: white;
     border: none;
-    border-radius: 20px;
+    border-radius: 5px;
     cursor: pointer;
     width: 100%; /* Largura total do botão */
 }
@@ -273,6 +273,39 @@ button:hover {
 }
 
 /* Responsividade para telas menores */
+
+@media (max-width: 700px) {
+    #cx-extlgn {
+        width: 90vw; /* Ocupa 100% da largura da tela em dispositivos móveis */
+        height: 59vh; /* Ocupa 100% da altura da tela em dispositivos móveis */
+        border-radius: 0 0 20px 20px; /* Remove as bordas arredondadas em dispositivos móveis */
+    }
+    
+    #cx-intlgn {
+        /* Mantém o tamanho fixo da caixa interna */
+        width: 308px; /* Largura fixa */
+        height: 412px; /* Altura fixa */
+        top: 542px; /* Centraliza verticalmente em dispositivos móveis */
+        transform: translate(-50%, -50%); /* Garante centralização horizontal e vertical */
+    }
+    #cx-extdash {
+        width: 90%; /* Ocupa 100% da largura da tela em dispositivos móveis */
+        height: 97%; /* Ocupa 100% da altura da tela em dispositivos móveis */
+        border-radius: 0 0 20px 20px; /* Remove as bordas arredondadas em dispositivos móveis */
+    }
+    #cx-intdash {
+        width: 95%; /* Ocupa 100% da largura da tela em dispositivos móveis */
+        height: 30px; /* Ocupa 100% da altura da tela em dispositivos móveis */
+        border-radius: 0 0 20px 20px; /* Remove as bordas arredondadas em dispositivos móveis */
+    }
+    
+}
+
+@media (min-width: 601px) {
+    .cx- {
+        width: 400px; /* Tamanho fixo para telas maiores */
+    }
+}
 
 
 
@@ -310,11 +343,11 @@ button:hover {
 }
 
 /* Janela cadastro */
-
 #jan-cad-dads {
     font-family: "Outfit", sans-serif;
-    padding: 15px;
-}
+    top: 5px; /* Inicia no topo da tela */
+    }
+
 
 #cx-extcad {
     font-family: "Outfit", sans-serif;
@@ -322,49 +355,21 @@ button:hover {
     top: 0; /* Inicia no topo da tela */
     width: 70vw; /* Ocupa 70% da largura da tela em telas maiores */
     min-width: 300px; /* Largura mínima */
-    height: 93px; /* Permite que a altura se ajuste ao conteúdo */
+    height: 90px; /* Ocupa 60% da altura da tela */
     background-color: #16737d; /* Cor de fundo */
     border-radius: 0 0 15px 15px; /* Bordas arredondadas nas bordas inferiores */
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); /* Adiciona sombra */
     box-sizing: border-box; /* Inclui borda e preenchimento no cálculo da largura */
     left: 50%; /* Centraliza horizontalmente */
     transform: translateX(-50%); /* Garante que a caixa externa esteja centralizada */
-    padding: 0px;
-    display: flex; /* Permite que os filhos sejam dispostos em linha */
-    flex-direction: column; /* Muda a direção para coluna */
-    align-items: flex-start; /* Alinha os itens ao início (esquerda) */
-}
-
-#cx-extcad h1 {
-    color: #012c30; /* Altere para a cor que desejar */
-    font-size: 26px;
-    margin: 6px; /* Remove margens para um alinhamento mais preciso */
-    margin-top: 10px;
-}
-
-.fielset-Nr {
-    font-family: "Outfit", sans-serif;
-    margin-left: auto; /* Empurra o fieldset para a direita */
-    border: none;
-    font-weight: bold;
-    color: #012c30;
-}
-
-.fielset-Nr input {
-    width: 60px;
-    height: 10px;
-    border-radius: 5px;
-}
-
-
+}  
 #cx-intcad {
-    font-family: "Outfit", sans-serif;
     position: fixed; /* Permite que a caixa externa permaneça fixa no topo */
     top: 100px; /* Inicia no topo da tela */
     width: 70vw; /* Ocupa 70% da largura da tela em telas maiores */
     min-width: 300px; /* Largura mínima */
     min-height: 500px; /* Altura mínima */
-    height: 770px; /* Ocupa 60% da altura da tela */
+    height: 700px; /* Ocupa 60% da altura da tela */
     background-color: #ffffff; /* Cor de fundo */
     border-radius: 15px; /* Bordas arredondadas nas bordas inferiores */
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); /* Adiciona sombra */
@@ -375,16 +380,16 @@ button:hover {
 .custom-fieldcad-documents {
     display: flex;
     border: .5px solid #ccc; /* Borda padrão */
-    border-radius: 10px; /* Bordas arredondadas */
+    border-radius: 15px; /* Bordas arredondadas */
     padding: 5px; /* Espaçamento interno */
     background-color: #f9f9f9; /* Cor de fundo suave */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Sombra sutil */
-    height: 530px;
+    height: 460px;
     width:  350px;
-    margin-bottom: 15px;
 }
 
 .custom-fieldcad-documents label {
+    margin: 5px 0 0 10px;
     font-weight: bold; /* Negrito para os rótulos */
     display: block; /* Exibe rótulos em blocos */
 }
@@ -413,150 +418,63 @@ button:hover {
     height: 50px;               /* Altura do botão */
     width: 50px;               /* Largura do botão */
     border: none;               /* Remove a borda padrão */
-    background-color: #cacaca;  /* Cor de fundo do botão */
-    color: #012c30;             /* Cor do texto do botão */
+    background-color: #813636;  /* Cor de fundo do botão */
+    color: #000000;             /* Cor do texto do botão */
     border-radius: 10px;       /* Bordas arredondadas */
     cursor: pointer;            /* Cursor de ponteiro ao passar sobre o botão */
     font-weight: bold;  /* negrito */
-    margin-top: -10px;
+    margin-top: -20px;
 }
 
 .custom-fieldcad-documents button:hover {
-    background-color: #429186; /* Cor do botão ao passar o mouse */
+    background-color: #1da5b4; /* Cor do botão ao passar o mouse */
 }
 
 /* ICONES */
 .custom-fieldcad-documents button i {
     font-size: 20px;            /* Tamanho do ícone */
-    color: #012c30;             /* Cor do ícone */
+    color: #000000;             /* Cor do ícone */
 }
 
 .custom-fieldcad-documents span {
-    margin: 7px;
+    margin: 5px;
     font-style: italic; /* Estilo itálico para o texto dos arquivos */
     font-size: 9px;
-    color: #000000; /* Cor do texto dos arquivos */
+    color: #ffffff; /* Cor do texto dos arquivos */
     display: block; /* Exibe o span em bloco */
-    margin-top: 10px;
 }
 
 .cadastlabel-titulo {
-    margin: 5px;
     font-size: 14px; /* Tamanho da fonte para a label Identidade */
-    text-align: center;
-    color: #012c30;
+    margin-bottom: 5px;
 }
 
 .cadastlabel-comentario {
-    margin: 7px;
     font-size: 9px; /* Tamanho da fonte para a label Comentário */
-    color: #ffffff; /* Cor do texto dos arquivos */
-    margin-top: 10px;
-        
-}
-
-textarea {
-    font-family: "Outfit", sans-serif;
-    font-size: 10px;
-    width: 130px; /* Define a largura do textarea */
-    padding: 10px; /* Adiciona espaçamento interno */
-    font-size: 14px; /* Tamanho da fonte para o texto dentro do textarea */
-    border-radius: 7px; /* Cantos arredondados */
-    border: 1px solid #ccc; /* Borda padrão */
-    resize: vertical; /* Permite redimensionamento vertical */
-    margin: 5px auto; /* Margem superior/inferior de 5px e centraliza horizontalmente */
-    display: block; /* Garante que o textarea seja tratado como um bloco */
-    margin-top: -5px;
-}
-
-textarea::placeholder {
-    font-size: 12px; /* Altere para o tamanho desejado */
-    color: #aaaaaa; /* Altere a cor, se necessário */
-    opacity: 1; /* Aumenta a opacidade se o placeholder estiver muito claro */
-}
-
-textarea:focus {
-    border-color: #16737d; /* Altera a cor da borda ao focar */
-    outline: none; /* Remove o contorno padrão */
-    box-shadow: 0 0 5px rgba(22, 115, 125, 0.5); /* Sombra ao focar */
 }
 
 .document-row {
     display: flex;
-    flex-wrap: wrap; 
-    gap: 10px; /* Adiciona espaço entre as colunas */
-    justify-content: space-between; 
+    flex-wrap: wrap; /* Permite que as colunas quebrem linha */
+    justify-content: space-between; /* Distribui espaço entre as colunas */
 }
 
 .document-column {
     flex: 1px; /* Define que a coluna deve ocupar uma parte do espaço disponível. */
+    margin: 5px; /* Adiciona uma margem de 5 pixels ao redor da coluna. */
     border: 0px solid #ccc; /* Define a borda como invisível, pois a largura é 0px. */
     background-color: #16737d; /* Define a cor de fundo como um tom de verde-azulado. */
-    border-radius: 12px; /* Adiciona bordas arredondadas de 10 pixels. */
-    height: 230px; /* Define a altura da coluna como 150 pixels. */
+    padding: 0px; /* Não adiciona espaço interno entre o conteúdo e as bordas. */
+    border-radius: 10px; /* Adiciona bordas arredondadas de 10 pixels. */
+    height: 180px; /* Define a altura da coluna como 150 pixels. */
     width: 100px; /* Define a largura da coluna como 100 pixels. */
-    margin: 5px;
-    
 }
 
-button.btn-salvar {
-    background-color: #16737d;
-    color: white;
-    font-size: 16px;
-    padding: 10px 20px;
-    border: .5px solid #16737d; /* Borda padrão */
-    border-radius: 10px;
-    cursor: pointer;
-    width: 363px;
-    height: 40px;
-    box-shadow: 0 4px 10px #00000033;
-    transition: background-color 0.3s;
+.document-column:last-child {
+    margin-right: 0; /* Remove a margem direita da última coluna */
 }
-
-button.btn-salvar:hover {
-    background-color: #145b5e;
-}
-
-
 
 .input-group {
     display: flex;
     align-items: center;
-}
-
-@media (max-width: 700px) {
-    #cx-extlgn {
-        width: 90vw; /* Ocupa 100% da largura da tela em dispositivos móveis */
-        height: 59vh; /* Ocupa 100% da altura da tela em dispositivos móveis */
-        border-radius: 0 0 20px 20px; /* Remove as bordas arredondadas em dispositivos móveis */
-    }
-    #cx-intlgn {
-        /* Mantém o tamanho fixo da caixa interna */
-        width: 308px; /* Largura fixa */
-        height: 412px; /* Altura fixa */
-        top: 542px; /* Centraliza verticalmente em dispositivos móveis */
-        transform: translate(-50%, -50%); /* Garante centralização horizontal e vertical */
-    }
-    #cx-extdash {
-        width: 90%; /* Ocupa 100% da largura da tela em dispositivos móveis */
-        height: 97%; /* Ocupa 100% da altura da tela em dispositivos móveis */
-        border-radius: 0 0 20px 20px; /* Remove as bordas arredondadas em dispositivos móveis */
-    }
-    #cx-intdash {
-        width: 95%; /* Ocupa 100% da largura da tela em dispositivos móveis */
-        height: 30px; /* Ocupa 100% da altura da tela em dispositivos móveis */
-        border-radius: 0 0 20px 20px; /* Remove as bordas arredondadas em dispositivos móveis */
-    }
-    #cx-extcad {
-        width: 95%; /* Ocupa 100% da largura da tela em dispositivos móveis */
-        height: 93px; /* Ocupa 100% da altura da tela em dispositivos móveis */
-        border-radius: 0 0 20px 20px; /* Remove as bordas arredondadas em dispositivos móveis */
-    }
-
-    #cx-intcad {
-        width: 95%; /* Ocupa 100% da largura da tela em dispositivos móveis */
-        height: 782px; /* Ocupa 100% da altura da tela em dispositivos móveis */
-        border-radius: 20px 20px 20px 20px; /* Remove as bordas arredondadas em dispositivos móveis */
-    }
-
 }
