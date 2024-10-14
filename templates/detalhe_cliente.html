@@ -6,121 +6,130 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalhes do Cliente</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-    <script>
-        function mostrarOverlay(url) {
-            const overlay = document.createElement('div');
-            overlay.style.position = 'fixed';
-            overlay.style.top = '0';
-            overlay.style.left = '0';
-            overlay.style.width = '100%';
-            overlay.style.height = '100%';
-            overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
-            overlay.style.display = 'flex';
-            overlay.style.justifyContent = 'center';
-            overlay.style.alignItems = 'center';
-            overlay.style.zIndex = '1000';
-
-            const iframe = document.createElement('iframe');
-            iframe.src = url;
-            iframe.style.width = '80%';
-            iframe.style.height = '80%';
-            iframe.style.border = 'none';
-            iframe.style.borderRadius = '10px';
-
-            const botaoFechar = document.createElement('button');
-            botaoFechar.innerText = 'Fechar';
-            botaoFechar.style.position = 'absolute';
-            botaoFechar.style.top = '20px';
-            botaoFechar.style.right = '20px';
-            botaoFechar.onclick = function () {
-                document.body.removeChild(overlay);
-            };
-
-            overlay.appendChild(iframe);
-            overlay.appendChild(botaoFechar);
-            document.body.appendChild(overlay);
-        }
-    </script>
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
 </head>
 
 <body>
-    <h1>Detalhes do Cliente</h1>
+    <div id="cx-extcad">
 
-    {% if modo == 'visualizar' %}
-    <p><strong>Número Identificador:</strong> {{ cliente.numero_identificador }}</p>
-    <p><strong>Nome:</strong> {{ cliente.nome }}</p>
-    <p><strong>CPF:</strong> {{ cliente.cpf }}</p>
+            <h1>Detalhes do Cliente</h1>
 
-    <h3>Documentos</h3>
+            {% if modo == 'visualizar' %}
+            <label for="numero_identificador">Registro:</label> {{ cliente.numero_identificador }}
 
-    {% if cliente.documentos %}
+            <fieldset class="fielset-Nr">
+                <label for="numero_identificador">Registro:</label>
+                <input type="text" id="numero_identificador" name="numero_identificador"
+                    value="{{ cliente.numero_identificador if cliente else '' }}" disabled><br><br>
+            </fieldset>
+                 
+    </div>
+
+   
+
+    <div id="cx-intcad">
+
+            <div id="jan-cad-dads">
+                <strong>Nome:</strong> {{ cliente.nome }}
+                <strong>CPF:</strong> {{ cliente.cpf }}
+            </div>
+
+
+
+        <fieldset class="custom-fieldcad-documents">    
+            <legend>Documentos</legend>
+            <div class="document-row">
+                        
+                <div class="document-column">
+                {% if cliente.documentos %}
+                
+                    <strong>Identidade:</strong>
+                        {% if cliente.documentos.identidade and cliente.documentos.identidade.arquivo %}
+                        <button
+                            onclick="mostrarDocOverlay('{{ url_for('static', filename='uploads/' + cliente.documentos.identidade.arquivo.split('/')[-1]) }}')">Visualizar</button>
+                        <a
+                            href="{{ url_for('baixar_arquivo', tipo='identidade', arquivo=cliente.documentos.identidade.arquivo.split('/')[-1]) }}">Baixar</a>
+                        {% else %}
+                        Não enviado
+                        {% endif %}
+                    
+                    <strong>Comentário Identidade:</strong>
+                        {{ cliente.documentos.identidade.comentario or 'Nenhum comentário' }}
+                    
+                </div>
+                
+                <div class="document-column">
+                    <strong>CNH:</strong>
+                    {% if cliente.documentos.cnh and cliente.documentos.cnh.arquivo %}
+                    <button
+                        onclick="mostrarDocOverlay('{{ url_for('static', filename='uploads/' + cliente.documentos.cnh.arquivo.split('/')[-1]) }}')">Visualizar</button>
+                    <a
+                        href="{{ url_for('baixar_arquivo', tipo='cnh', arquivo=cliente.documentos.cnh.arquivo.split('/')[-1]) }}">Baixar</a>
+                    {% else %}
+                    Não enviado
+                    {% endif %}
+                
+                    <strong>Comentário CNH:</strong>
+                        {{ cliente.documentos.cnh.comentario or 'Nenhum comentário' }}
+                    
+                </div>
+
+            <div>
+
+            <div class="document-row">
+                <div class="document-column"> 
+                    <strong>Comprovante de Endereço:</strong>
+                    {% if cliente.documentos.comprovante_endereco and cliente.documentos.comprovante_endereco.arquivo %}
+                    <button
+                        onclick="mostrarDocOverlay('{{ url_for('static', filename='uploads/' + cliente.documentos.comprovante_endereco.arquivo.split('/')[-1]) }}')">Visualizar</button>
+                    <a
+                        href="{{ url_for('baixar_arquivo', tipo='comprovante_endereco', arquivo=cliente.documentos.comprovante_endereco.arquivo.split('/')[-1]) }}">Baixar</a>
+                    {% else %}
+                    Não enviado
+                    {% endif %}
+                    <p><strong>Comentário Comprovante de Endereço:</strong>
+                    {{ cliente.documentos.comprovante_endereco.comentario or 'Nenhum comentário' }}
+                </div>
+
+                
+                <div class="document-column">
+                    <strong>Outros:</strong>
+                        {% if cliente.documentos.outros and cliente.documentos.outros.arquivo %}
+                        <button
+                            onclick="mostrarDocOverlay('{{ url_for('static', filename='uploads/' + cliente.documentos.outros.arquivo.split('/')[-1]) }}')">Visualizar</button>
+                        <a
+                            href="{{ url_for('baixar_arquivo', tipo='outros', arquivo=cliente.documentos.outros.arquivo.split('/')[-1]) }}">Baixar</a>
+                        {% else %}
+                        Não enviado
+                        {% endif %}
+                
+
+                    <strong>Comentário Outros:</strong>
+                        {{ cliente.documentos.outros.comentario or 'Nenhum comentário' }}
+                    
+
+                    {% else %}
+                    Nenhum documento enviado.
+                    {% endif %}
+                </div>
+            <div>
+        </fieldset>   
+
+        <!-- Botão para voltar ao dashboard -->
+            <form action="/busca_cliente" method="GET">
+                <button type="submit">Voltar</button>
+            </form>
+
+            <!-- Link para editar cliente -->
+            <form action="{{ url_for('editar_cliente', numero_identificador=cliente.numero_identificador) }}" method="GET">
+                <button type="submit">Editar Cliente</button>
+            </form>
+
+
+    </div>
+     
+
     
-    <p><strong>Identidade:</strong> 
-        {% if cliente.documentos.identidade and cliente.documentos.identidade.arquivo %}
-            <button onclick="mostrarOverlay('{{ url_for('static', filename='uploads/' + cliente.documentos.identidade.arquivo.split('/')[-1]) }}')">Visualizar</button>
-            <a href="{{ url_for('baixar_arquivo', tipo='identidade', arquivo=cliente.documentos.identidade.arquivo.split('/')[-1]) }}">Baixar</a>
-        {% else %}
-            Não enviado
-        {% endif %}
-    </p>
-    <p><strong>Comentário Identidade:</strong> 
-        {{ cliente.documentos.identidade.comentario or 'Nenhum comentário' }}
-    </p>
-       
-
-    <p>
-        <strong>CNH:</strong> 
-        {% if cliente.documentos.cnh and cliente.documentos.cnh.arquivo %}
-            <button onclick="mostrarOverlay('{{ url_for('static', filename='uploads/' + cliente.documentos.cnh.arquivo.split('/')[-1]) }}')">Visualizar</button>
-            <a href="{{ url_for('baixar_arquivo', tipo='cnh', arquivo=cliente.documentos.cnh.arquivo.split('/')[-1]) }}">Baixar</a>
-        {% else %}
-            Não enviado
-        {% endif %}
-    </p>
-    
-    <p><strong>Comentário CNH:</strong> 
-        {{ cliente.documentos.cnh.comentario or 'Nenhum comentário' }}
-    </p>
-    
-    <p><strong>Comprovante de Endereço:</strong> 
-        {% if cliente.documentos.comprovante_endereco and cliente.documentos.comprovante_endereco.arquivo %}
-            <button onclick="mostrarOverlay('{{ url_for('static', filename='uploads/' + cliente.documentos.comprovante_endereco.arquivo.split('/')[-1]) }}')">Visualizar</button>
-            <a href="{{ url_for('baixar_arquivo', tipo='comprovante_endereco', arquivo=cliente.documentos.comprovante_endereco.arquivo.split('/')[-1]) }}">Baixar</a>
-        {% else %}
-            Não enviado
-        {% endif %}
-    </p>
-    
-    <p><strong>Comentário Comprovante de Endereço:</strong> 
-        {{ cliente.documentos.comprovante_endereco.comentario or 'Nenhum comentário' }}
-    </p>
-
-    <p><strong>Outros:</strong> 
-        {% if cliente.documentos.outros and cliente.documentos.outros.arquivo %}
-            <button onclick="mostrarOverlay('{{ url_for('static', filename='uploads/' + cliente.documentos.outros.arquivo.split('/')[-1]) }}')">Visualizar</button>
-            <a href="{{ url_for('baixar_arquivo', tipo='outros', arquivo=cliente.documentos.outros.arquivo.split('/')[-1]) }}">Baixar</a>
-        {% else %}
-            Não enviado
-        {% endif %}
-    </p>
-    
-    <p><strong>Comentário Outros:</strong> 
-        {{ cliente.documentos.outros.comentario or 'Nenhum comentário' }}
-    </p>
-
-    {% else %}
-    <p>Nenhum documento enviado.</p>
-    {% endif %}
-
-    <!-- Botão para voltar ao dashboard -->
-    <form action="/busca_cliente" method="GET">
-        <button type="submit">Voltar</button>
-    </form>
-
-    <!-- Link para editar cliente -->
-    <form action="{{ url_for('editar_cliente', numero_identificador=cliente.numero_identificador) }}" method="GET">
-        <button type="submit">Editar Cliente</button>
-    </form>
 
     {% elif modo == 'editar' %}
     <form action="{{ url_for('editar_cliente', numero_identificador=cliente.numero_identificador) }}" method="POST">

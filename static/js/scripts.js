@@ -89,6 +89,42 @@ function mostrarOverlay(mensagem) {
     overlay.style.display = 'flex'; // Exibe o overlay
 }
 
+// Função para exibir documentos em um overlay
+function mostrarDocOverlay(url) {
+    const overlay = document.createElement('div');
+    overlay.style.position = 'fixed';
+    overlay.style.top = '0';
+    overlay.style.left = '0';
+    overlay.style.width = '100%';
+    overlay.style.height = '100%';
+    overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
+    overlay.style.display = 'flex';
+    overlay.style.justifyContent = 'center';
+    overlay.style.alignItems = 'center';
+    overlay.style.zIndex = '1000';
+
+    const iframe = document.createElement('iframe');
+    iframe.src = url;
+    iframe.style.width = '80%';
+    iframe.style.height = '80%';
+    iframe.style.border = 'none';
+    iframe.style.borderRadius = '10px';
+
+    const botaoFechar = document.createElement('button');
+    botaoFechar.innerText = 'Fechar';
+    botaoFechar.style.position = 'absolute';
+    botaoFechar.style.top = '20px';
+    botaoFechar.style.right = '20px';
+    botaoFechar.onclick = function () {
+        document.body.removeChild(overlay);
+    };
+
+    overlay.appendChild(iframe);
+    overlay.appendChild(botaoFechar);
+    document.body.appendChild(overlay);
+}
+
+
 // Função para capturar imagem
 function capturarImagem(inputId) {
     const inputFile = document.getElementById(inputId);

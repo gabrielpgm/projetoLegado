@@ -24,6 +24,7 @@
             <form
                 action="{% if cliente %}{{ url_for('editar_cliente', numero_identificador=cliente.numero_identificador) }}{% else %}{{ url_for('cadastro_cliente') }}{% endif %}"
                 method="POST" enctype="multipart/form-data">
+                
                     <div id="jan-cad-dads">
                         <input type="text" id="nome" name="nome" value="{{ cliente.nome }}" placeholder="Nome"
                             required><br><br>
