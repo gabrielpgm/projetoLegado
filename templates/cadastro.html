@@ -24,7 +24,7 @@
             <form
                 action="{% if cliente %}{{ url_for('editar_cliente', numero_identificador=cliente.numero_identificador) }}{% else %}{{ url_for('cadastro_cliente') }}{% endif %}"
                 method="POST" enctype="multipart/form-data">
-                
+
                     <div id="jan-cad-dads">
                         <input type="text" id="nome" name="nome" value="{{ cliente.nome }}" placeholder="Nome"
                             required><br><br>
@@ -32,20 +32,20 @@
                             placeholder="CPF" required oninput="formatarCpf(event)">
                     </div>
 
-                <fieldset class="custom-fieldcad-documents">
+                <fieldset class="custom-field-documents">
                     <legend>Documentos</legend>
                     <div class="document-row">
                         
                         <div class="document-column">
                             <!-- DOCUMENTO  ID -->
-                            <label for="identidade" class="cadastlabel-titulo">Identidade</label>
+                            <label for="identidade"class="cadastlabel-titulo">Identidade</label>
                                 <div class="button-container">
                                     <button type="button" onclick="document.getElementById('identidade').click();"
-                                        class="custom-fieldcad-documents button">
+                                        class="custom-field-documents button">
                                         <i class="fas fa-file-upload"></i> Selecionar
                                     </button>
                                     <button type="button" onclick="capturarImagem('identidade')"
-                                        class="custom-fieldcad-documents button">
+                                        class="custom-field-documents button">
                                         <i class="fas fa-camera"></i> Capturar
                                     </button>
                                 </div>
@@ -59,11 +59,11 @@
                             <label for="cnh" class="cadastlabel-titulo">CNH</label>
                             <div class="button-container">
                                 <button type="button" onclick="document.getElementById('cnh').click();"
-                                    class="custom-fieldcad-documents button">
+                                    class="custom-field-documents button">
                                     <i class="fas fa-file-upload"></i> Selecionar
                                 </button>
                                 <button type="button" onclick="capturarImagem('cnh')"
-                                    class="custom-fieldcad-documents button">
+                                    class="custom-field-documents button">
                                     <i class="fas fa-camera"></i> Capturar
                                 </button>
                             </div>
@@ -79,11 +79,11 @@
                             <label for="comprovante_endereco" class="cadastlabel-titulo" >Comprovante End.</label>
                             <div class="button-container">
                                 <button type="button" onclick="document.getElementById('comprovante_endereco').click();"
-                                    class="custom-fieldcad-documents button">
+                                    class="custom-field-documents button">
                                     <i class="fas fa-file-upload"></i> Selecionar
                                 </button>
                                 <button type="button" onclick="capturarImagem('comprovante_endereco')"
-                                    class="custom-fieldcad-documents button">
+                                    class="custom-field-documents button">
                                     <i class="fas fa-camera"></i> Capturar
                                 </button>
                             </div>
@@ -100,18 +100,17 @@
                             <label for="outro" class="cadastlabel-titulo">OUTROS</label>
                             <div class="button-container">
                                 <button type="button" onclick="document.getElementById('outro').click();"
-                                    class="custom-fieldcad-documents button">
+                                    class="custom-field-documents button">
                                     <i class="fas fa-file-upload"></i> Selecionar
                                 </button>
                                 <button type="button" onclick="capturarImagem('outro')"
-                                    class="custom-fieldcad-documents button">
+                                    class="custom-field-documents button">
                                     <i class="fas fa-camera"></i> Capturar
                                 </button>
                             </div>
                             <span>Arquivo: {{ cliente.documentos.outro.arquivo if cliente and cliente.documentos and
                                 cliente.documentos.outro else 'Nenhum arquivo enviado' }}</span>
-                                <label for="comentario_outro" class="cadastlabel-comentario">Comentário:</label>
-<textarea id="comentario_outro" name="comentario_outro" placeholder="Digite um comentário:" rows="3">{{ cliente.documentos.outro.comentario if cliente and cliente.documentos and cliente.documentos.outro else '' }}</textarea>
+                                <label for="comentario_outro" class="cadastlabel-comentario">Comentário:</label><textarea id="comentario_outro" name="comentario_outro" placeholder="Digite um comentário:" rows="3">{{ cliente.documentos.outro.comentario if cliente and cliente.documentos and cliente.documentos.outro else '' }}</textarea>
                                     
                         </div>
                     </div>

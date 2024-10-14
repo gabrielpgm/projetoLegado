@@ -372,26 +372,30 @@ button:hover {
     left: 50%; /* Centraliza horizontalmente */
     transform: translateX(-50%); /* Garante que a caixa externa esteja centralizada */
 } 
-.custom-fieldcad-documents {
+
+.custom-field-documents {
     display: flex;
-    border: .5px solid #ccc; /* Borda padrão */
+    flex-direction: column; /* Para empilhar itens verticalmente */
+    justify-content: flex-start; /* Alinha os itens no início do campo */
+    border: 0.5px solid #ccc; /* Borda padrão */
     border-radius: 10px; /* Bordas arredondadas */
     padding: 5px; /* Espaçamento interno */
     background-color: #f9f9f9; /* Cor de fundo suave */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Sombra sutil */
-    height: 530px;
-    width:  350px;
-    margin-bottom: 15px;
+    height: 530px; /* Altura fixa */
+    width: 350px; /* Largura fixa */
+    margin-bottom: 15px; /* Espaçamento inferior */
+    overflow: hidden; /* Impede que o conteúdo expanda o campo */
 }
 
-.custom-fieldcad-documents label {
+.custom-field-documents label {
     font-weight: bold; /* Negrito para os rótulos */
     display: block; /* Exibe rótulos em blocos */
 }
 
 
-.custom-fieldcad-documents input[type="text"],
-.custom-fieldcad-documents input[type="file"] {
+.custom-field-documents input[type="text"],
+.custom-field-documents input[type="file"] {
     margin: 1px;
     width: 95%; /* Largura total do input */
     font-size: 9px; /* Tamanho da fonte */
@@ -403,7 +407,7 @@ button:hover {
     display: block; /* Garante que o input se comporte como um bloco */
 }
 
-.custom-fieldcad-documents button {
+.custom-field-documents button {
     font-family: "Outfit", sans-serif;
     font-size: 9px;
     display: flex;               /* Habilita Flexbox */
@@ -421,17 +425,17 @@ button:hover {
     margin-top: -10px;
 }
 
-.custom-fieldcad-documents button:hover {
+.custom-field-documents button:hover {
     background-color: #429186; /* Cor do botão ao passar o mouse */
 }
 
 /* ICONES */
-.custom-fieldcad-documents button i {
+.custom-field-documents button i {
     font-size: 20px;            /* Tamanho do ícone */
     color: #012c30;             /* Cor do ícone */
 }
 
-.custom-fieldcad-documents span {
+.custom-field-documents span {
     margin: 7px;
     font-style: italic; /* Estilo itálico para o texto dos arquivos */
     font-size: 9px;
@@ -439,6 +443,23 @@ button:hover {
     display: block; /* Exibe o span em bloco */
     margin-top: 10px;
 }
+
+
+
+
+
+.custom-field-documents-visualizar {
+    display: flex;
+    border: .5px solid #ccc; /* Borda padrão */
+    border-radius: 10px; /* Bordas arredondadas */
+    padding: 5px; /* Espaçamento interno */
+    background-color: #f9f9f9; /* Cor de fundo suave */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Sombra sutil */
+    height: 530px;
+    width:  420px;
+    margin-bottom: 15px;
+}
+
 
 .cadastlabel-titulo {
     margin: 5px;
@@ -489,12 +510,12 @@ textarea:focus {
 }
 
 .document-column {
-    flex: 1px; /* Define que a coluna deve ocupar uma parte do espaço disponível. */
+    flex: 1; /* Define que a coluna deve ocupar uma parte do espaço disponível. */
     border: 0px solid #ccc; /* Define a borda como invisível, pois a largura é 0px. */
     background-color: #16737d; /* Define a cor de fundo como um tom de verde-azulado. */
     border-radius: 12px; /* Adiciona bordas arredondadas de 10 pixels. */
     height: 230px; /* Define a altura da coluna como 150 pixels. */
-    width: 100px; /* Define a largura da coluna como 100 pixels. */
+    width: 200px; /* Define a largura da coluna como 100 pixels. */
     margin: 5px;
     
 }
