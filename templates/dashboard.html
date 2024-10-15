@@ -17,9 +17,16 @@
             <span class="welcome-name">{{ session['nome'] }}!</span>
         </h1>   
         <div class="button-container-dash">
+            <form action="/cadastro_cliente" method="GET">
             <button class="custom-button" id="btndash-cadast">Cadastrar Cliente</button>
-            <button class="custom-button" id="btndash-busca">Buscar Cliente</button>
-            <button class="custom-button" id="btndash-geruser">Gerenciar Usuários</button>
+            </form>
+            <form action="/busca_cliente" method="GET">
+                <button class="custom-button" id="btndash-busca">Buscar Cliente</button>
+            </form>
+            <form action="/cadastro_usuario" method="GET">
+                <button class="custom-button" id="btndash-geruser">Gerenciar Usuários</button>
+            </form>
+            
         </div>                  
     </div>
     <div class="icon-container">

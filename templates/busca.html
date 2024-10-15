@@ -2,90 +2,107 @@
 <html lang="pt-BR">
 <head>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-
-    <script>
-        function formatarCpf(event) {
-            const input = event.target;
-            let value = input.value.replace(/\D/g, ''); // Remove caracteres não numéricos
-            if (value.length > 11) value = value.slice(0, 11); // Limita a 11 dígitos
-            const formattedCpf = value.replace(/(\d{3})(\d)/, '$1.$2') // Adiciona o primeiro ponto
-                                       .replace(/(\d{3})(\d)/, '$1.$2') // Adiciona o segundo ponto
-                                       .replace(/(\d{3})(\d{1,2})$/, '$1-$2'); // Adiciona o hífen
-            input.value = formattedCpf; // Atualiza o valor do input
-        }
-
-        function limparCampos() {
-            // Limpar os campos de busca
-            document.querySelector('input[name="nome"]').value = '';
-            document.querySelector('input[name="cpf"]').value = '';
-            
-            // Submeter o formulário sem filtros para restaurar o estado original
-            document.querySelector('form').submit();
-        }
-    </script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="{{ url_for('static', filename='js/scripts.js') }}" defer></script>
 </head>
 <body>
-    <h1>Buscar Clientes</h1>
-    <form method="POST">
-        <input type="text" name="nome" placeholder="Nome">
-        <input type="text" name="cpf" placeholder="CPF" oninput="formatarCpf(event)">
-        <button type="submit">Buscar</button>
-        <button type="button" onclick="limparCampos()">Limpar</button>
-    </form>
-    <table>
-        <tr>
-            <th>Cadastro Nr.</th>
-            <th>Nome</th>
-            <th>CPF</th>
-            <th>Documentos</th>
-            <th>Ações</th>
-        </tr>
-        {% if clientes|length == 0 %}
-            <tr>
-                <td colspan="5">Nenhum cliente encontrado.</td>
+    
+    <div id="cx-extcad">
+        <h1>Buscar Clientes</h1>
+         
+        <form action="/dashboard" method="GET">
+            <button type="submit" class="voltar-button" aria-label="Voltar">
+                <i class="fa-solid fa-angles-left"></i> <strong>Voltar</strong>
+            </button>
+        </form>   
+    </div>
+
+    <div id="cx-intcad">
+        <div id="jan-dads-busca">
+            <form method="POST">
+                <div class="input-group">
+                    <input type="text" name="nome" placeholder="Nome">
+                    <button type="submit">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </div>
+                
+                <div class="input-group">
+                    <input type="text" name="cpf" placeholder="CPF" oninput="formatarCpf(event)">
+                    <button type="button" onclick="limparCampos()"> 
+                        <i class="fas fa-broom"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+        
+        
+
+        <table class="custom-table">
+            {% if clientes|length == 0 %}
+            <tr class="custom-row">
+                <td colspan="4">Nenhum cliente encontrado.</td>
             </tr>
-        {% else %}
+            {% else %}
             {% for cliente in clientes %}
-            <tr>
-                <td>{{ cliente.numero_identificador }}</td>
-                <td>{{ cliente.nome }}</td>
-                <td>{{ cliente.cpf }}</td>
+            <tr class="custom-row">
                 <td>
-                    {% if cliente.documentos %}
-                        {% if cliente.documentos.identidade and cliente.documentos.identidade.arquivo %}
-                            <a href="{{ url_for('static', filename='uploads/' + cliente.documentos.identidade.arquivo) }}">Identidade</a><br>
-                        {% endif %}
-                        {% if cliente.documentos.cnh and cliente.documentos.cnh.arquivo %}
-                            <a href="{{ url_for('static', filename='uploads/' + cliente.documentos.cnh.arquivo) }}">CNH</a><br>
-                        {% endif %}
-                        {% if cliente.documentos.comprovante_endereco and cliente.documentos.comprovante_endereco.arquivo %}
-                            <a href="{{ url_for('static', filename='uploads/' + cliente.documentos.comprovante_endereco.arquivo) }}">Comprovante de Endereço</a><br>
-                        {% endif %}
-                        {% if cliente.documentos.outros and cliente.documentos.outros.arquivo %}
-                            <a href="{{ url_for('static', filename='uploads/' + cliente.documentos.outros.arquivo) }}">Outros Documentos</a><br>
-                        {% endif %}
-                    {% else %}
-                        Nenhum documento disponível
-                    {% endif %}
+                    <span class="titulo-claro">Nr.</span><br>
+                    <span class="valor-dado">{{ cliente.numero_identificador }}</span>
                 </td>
                 <td>
-                    <a href="{{ url_for('visualizar_cliente', numero_identificador=cliente.numero_identificador) }}">Visualizar</a>
+                    <span class="titulo-claro">Nome</span><br>
+                    <span class="valor-dado">{{ cliente.nome }}</span>
+                </td>
+                <td>
+                    <span class="titulo-claro">CPF</span><br>
+                    <span class="valor-dado">{{ cliente.cpf }}</span>
+                </td>
+                <td>
+                    
+                    <span class="valor-dado">
+
+
+                        <!-- <form action="{{ url_for('visualizar_cliente', numero_identificador=cliente.numero_identificador) }}" method="GET" style="display:inline;">
+                            <button type="submit">
+                                <i class="fas fa-eye"></i> Visualizar
+                            </button>
+                        </form> -->
+
+                        <a href="{{ url_for('visualizar_cliente', numero_identificador=cliente.numero_identificador) }}">
+                            <i class="fas fa-eye"></i>
+                        </a>
+
+                    </span>
                 </td>
             </tr>
             {% endfor %}
-        {% endif %}
-    </table>
-
-    <div class="pagination">
-        {% if page and page > 1 %}
-            <a href="{{ url_for('busca_cliente', page=page - 1) }}">Anterior</a>
-        {% endif %}
-        <span>Página {{ page or 1 }} de {{ total_pages or 1 }}</span>
-        {% if page and page < total_pages %}
-            <a href="{{ url_for('busca_cliente', page=page + 1) }}">Próxima</a>
-        {% endif %}
+            {% endif %}
+        </table>
+        
+        
+        
+        <div class="pagination">
+            {% if page and page > 1 %}
+                <a href="{{ url_for('busca_cliente', page=page - 1) }}">
+                    <i class="fa-solid fa-angle-left"></i> <!-- Ícone de voltar -->
+                   <strong>Anterior</strong> 
+                </a> 
+            {% endif %}
+            <strong><span>{{ page or 1 }} de {{ total_pages or 1 }}</span></strong>
+            {% if page and page < total_pages %}
+                <a href="{{ url_for('busca_cliente', page=page + 1) }}">
+                    <strong>Próxima</strong>
+                    <i class="fa-solid fa-angle-right"></i> <!-- Ícone de avançar -->
+                </a>
+            {% endif %}
+        </div>
+        
+           
     </div>
-     
-    <a href="{{ url_for('dashboard') }}" class="button">Voltar</a>
+        
+
+    
 </body>
 </html>

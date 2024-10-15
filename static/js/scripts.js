@@ -219,3 +219,139 @@ function updateFileName(input) {
     }
 }
 
+// funcao janela busca.html
+
+function formatarCpf(event) {
+    const input = event.target;
+    let value = input.value.replace(/\D/g, ''); // Remove caracteres não numéricos
+    if (value.length > 11) value = value.slice(0, 11); // Limita a 11 dígitos
+    const formattedCpf = value.replace(/(\d{3})(\d)/, '$1.$2') // Adiciona o primeiro ponto
+                               .replace(/(\d{3})(\d)/, '$1.$2') // Adiciona o segundo ponto
+                               .replace(/(\d{3})(\d{1,2})$/, '$1-$2'); // Adiciona o hífen
+    input.value = formattedCpf; // Atualiza o valor do input
+}
+
+function limparCampos() {
+    // Limpar os campos de busca
+    document.querySelector('input[name="nome"]').value = '';
+    document.querySelector('input[name="cpf"]').value = '';
+    
+    // Submeter o formulário sem filtros para restaurar o estado original
+    document.querySelector('form').submit();
+}
+
+// funções janela cadastro usuario.
+function mostrarOverlayCadastroUsuario(mensagem) {
+    const overlay = document.createElement('div');
+    overlay.style.position = 'fixed';
+    overlay.style.top = '0';
+    overlay.style.left = '0';
+    overlay.style.width = '100%';
+    overlay.style.height = '100%';
+    overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
+    overlay.style.display = 'flex';
+    overlay.style.justifyContent = 'center';
+    overlay.style.alignItems = 'center';
+    overlay.style.zIndex = '1000';
+
+    const mensagemDiv = document.createElement('div');
+    mensagemDiv.style.backgroundColor = 'white';
+    mensagemDiv.style.padding = '20px';
+    mensagemDiv.style.borderRadius = '10px';
+    mensagemDiv.style.textAlign = 'center';
+    mensagemDiv.innerText = mensagem;
+
+    const botaoFechar = document.createElement('button');
+    botaoFechar.innerText = 'Fechar';
+    botaoFechar.onclick = function () {
+        document.body.removeChild(overlay);
+    };
+
+    mensagemDiv.appendChild(botaoFechar);
+    overlay.appendChild(mensagemDiv);
+    document.body.appendChild(overlay);
+}
+
+function usuarioDuplicado() {
+    mostrarOverlayCadastroUsuario("O usuário informado já está cadastrado. Por favor, utilize um usuário diferente.");
+}
+
+function usuarioCadastradoSucesso(){
+    mostrarOverlayCadastroUsuario("Usuário cadastrado com sucesso!")
+}
+
+
+// função pagina de gerenciar usuário.
+function toggleUsuario(username, button) {
+    // Altere o estado do usuário (ativado/desativado)
+    const isActive = button.classList.contains('active');
+
+    // Aqui você pode fazer uma requisição AJAX para o seu backend se necessário
+    fetch(`/toggle_usuario/${username}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ status: !isActive }) // Envia o novo estado
+    })
+    .then(response => {
+        if (response.ok) {
+            // Atualiza a interface do usuário
+            button.classList.toggle('active', !isActive);
+            button.classList.toggle('inactive', isActive);
+            button.textContent = isActive ? 'Ativar' : 'Desativar';
+        } else {
+            // Lida com erros
+            console.error('Erro ao atualizar o status do usuário');
+        }
+    })
+    .catch(error => {
+        console.error('Erro ao fazer a requisição:', error);
+    });
+}
+
+// Quantidade de usuários por página
+const rowsPerPage = 5; 
+let currentPage = 1;
+const rows = document.querySelectorAll('.custom-row-user');
+const totalPages = Math.ceil(rows.length / rowsPerPage);
+
+// Função para atualizar a exibição dos usuários
+function displayRows(page) {
+    const start = (page - 1) * rowsPerPage;
+    const end = page * rowsPerPage;
+
+    rows.forEach((row, index) => {
+        if (index >= start && index < end) {
+            row.style.display = 'block'; // Exibe a linha
+        } else {
+            row.style.display = 'none'; // Oculta a linha
+        }
+    });
+
+    // Atualiza os controles de navegação
+    document.getElementById('page-info').innerText = `Página ${page}`;
+    document.getElementById('prev-btn').disabled = page === 1;
+    document.getElementById('next-btn').disabled = page === totalPages;
+}
+
+// Função para ir para a próxima página
+function nextPage() {
+    if (currentPage < totalPages) {
+        currentPage++;
+        displayRows(currentPage);
+    }
+}
+
+// Função para ir para a página anterior
+function prevPage() {
+    if (currentPage > 1) {
+        currentPage--;
+        displayRows(currentPage);
+    }
+}
+
+// Inicializa a exibição com a primeira página
+document.addEventListener('DOMContentLoaded', function() {
+    displayRows(currentPage);
+});

@@ -2,61 +2,86 @@
 <html lang="pt-BR">
 <head>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-    <script>
-        function mostrarOverlay(mensagem) {
-            const overlay = document.createElement('div');
-            overlay.style.position = 'fixed';
-            overlay.style.top = '0';
-            overlay.style.left = '0';
-            overlay.style.width = '100%';
-            overlay.style.height = '100%';
-            overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
-            overlay.style.display = 'flex';
-            overlay.style.justifyContent = 'center';
-            overlay.style.alignItems = 'center';
-            overlay.style.zIndex = '1000';
-
-            const mensagemDiv = document.createElement('div');
-            mensagemDiv.style.backgroundColor = 'white';
-            mensagemDiv.style.padding = '20px';
-            mensagemDiv.style.borderRadius = '10px';
-            mensagemDiv.style.textAlign = 'center';
-            mensagemDiv.innerText = mensagem;
-
-            const botaoFechar = document.createElement('button');
-            botaoFechar.innerText = 'Fechar';
-            botaoFechar.onclick = function () {
-                document.body.removeChild(overlay);
-            };
-
-            mensagemDiv.appendChild(botaoFechar);
-            overlay.appendChild(mensagemDiv);
-            document.body.appendChild(overlay);
-        }
-        
-        function usuarioDuplicado() {
-            mostrarOverlay("O usuário informado já está cadastrado. Por favor, utilize um usuário diferente.");
-        }
-
-        function usuarioCadastradoSucesso(){
-            mostrarOverlay("Usuário cadastrado com sucesso!")
-        }
-    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="{{ url_for('static', filename='js/scripts.js') }}" defer></script>
 </head>
 <body>
-    <h1>Cadastrar Usuário</h1>
-    <form onsubmit="cadastrarUsuario(event)">
-        <input type="text" name="nome" placeholder="Nome" required>
-        <input type="text" name="username" placeholder="Nome de Usuário" required>
-        <input type="password" name="senha" placeholder="Senha" required>
-        <label>
-            Tipo de Acesso:
-            <input type="radio" name="tipo_acesso" value="Administrador" required> Administrador
-            <input type="radio" name="tipo_acesso" value="Padrão" required> Padrão
-        </label>
-        <button type="submit">Cadastrar</button>
-    </form>
+    <div id="cx-extcad">
+        <h1>Gerenciar Usuários</h1>
+        <form action="/dashboard" method="GET">
+            <button type="submit" class="voltar-button" aria-label="Voltar">
+                <i class="fa-solid fa-angles-left"></i> <strong>Voltar</strong>
+            </button>
+        </form> 
+    </div>
     
+    <div id="cx-intcad">
+        <div id="jan-cad-dads">
+            <div id="jan-cad-tipo">
+                <div class="input-group">
+
+                    <form onsubmit="cadastrarUsuario(event)">
+
+                        <input type="text" name="nome" placeholder="Nome" required>
+                        <input type="text" name="username" placeholder="Nome de Usuário" required>
+                        <input type="password" name="senha" placeholder="Senha" required>    
+                        
+                    </form>
+
+                    <button type="submit"><i class="fa-solid fa-floppy-disk"></i></button>
+                </div>
+            </div> 
+            
+            <div class="input-group-ratio">
+                    <input type="radio" name="tipo_acesso" value="Administrador" required> Administrador
+                    <input type="radio" name="tipo_acesso" value="Padrão" required> Padrão     
+            </div> 
+        </div>
+        
+        <div class="cx-3">
+            <fieldset class="custom-field-usuarios">
+                <legend>Usuários Cadastrados</legend>
+                <div id="user-list" class="custom-table-user">
+                    {% for usuario in usuarios %}
+                    <div class="custom-row-user">
+                        <div class="user-info">
+                            <div class="user-field">
+                                <label><strong>Nome:</strong></label>
+                                <span>{{ usuario.nome }}</span>
+                            </div>
+                            <div class="user-field">
+                                <label><strong>Usuário:</strong></label>
+                                <span>{{ usuario.username }}</span>
+                            </div>
+                            <div class="user-field">
+                                <label><strong>Ações:</strong></label>
+                                <form action="{{ url_for('toggle_usuario', username=usuario.username) }}" method="POST" style="display:block;">
+                                    <button type="submit">{{ 'Desativar' if usuario.status_usuario else 'Ativar' }}</button>
+                                </form>
+                                <form action="{{ url_for('resetar_senha', username=usuario.username) }}" method="POST" style="display:block;">
+                                    <button type="submit">Resetar Senha</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Botões de Paginação -->
+                <div id="pagination-controls">
+                    <button onclick="prevPage()" id="prev-btn" disabled><i class="fa-solid fa-angle-left"></i></button>
+                   <button onclick="nextPage()" id="next-btn"><i class="fa-solid fa-angle-right"></i></button>  
+                </div>
+                
+
+
+            </fieldset>
+
+
+        </div>
+    </div>
+
+
     {% if usuario_duplicado %}
     <script>
         usuarioDuplicado();
@@ -67,31 +92,5 @@
         usuarioCadastradoSucesso();
     </script>
     {% endif %}
-
-    <h2>Usuários Cadastrados</h2>
-    <table>
-        <tr>
-            <th>Nome</th>
-            <th>Nome de Usuário</th>
-            <th>Ações</th>
-        </tr>
-        {% for usuario in usuarios %}
-        <tr>
-            <td>{{ usuario.nome }}</td>
-            <td>{{ usuario.username }}</td>
-            <td>
-                <form action="{{ url_for('toggle_usuario', username=usuario.username) }}" method="POST" style="display:inline;">
-                    <button type="submit">{{ 'Desativar' if usuario.status_usuario else 'Ativar' }}</button>
-                </form>
-                <form action="{{ url_for('resetar_senha', username=usuario.username) }}" method="POST" style="display:inline;">
-                    <button type="submit">Resetar Senha</button>
-                </form>
-            </td>
-            
-        </tr>
-        {% endfor %}
-    </table>
-
-    <a href="{{ url_for('dashboard') }}" class="button">Voltar</a>
 </body>
 </html>

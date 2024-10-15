@@ -200,7 +200,7 @@ def busca_cliente():
     total_pages = 1
 
     # Definir o número de documentos por página
-    documentos_por_pagina = 10
+    documentos_por_pagina = 7
 
     if request.method == 'POST':
         nome = request.form.get('nome', '').strip()

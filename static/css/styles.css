@@ -87,11 +87,13 @@ body {
     border-radius: 20px;
     cursor: pointer;
     width: 70%; /* Largura total do botão */
-    justify-content: center
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); /* Adiciona sombra */
+
 }
 
 #botao-login:hover {
-    background-color: #64c5cf; /* Efeito ao passar o mouse */
+    background-color: #64c5cf; /* Efeito ao passar o mouse TESTEE*/ 
 }
 
 /* Estilos para o formulário */
@@ -146,7 +148,19 @@ form {
     left: 50%; /* Centraliza horizontalmente */
     transform: translateX(-50%); /* Garante que a caixa externa esteja centralizada */
     padding-bottom: 100px
-}   
+}  
+
+.cx-3 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#cx-3 h2{
+   text-align: center;
+
+}
 
 .button-container {
     display: flex; /* Torna o contêiner flexível */
@@ -179,8 +193,8 @@ form {
     font-weight: bold; /* Fonte em negrito */
     transition: background-color 0.3s; /* Efeito de transição */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra padrão dos botões */
-    }
-
+    border-radius: 20px;
+}
 
 
 /* Efeito de hover para o botão Cadastrar Cliente */
@@ -233,6 +247,13 @@ form {
     text-decoration: none;
 }
 
+.left-icon {
+    margin: 0 0 20px 0;
+    color: #012c30;
+    font-size: 22px;
+    text-decoration: none;
+}
+
 
 /* Estilização dos inputs */
 input {
@@ -255,25 +276,6 @@ input {
     width: 120px; /* Define a largura da imagem */
     height: auto; /* Mantém a proporção original da imagem */
 }
-
-
-/* Estilo do botão */
-button {
-    padding: 10px 20px;
-    background-color: #16737D;
-    color: white;
-    border: none;
-    border-radius: 20px;
-    cursor: pointer;
-    width: 100%; /* Largura total do botão */
-}
-
-button:hover {
-    background-color: #1da5b4; /* Efeito ao passar o mouse */
-}
-
-/* Responsividade para telas menores */
-
 
 
 /* Estilo para o overlay */
@@ -312,8 +314,123 @@ button:hover {
 /* Janela cadastro */
 
 #jan-cad-dads {
+    display: flex;
+    flex-direction: column;
     font-family: "Outfit", sans-serif;
     padding: 15px;
+    max-width: 350px; /* Define um limite máximo de largura */
+    margin: 10px auto; /* Centraliza o contêiner horizontalmente */
+}
+
+#jan-dads-busca {
+    display: flex;
+    flex-direction: column; /* Mantém os grupos de input um abaixo do outro */
+    font-family: "Outfit", sans-serif;
+    padding: 15px;
+    width: 350px;
+    margin: 10px auto;
+}
+
+#jan-cad-tipo {
+    display: flex;
+    flex-direction: column; /* Mantém os grupos de input um abaixo do outro */
+    font-family: "Outfit", sans-serif;
+    width: 350px;
+    margin: auto;
+}
+
+#jan-cad-tipo button{
+    width: 45px; /* Largura total do input*/
+    height: 45px; /* Ajusta a altura total do input */
+}
+
+.input-group  {
+    width: 200px; /* Largura total do input */
+    display: flex; /* Alinhamento flexível dos elementos */
+    justify-content: center; /* Centraliza os itens horizontalmente */
+    align-items: center; /* Centraliza verticalmente */
+    padding: 0; /* Remove padding */
+    margin: 10px auto;
+}
+
+.input-group-ratio {
+    width: 260px; /* Largura total do input */
+    height: 20px;
+    display: flex; /* Alinhamento flexível dos elementos */
+    justify-content: center; /* Centraliza os itens horizontalmente */
+    align-items: center; /* Centraliza verticalmente */
+    gap: -20px; /* Adiciona espaçamento entre os inputs */
+    margin: 12px;
+}
+
+
+.input-group-ratio input[type="radio"] {
+    transform: scale(0.5); /* Ajusta o tamanho do input radio */
+    padding: auto;
+}
+
+
+.input-group-tipo button {
+    background-color: #16737d; /* Cor de fundo do botão */
+    font-weight: bold; /* Torna o texto em negrito */
+    color: #ffffff;
+    border: none; /* Remove a borda padrão */
+    border-radius: 30px; /* Borda arredondada */
+    padding: 0px 10px; /* Espaçamento interno */
+    width: 260px; /* Largura total do input */
+    height: 45px; /* Ajusta a altura total do input */
+    cursor: pointer; /* Mostra que o botão é clicável */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); /* Adiciona sombra */
+}
+
+.input-group-tipo button:hover {
+    background-color: #429186; /* Cor de fundo do botão */
+
+}
+
+.input-group-tipo button i {
+    color: #cacaca; /* Cor do ícone */
+    font-size: 24px; /* Tamanho do ícone */
+}
+
+
+
+
+
+
+
+.input-group {
+    display: flex; /* Faz com que os inputs e botões dentro do grupo fiquem lado a lado */
+    align-items: center; /* Alinha verticalmente os itens no centro */
+    margin-bottom: 10px; /* Espaço entre os grupos de input */
+}
+
+.input-group input {
+    margin-right: 10px; /* Espaçamento entre o input e o botão */
+    flex: 1; /* Faz o input ocupar o máximo de espaço disponível */
+}
+
+.input-group button {
+    background-color: #16737d; /* Cor de fundo do botão */
+    border: none; /* Remove a borda padrão */
+    border-radius: 5px; /* Borda arredondada */
+    padding: 5px 10px; /* Espaçamento interno */
+    width: 50px; /* Largura */
+    height: 45px; /* Altura */
+    border-radius: 20px;
+    cursor: pointer; /* Mostra que o botão é clicável */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); /* Adiciona sombra */
+
+}
+
+.input-group button:hover {
+    background-color: #429186; /* Cor de fundo do botão */
+
+}
+
+.input-group button i {
+    color: #cacaca; /* Cor do ícone */
+    font-size: 24px; /* Tamanho do ícone */
 }
 
 #cx-extcad {
@@ -348,12 +465,14 @@ button:hover {
     border: none;
     font-weight: bold;
     color: #012c30;
+    margin-top: -30px;
 }
 
 .fielset-Nr input {
     width: 60px;
     height: 10px;
     border-radius: 5px;
+    
 }
 
 
@@ -364,7 +483,7 @@ button:hover {
     width: 70vw; /* Ocupa 70% da largura da tela em telas maiores */
     min-width: 300px; /* Largura mínima */
     min-height: 500px; /* Altura mínima */
-    height: 770px; /* Ocupa 60% da altura da tela */
+    height: 820px; /* Ocupa 60% da altura da tela */
     background-color: #ffffff; /* Cor de fundo */
     border-radius: 15px; /* Bordas arredondadas nas bordas inferiores */
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); /* Adiciona sombra */
@@ -372,6 +491,21 @@ button:hover {
     left: 50%; /* Centraliza horizontalmente */
     transform: translateX(-50%); /* Garante que a caixa externa esteja centralizada */
 } 
+
+.custom-field-usuarios {
+    display: flex;
+    flex-direction: column; /* Para empilhar itens verticalmente */
+    justify-content: flex-start; /* Alinha os itens no início do campo */
+    border: 0.5px solid #ccc; /* Borda padrão */
+    border-radius: 10px; /* Bordas arredondadas */
+    padding: 5px; /* Espaçamento interno */
+    background-color: #f9f9f9; /* Cor de fundo suave */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Sombra sutil */
+    height: 530px; /* Altura fixa */
+    width: 350px; /* Largura fixa */
+    margin-bottom: 15px; /* Espaçamento inferior */
+    overflow: hidden; /* Impede que o conteúdo expanda o campo */
+}
 
 .custom-field-documents {
     display: flex;
@@ -505,8 +639,9 @@ textarea:focus {
 .document-row {
     display: flex;
     flex-wrap: wrap; 
-    gap: 10px; /* Adiciona espaço entre as colunas */
+    gap: 5px; /* Adiciona espaço entre as colunas */
     justify-content: space-between; 
+    margin-top: 5px;
 }
 
 .document-column {
@@ -520,7 +655,7 @@ textarea:focus {
     
 }
 
-button.btn-salvar {
+button.btn-bigaction {
     background-color: #16737d;
     color: white;
     font-size: 16px;
@@ -534,7 +669,7 @@ button.btn-salvar {
     transition: background-color 0.3s;
 }
 
-button.btn-salvar:hover {
+button.btn-bigaction:hover {
     background-color: #145b5e;
 }
 
@@ -545,11 +680,183 @@ button.btn-salvar:hover {
     align-items: center;
 }
 
+
+/* Estilização tabelas usuários */
+.custom-table-user {
+    margin: auto; /* Centraliza a lista */
+}
+
+.custom-row-user {
+    display: flex;
+    align-items: center;
+    width: 340px;
+    background: linear-gradient(149deg, #16636c, #29a0ad); /* Degradê diagonal */
+    border-radius: 8px; /* Bordas arredondadas */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4); /* Sombra */
+    margin-bottom: 10px; /* Espaçamento entre os itens */
+    transition: background-color 0.3s, box-shadow 0.3s; /* Efeito suave */
+    justify-content: center; /* Espaça os itens para as extremidades */
+    margin: 5px auto;
+}
+
+.custom-row-user:hover{
+    box-shadow: 0 5px 7px rgba(0, 0, 0, 0.6); /* Sombra */
+    width: 342px;
+}
+
+
+
+.user-info {
+    display: flex; /* Alinha os itens em linha */
+    justify-content: space-between; /* Espaça os itens */
+    align-items: flex-start; /* Alinha os itens no início */
+    padding: 9px;
+}
+
+.user-field {
+    font-size: 12px;
+    display: flex; /* Usando flexbox para empilhar título e valor */
+    flex-direction: column; /* Título em cima do valor */
+    margin-right: 12px; /* Espaço entre os campos */
+    margin-bottom: 5px;
+    align-items: center; /* Centraliza horizontalmente */
+    justify-self: center;
+}
+
+.user-field label {
+    margin-bottom: 5px; /* Espaçamento abaixo do label */
+    font-weight: bold; /* Negrito para os títulos */
+    color: #204f54;
+    align-items: center;
+
+}
+
+
+.user-info span {
+    margin: 10px auto;
+    align-items: center; /* Centraliza horizontalmente */
+    justify-items: center;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/*Estilização das tabelas clientes*/
+
+.custom-table {
+    font-size: 14px;
+    border-collapse: separate; /* Permite o espaçamento entre as linhas */
+    border-spacing: 0 10px; /* Adiciona espaçamento de 5px entre as linhas */
+    width: 97%; /* Faz com que a tabela ocupe 97% da largura disponível */
+    margin: 0 auto; /* Centraliza a tabela horizontalmente */
+    width: 350px;
+}
+
+.custom-row {
+    background-color: #ffffff; /* Cor de fundo das linhas */
+    border-radius: 8px; /* Bordas arredondadas */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4); /* Adiciona sombreamento */
+    transition: background-color 0.3s, box-shadow 0.3s; /* Adiciona transição suave */
+}
+
+.custom-row:hover {
+    background-color: #e0e0e0; /* Cor de fundo ao passar o mouse */
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.6); /* Aumenta o sombreamento ao passar o mouse */
+}
+
+.custom-row th, .custom-row td {
+    padding: 10px;
+    text-align: center;
+    border: none; /* Remove qualquer borda padrão da tabela */
+}
+
+.custom-row th {
+    background-color: #f0f0f0; /* Cor de fundo para o cabeçalho */
+}
+
+.custom-row td {
+    background-color: #fff; /* Cor de fundo para células de dados */
+    border-radius: 8px; /* Aplicando bordas arredondadas em cada célula */
+}
+
+.titulo-claro {
+    color: #16737D; /* Cor azul para títulos */
+    font-weight: bold; /* Deixa o título em negrito */
+}
+
+.valor-dado {
+    color: #012c30; /* Cor padrão para os valores dos dados */
+}
+
+
+.valor-dado a:hover {
+    color: #aaaaaa; /* Cor do ícone ao passar o mouse */
+}
+
+.valor-dado a:visited {
+    color: #16737D; /* Mantém a cor do ícone como no estado normal */
+}
+
+.voltar-button {
+    background: none; /* Remove o fundo */
+    border: none; /* Remove a borda */
+    color: #012c30; /* Cor do texto */
+    font-size: 16px; /* Tamanho da fonte */
+    cursor: pointer; /* Muda o cursor para pointer */
+    display: flex; /* Alinha o ícone e texto */
+    align-items: center; /* Centraliza verticalmente */
+}
+
+.voltar-button i {
+    margin-right: 5px; /* Espaço entre o ícone e o texto */
+}
+
+.voltar-button:hover {
+    color: #012c30
+
+}
+
+.pagination {
+    display: flex; /* Utiliza flexbox para alinhar itens */
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center; /* Centraliza verticalmente */
+    margin: 25px 0; /* Margem em cima e embaixo */
+}
+
+.pagination a {
+    text-decoration: none; /* Remove o sublinhado dos links */
+    color: #145b5e; /* Cor dos links */
+    margin: 0 15px; /* Espaçamento entre os links */
+    font-size: 16px; /* Tamanho da fonte dos links */
+}
+
+.pagination span {
+    margin: 0 10px; /* Espaçamento em volta do texto da página */
+    font-size: 16px; /* Tamanho da fonte do texto da página */
+}
+
+/* Efeito ao passar o mouse nos links */
+.pagination a:hover {
+    color: #aaaaaa; /* Muda a cor ao passar o mouse */
+}
+
+
+
 @media (max-width: 700px) {
     #cx-extlgn {
         width: 90vw; /* Ocupa 100% da largura da tela em dispositivos móveis */
         height: 59vh; /* Ocupa 100% da altura da tela em dispositivos móveis */
         border-radius: 0 0 20px 20px; /* Remove as bordas arredondadas em dispositivos móveis */
+        min-width: 400px;
     }
     #cx-intlgn {
         /* Mantém o tamanho fixo da caixa interna */
@@ -557,27 +864,32 @@ button.btn-salvar:hover {
         height: 412px; /* Altura fixa */
         top: 542px; /* Centraliza verticalmente em dispositivos móveis */
         transform: translate(-50%, -50%); /* Garante centralização horizontal e vertical */
+        min-width: 400px;
     }
     #cx-extdash {
-        width: 90%; /* Ocupa 100% da largura da tela em dispositivos móveis */
+        width: 100%; /* Ocupa 100% da largura da tela em dispositivos móveis */
         height: 97%; /* Ocupa 100% da altura da tela em dispositivos móveis */
         border-radius: 0 0 20px 20px; /* Remove as bordas arredondadas em dispositivos móveis */
+        min-width: 400px;
     }
     #cx-intdash {
-        width: 95%; /* Ocupa 100% da largura da tela em dispositivos móveis */
+        width: 100%; /* Ocupa 100% da largura da tela em dispositivos móveis */
         height: 30px; /* Ocupa 100% da altura da tela em dispositivos móveis */
         border-radius: 0 0 20px 20px; /* Remove as bordas arredondadas em dispositivos móveis */
+        min-width: 400px;
     }
     #cx-extcad {
         width: 95%; /* Ocupa 100% da largura da tela em dispositivos móveis */
         height: 93px; /* Ocupa 100% da altura da tela em dispositivos móveis */
         border-radius: 0 0 20px 20px; /* Remove as bordas arredondadas em dispositivos móveis */
+        min-width: 400px;
     }
 
     #cx-intcad {
         width: 95%; /* Ocupa 100% da largura da tela em dispositivos móveis */
         height: 782px; /* Ocupa 100% da altura da tela em dispositivos móveis */
         border-radius: 20px 20px 20px 20px; /* Remove as bordas arredondadas em dispositivos móveis */
+        min-width: 400px;
     }
 
 }
