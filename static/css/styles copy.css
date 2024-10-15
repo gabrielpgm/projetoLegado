@@ -717,25 +717,22 @@ button.btn-bigaction:hover {
     background: linear-gradient(149deg, #797878, #a5a5a5);
     color: white;
 }
+/*------------------------------------*/
 
+
+
+
+
+
+
+
+/*------------------------------------*/
 .user-info {
     display: flex; /* Alinha os itens em linha */
     justify-content: space-between; /* Espaça os itens */
     align-items: flex-start; /* Alinha os itens no início */
     padding: 9px;
 }
-
-.password-icons, .status-icons {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 10px auto;
-}
-
-.password-icons i, .status-icons i {
-    margin: 0 5px; /* Adiciona um espaço entre os ícones */
-}
-
 
 .user-field {
     font-size: 12px;
@@ -878,7 +875,7 @@ button.btn-bigaction:hover {
     justify-content: space-between; /* Espaça os botões nos extremos */
     align-items: center; /* Centraliza os botões verticalmente */
     width: 100%; /* Define a largura total do contêiner */
-
+    padding: 10px; /* Espaçamento interno */
 }
 
 #pagination-controls button {
@@ -886,7 +883,7 @@ button.btn-bigaction:hover {
     color: white; /* Cor do texto */
     border: none; /* Remove a borda padrão */
     border-radius: 5px; /* Bordas arredondadas */
-    padding: 10px 10px; /* Espaçamento interno do botão */
+    padding: 10px 15px; /* Espaçamento interno do botão */
     cursor: pointer; /* Aplica o cursor de ponteiro ao passar por cima */
     transition: background-color 0.3s ease; /* Efeito de transição suave */
 }

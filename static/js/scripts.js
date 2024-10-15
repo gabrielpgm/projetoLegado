@@ -355,3 +355,76 @@ function prevPage() {
 document.addEventListener('DOMContentLoaded', function() {
     displayRows(currentPage);
 });
+
+
+
+// função teste toogle
+document.addEventListener("DOMContentLoaded", function() {
+    // Ao carregar a página, aplique a classe correta (ativo/inativo) com base no atributo data-status
+    const userRows = document.querySelectorAll('.custom-row-user');
+    
+    userRows.forEach(row => {
+        const status = row.getAttribute('data-status');
+        if (status === 'active') {
+            row.classList.add('user-active');
+        } else {
+            row.classList.add('user-inactive');
+        }
+    });
+});
+
+function toggleUserStatus(username) {
+    // Seleciona a linha do usuário e os ícones correspondentes
+    const userRow = document.getElementById(`user-${username}`);
+    const thumbUpIcon = document.getElementById(`thumb-up-${username}`);
+    const thumbDownIcon = document.getElementById(`thumb-down-${username}`);
+
+    // Verifica se o usuário está ativo ou inativo
+    const isActive = userRow.classList.contains('user-active');
+
+    // Alterna a classe CSS da linha do usuário e a exibição dos ícones
+    if (isActive) {
+        userRow.classList.remove('user-active');
+        userRow.classList.add('user-inactive');
+        thumbUpIcon.style.display = 'none'; // Esconde o ícone de thumbs-up
+        thumbDownIcon.style.display = 'inline'; // Mostra o ícone de thumbs-down
+        userRow.setAttribute('data-status', 'inactive'); // Atualiza o atributo de status
+    } else {
+        userRow.classList.remove('user-inactive');
+        userRow.classList.add('user-active');
+        thumbUpIcon.style.display = 'inline'; // Mostra o ícone de thumbs-up
+        thumbDownIcon.style.display = 'none'; // Esconde o ícone de thumbs-down
+        userRow.setAttribute('data-status', 'active'); // Atualiza o atributo de status
+    }
+
+    // Aqui você pode também enviar uma requisição Ajax ou similar
+    // para atualizar o status no backend, se necessário.
+}
+
+function resetPassword(username) {
+    // Seleciona os ícones de lock e unlock
+    const lockIcon = document.getElementById(`lock-${username}`);
+    const unlockIcon = document.getElementById(`unlock-${username}`);
+
+    // Faz uma requisição AJAX para redefinir a senha no backend
+    fetch(`/resetar_senha/${username}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+    .then(response => {
+        if (response.ok) {
+            // Alterna os ícones: esconde o lock, mostra o unlock
+            lockIcon.style.display = 'none';
+            unlockIcon.style.display = 'inline';
+        } else {
+            console.error('Falha ao redefinir a senha.');
+        }
+    })
+    .catch(error => console.error('Erro na requisição:', error));
+}
+
+
+
+

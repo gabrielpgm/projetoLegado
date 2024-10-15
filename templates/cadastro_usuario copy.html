@@ -42,51 +42,37 @@
             <fieldset class="custom-field-usuarios">
                 <legend>Usuários Cadastrados</legend>
 
+
+
+
+
+
+
                 <div id="user-list" class="custom-table-user">
                     {% for usuario in usuarios %}
-                    <div class="custom-row-user user-{{ 'active' if usuario.status_usuario else 'inactive' }}" id="user-{{ usuario.username }}" data-status="{{ 'active' if usuario.status_usuario else 'inactive' }}">
+                    <div class="custom-row-user" id="user-{{ usuario.username }}" data-status="{{ 'active' if usuario.status_usuario else 'inactive' }}">
                         <div class="user-info">
                             <div class="user-field">
-                                <label><strong>Nome</strong></label>
+                                <label><strong>Nome:</strong></label>
                                 <span>{{ usuario.nome }}</span>
                             </div>
                             <div class="user-field">
-                                <label><strong>Usuário</strong></label>
+                                <label><strong>Usuário:</strong></label>
                                 <span>{{ usuario.username }}</span>
                             </div>
                             <div class="user-field">
-                                <label><strong>Senha Padrão</strong></label>
-                                <div class="password-icons">
-                                    <!-- Ícone lock para senha padrão -->
-                                    <i class="fa-solid fa-lock" id="lock-{{ usuario.username }}" 
-                                       onclick="resetPassword('{{ usuario.username }}')" 
-                                       style="color: orange; display: inline;"></i>
-                                    <!-- Ícone unlock para senha alterada -->
-                                    <i class="fa-solid fa-unlock" id="unlock-{{ usuario.username }}" 
-                                       style="color: blue; display: none;"></i>
-                                </div>
-                            </div>
-                            <div class="user-field">
-                                <label><strong>Ativar</strong></label>
-                                <div class="status-icons">
-                                    <!-- Ícone thumbs-up para ativo (verde) -->
-                                    <i class="fa-solid fa-thumbs-up" id="thumb-up-{{ usuario.username }}" 
-                                       onclick="toggleUserStatus('{{ usuario.username }}')" 
-                                       style="color: green; display: {{ 'inline' if usuario.status_usuario else 'none' }}"></i>
-                                    <!-- Ícone thumbs-down para inativo (vermelho) -->
-                                    <i class="fa-solid fa-thumbs-down" id="thumb-down-{{ usuario.username }}" 
-                                       onclick="toggleUserStatus('{{ usuario.username }}')" 
-                                       style="color: red; display: {{ 'none' if usuario.status_usuario else 'inline' }}"></i>
-                                </div>
+                                <label><strong>Ações:</strong></label>
+                                <form action="{{ url_for('toggle_usuario', username=usuario.username) }}" method="POST" onsubmit="toggleUserStatus('{{ usuario.username }}'); return false;">
+                                    <button type="submit" id="toggle-btn-{{ usuario.username }}">{{ 'Desativar' if usuario.status_usuario else 'Ativar' }}</button>
+                                </form>
+                                <form action="{{ url_for('resetar_senha', username=usuario.username) }}" method="POST" style="display:block;">
+                                    <button type="submit">Resetar Senha</button>
+                                </form>
                             </div>
                         </div>
                     </div>
                     {% endfor %}
                 </div>
-                
-                
-                
-                
                 
                 
 
