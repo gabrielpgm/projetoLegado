@@ -344,6 +344,10 @@ input {
     height: 45px; /* Ajusta a altura total do input */
 }
 
+
+
+
+
 .input-group  {
     width: 200px; /* Largura total do input */
     display: flex; /* Alinhamento flexível dos elementos */
@@ -353,8 +357,18 @@ input {
     margin: 10px auto;
 }
 
+.input-group-busca  {
+    width: 300px; /* Largura total do input */
+    display: flex; /* Alinhamento flexível dos elementos */
+    justify-content: center; /* Centraliza os itens horizontalmente */
+    align-items: center; /* Centraliza verticalmente */
+    padding: 0; /* Remove padding */
+    margin: 10px auto;
+    gap: 10px;
+}
+
 .input-group-ratio {
-    width: 260px; /* Largura total do input */
+    width: 280px; /* Largura total do input */
     height: 20px;
     display: flex; /* Alinhamento flexível dos elementos */
     justify-content: center; /* Centraliza os itens horizontalmente */
@@ -394,18 +408,8 @@ input {
 }
 
 
-
-
-
-
-
-.input-group {
-    display: flex; /* Faz com que os inputs e botões dentro do grupo fiquem lado a lado */
-    align-items: center; /* Alinha verticalmente os itens no centro */
-    margin-bottom: 10px; /* Espaço entre os grupos de input */
-}
-
 .input-group input {
+    width: 260px;
     margin-right: 10px; /* Espaçamento entre o input e o botão */
     flex: 1; /* Faz o input ocupar o máximo de espaço disponível */
 }
@@ -416,6 +420,17 @@ input {
     border-radius: 5px; /* Borda arredondada */
     padding: 5px 10px; /* Espaçamento interno */
     width: 50px; /* Largura */
+    height: 45px; /* Altura */
+    border-radius: 20px;
+    cursor: pointer; /* Mostra que o botão é clicável */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); /* Adiciona sombra */
+
+}
+.input-group-busca button {
+    background-color: #16737d; /* Cor de fundo do botão */
+    border: none; /* Remove a borda padrão */
+    border-radius: 5px; /* Borda arredondada */
+    width: 45px; /* Largura */
     height: 45px; /* Altura */
     border-radius: 20px;
     cursor: pointer; /* Mostra que o botão é clicável */
@@ -676,10 +691,6 @@ button.btn-bigaction:hover {
 
 
 
-.input-group {
-    display: flex;
-    align-items: center;
-}
 
 
 /* Estilização tabelas usuários */
@@ -730,10 +741,16 @@ button.btn-bigaction:hover {
     justify-content: center;
     align-items: center;
     margin: 10px auto;
+    size: 10px;
 }
 
 .password-icons i, .status-icons i {
     margin: 0 5px; /* Adiciona um espaço entre os ícones */
+    transition: transform 0.3s ease; /* Efeito suave na transformação */
+}
+
+.password-icons i:hover, .status-icons i:hover {
+    transform: scale(1.2); /* Aumenta o tamanho do ícone ao passar o mouse */
 }
 
 
@@ -762,14 +779,6 @@ button.btn-bigaction:hover {
     justify-items: center;
 
 }
-
-
-
-
-
-
-
-
 
 
 
@@ -899,19 +908,6 @@ button.btn-bigaction:hover {
     background-color: #ccc; /* Cor de fundo para o botão desabilitado */
     cursor: not-allowed; /* Muda o cursor para 'não permitido' */
 }
-
-
-
-/*teste estilização*/
-
-/* Estilo para usuários ativos */
-/* Mantém o estilo base */
-
-
-/* Estilo para usuários ativos */
-
-
-
 
 
 
