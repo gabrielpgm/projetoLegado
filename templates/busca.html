@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-    
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">   
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
@@ -37,59 +36,75 @@
         </div>
         
         
+        <fieldset id="pagination">
+            <table class="custom-table">
+                {% if clientes|length == 0 %}
+                <tr class="custom-row">
+                    <td colspan="4">Nenhum cliente encontrado.</td>
+                </tr>
+                {% else %}
+                {% for cliente in clientes %}
+                <tr class="custom-row">
+                    <td>
+                        <span class="titulo-claro">Nr.</span><br>
+                        <span class="valor-dado">{{ cliente.numero_identificador }}</span>
+                    </td>
+                    <td>
+                        <span class="titulo-claro">Nome</span><br>
+                        <span class="valor-dado">{{ cliente.nome }}</span>
+                    </td>
+                    <td>
+                        <span class="titulo-claro">CPF</span><br>
+                        <span class="valor-dado">{{ cliente.cpf }}</span>
+                    </td>
+                    <td>
+                        
+                        <span class="valor-dado">
 
-        <table class="custom-table">
-            {% if clientes|length == 0 %}
-            <tr class="custom-row">
-                <td colspan="4">Nenhum cliente encontrado.</td>
-            </tr>
-            {% else %}
-            {% for cliente in clientes %}
-            <tr class="custom-row">
-                <td>
-                    <span class="titulo-claro">Nr.</span><br>
-                    <span class="valor-dado">{{ cliente.numero_identificador }}</span>
-                </td>
-                <td>
-                    <span class="titulo-claro">Nome</span><br>
-                    <span class="valor-dado">{{ cliente.nome }}</span>
-                </td>
-                <td>
-                    <span class="titulo-claro">CPF</span><br>
-                    <span class="valor-dado">{{ cliente.cpf }}</span>
-                </td>
-                <td>
+                            <button class="ver-button" onclick="location.href='{{ url_for('visualizar_cliente', numero_identificador=cliente.numero_identificador) }}'">
+                                <i class="fas fa-eye ver-icon"></i>
+                            </button>
+                            
+
+                        </span>
+                    </td>
+                </tr>
+                {% endfor %}
+                {% endif %}
+            </table>
+        
+        
+        
+            <div id="pagination-controls">
+                {% if page and page > 1 %}
+                    <button onclick="location.href='{{ url_for('busca_cliente', page=page - 1) }}'" id="prev-btn">
+                        <i class="fa-solid fa-angle-left"></i> <!-- Ícone de voltar -->
+                        
+                    </button>
+                {% else %}
+                    <button id="prev-btn" disabled>
+                        <i class="fa-solid fa-angle-left"></i> <!-- Ícone de voltar -->
+                        
+                    </button>
+                {% endif %}
+            
+                <strong><span>{{ page or 1 }} de {{ total_pages or 1 }}</span></strong>
+            
+                {% if page and page < total_pages %}
+                    <button onclick="location.href='{{ url_for('busca_cliente', page=page + 1) }}'" id="next-btn">
                     
-                    <span class="valor-dado">
-
-                        <a href="{{ url_for('visualizar_cliente', numero_identificador=cliente.numero_identificador) }}">
-                            <i class="fas fa-eye"></i>
-                        </a>
-
-                    </span>
-                </td>
-            </tr>
-            {% endfor %}
-            {% endif %}
-        </table>
+                        <i class="fa-solid fa-angle-right"></i> <!-- Ícone de avançar -->
+                    </button>
+                {% else %}
+                    <button id="next-btn" disabled>
+                        
+                        <i class="fa-solid fa-angle-right"></i> <!-- Ícone de avançar -->
+                    </button>
+                {% endif %}
+            </div>    
+        </fieldset>
         
         
-        
-        <div class="pagination">
-            {% if page and page > 1 %}
-                <a href="{{ url_for('busca_cliente', page=page - 1) }}">
-                    <i class="fa-solid fa-angle-left"></i> <!-- Ícone de voltar -->
-                   <strong>Anterior</strong> 
-                </a> 
-            {% endif %}
-            <strong><span>{{ page or 1 }} de {{ total_pages or 1 }}</span></strong>
-            {% if page and page < total_pages %}
-                <a href="{{ url_for('busca_cliente', page=page + 1) }}">
-                    <strong>Próxima</strong>
-                    <i class="fa-solid fa-angle-right"></i> <!-- Ícone de avançar -->
-                </a>
-            {% endif %}
-        </div>
         
            
     </div>

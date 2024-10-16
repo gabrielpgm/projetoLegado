@@ -254,6 +254,26 @@ form {
     text-decoration: none;
 }
 
+.ver-button {
+    background: none; /* Remove a cor de fundo do botão */
+    border: none; /* Remove a borda do botão */
+    cursor: pointer; /* Muda o cursor para indicar que é clicável */
+    padding: 5px; /* Remove o padding padrão do botão */
+    outline: none; /* Remove o contorno ao focar */
+}
+
+.ver-icon {
+    color: #16737d; /* Cor do ícone */
+    font-size: 24px; /* Ajuste o tamanho do ícone se necessário */
+    transition: color 0.3s; /* Adiciona uma transição suave na mudança de cor */
+}
+
+.ver-button:hover .ver-icon {
+    color: #ffb300; /* Muda a cor do ícone ao passar o mouse */
+    transform: scale(1.1); /* Aumenta o tamanho do ícone em 10% */
+    transition: transform 0.3s ease; /* Suaviza a transição do tamanho */
+}
+
 
 /* Estilização dos inputs */
 input {
@@ -291,6 +311,7 @@ input {
     align-items: center;
     z-index: 1000;
     display: none; /* Inicialmente escondido */
+    z-index: 1000;
 }
 
 
@@ -516,11 +537,11 @@ input {
     padding: 5px; /* Espaçamento interno */
     background-color: #f9f9f9; /* Cor de fundo suave */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Sombra sutil */
-    height: 530px; /* Altura fixa */
+    height: 550px; /* Altura fixa */
     width: 350px; /* Largura fixa */
     margin-bottom: 15px; /* Espaçamento inferior */
     overflow: hidden; /* Impede que o conteúdo expanda o campo */
-    margin: 10px auto;
+    margin: -15px auto;
 }
 
 .custom-field-documents {
@@ -661,13 +682,14 @@ textarea:focus {
 }
 
 .document-column {
+    position: relative;    
     flex: 1; /* Define que a coluna deve ocupar uma parte do espaço disponível. */
     border: 0px solid #ccc; /* Define a borda como invisível, pois a largura é 0px. */
     background-color: #16737d; /* Define a cor de fundo como um tom de verde-azulado. */
     border-radius: 12px; /* Adiciona bordas arredondadas de 10 pixels. */
     height: 230px; /* Define a altura da coluna como 150 pixels. */
     width: 200px; /* Define a largura da coluna como 100 pixels. */
-    margin: 5px;
+    margin: 3px;
     
 }
 
@@ -807,7 +829,7 @@ button.btn-bigaction:hover {
 }
 
 .custom-row th, .custom-row td {
-    padding: 10px;
+    padding: 6px;
     text-align: center;
     border: none; /* Remove qualquer borda padrão da tabela */
 }
@@ -817,7 +839,7 @@ button.btn-bigaction:hover {
 }
 
 .custom-row td {
-    background-color: #fff; /* Cor de fundo para células de dados */
+    background-color: #ffffff; /* Cor de fundo para células de dados */
     border-radius: 8px; /* Aplicando bordas arredondadas em cada célula */
 }
 
@@ -858,35 +880,30 @@ button.btn-bigaction:hover {
 
 }
 
-.pagination {
-    display: flex; /* Utiliza flexbox para alinhar itens */
-    justify-content: center; /* Centraliza horizontalmente */
-    align-items: center; /* Centraliza verticalmente */
-    margin: 25px 0; /* Margem em cima e embaixo */
+#pagination {
+    display: flex;
+    flex-direction: column; /* Para empilhar itens verticalmente */
+    justify-content: flex-start; /* Alinha os itens no início do campo */
+    border: 0.5px solid #ccc; /* Borda padrão */
+    border-radius: 10px; /* Bordas arredondadas */
+    padding: 5px; /* Espaçamento interno */
+    background-color: #f9f9f9; /* Cor de fundo suave */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Sombra sutil */
+    height: 610px; /* Altura fixa */
+    width: 350px; /* Largura fixa */
+    margin-bottom: 15px; /* Espaçamento inferior */
+    overflow: hidden; /* Impede que o conteúdo expanda o campo */
+    margin: -10px auto;
 }
 
-.pagination a {
-    text-decoration: none; /* Remove o sublinhado dos links */
-    color: #145b5e; /* Cor dos links */
-    margin: 0 15px; /* Espaçamento entre os links */
-    font-size: 16px; /* Tamanho da fonte dos links */
-}
-
-.pagination span {
-    margin: 0 10px; /* Espaçamento em volta do texto da página */
-    font-size: 16px; /* Tamanho da fonte do texto da página */
-}
-
-/* Efeito ao passar o mouse nos links */
-.pagination a:hover {
-    color: #aaaaaa; /* Muda a cor ao passar o mouse */
-}
 
 #pagination-controls {
     display: flex; /* Alinha os botões em uma linha */
     justify-content: space-between; /* Espaça os botões nos extremos */
     align-items: center; /* Centraliza os botões verticalmente */
-    width: 100%; /* Define a largura total do contêiner */
+    width: 95%; /* Define a largura total do contêiner */
+    margin: auto;
+    margin-bottom: 5px ;
 
 }
 
@@ -910,16 +927,35 @@ button.btn-bigaction:hover {
 }
 
 
+.icones-cadastrados {
+    position: absolute;                           /* Posiciona a div de forma absoluta */
+    bottom: 0;                                   /* Posiciona a div na parte inferior da coluna */
+    left: 0;                                     /* Alinha à esquerda */
+    width: 100%;                                 /* Faz a div ocupar toda a largura do pai */
+    text-align: center;                          /* Centraliza os ícones horizontalmente */
+    padding: 10px 0;                             /* Adiciona um pouco de padding em cima e embaixo */
+    background: linear-gradient(to top, #ffffffcc, transparent); /* Gradiente do fundo */
+}
+
+.icones-cadastrados a {
+    color: inherit;                              /* Faz com que os ícones herdem a cor do texto */
+    transition: color 0.3s;                     /* Adiciona uma transição suave na mudança de cor */
+    margin: 0 10px;                             /* Adiciona espaço horizontal entre os ícones */
+}
 
 
+.icones-cadastrados a:hover {
+    color: #007bff; /* Muda a cor ao passar o mouse, por exemplo */
+}
 
 
-
-
-
-
-
-
+.valida-envio {
+    position: absolute;          /* Posiciona a div de validação de forma absoluta */
+    top: 50%;                   /* Centraliza verticalmente em relação à altura da coluna */
+    left: 50%;                  /* Centraliza horizontalmente */
+    transform: translate(-50%, -50%); /* Ajusta a posição para realmente centralizar */
+    font-size: 35px;
+}
 
 
 
@@ -961,7 +997,7 @@ button.btn-bigaction:hover {
 
     #cx-intcad {
         width: 95%; /* Ocupa 100% da largura da tela em dispositivos móveis */
-        height: 782px; /* Ocupa 100% da altura da tela em dispositivos móveis */
+        height: 810px; /* Ocupa 100% da altura da tela em dispositivos móveis */
         border-radius: 20px 20px 20px 20px; /* Remove as bordas arredondadas em dispositivos móveis */
         min-width: 400px;
     }

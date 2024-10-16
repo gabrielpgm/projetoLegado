@@ -4,9 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro de Cliente</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Cadastro de Cliente</title>
+
 </head>
 
 <body>
@@ -14,12 +16,12 @@
     <div id="cx-extcad">
         <h1>{{ 'Editar Cliente' if modo == 'editar' else 'Cadastro de Cliente' }}</h1>
         <!-- Botão para voltar ao dashboard -->
-    
+
         <form action="/dashboard" method="GET">
             <button type="submit" class="voltar-button" aria-label="Voltar">
                 <i class="fa-solid fa-angles-left"></i> <strong>Voltar</strong>
             </button>
-        </form> 
+        </form>
 
 
 
@@ -29,7 +31,7 @@
                 value="{{ cliente.numero_identificador if cliente else '' }}" disabled><br><br>
         </fieldset>
 
-        
+
 
     </div>
     <div id="cx-intcad">
@@ -39,11 +41,12 @@
 
             <div id="jan-cad-dads">
                 <div class="input-group">
-                    <input type="text" id="nome" name="nome" value="{{ cliente.nome }}" placeholder="Nome" required><br><br>
+                    <input type="text" id="nome" name="nome" value="{{ cliente.nome }}" placeholder="Nome"
+                        required><br><br>
                 </div>
                 <div class="input-group">
-                    <input type="text" id="cpf" name="cpf" value="{{ cliente.cpf if cliente else '' }}" placeholder="CPF"
-                    required oninput="formatarCpf(event)">
+                    <input type="text" id="cpf" name="cpf" value="{{ cliente.cpf if cliente else '' }}"
+                        placeholder="CPF" required oninput="formatarCpf(event)">
                 </div>
             </div>
 
@@ -53,36 +56,38 @@
                 <div class="document-row">
 
                     <div class="document-column">
-                        <!-- DOCUMENTO  ID -->
+                        <!-- DOCUMENTO ID -->
                         <label for="identidade" class="cadastlabel-titulo">Identidade</label>
                         <div class="button-container">
-                            <button type="button" onclick="document.getElementById('identidade').click();"
-                                class="custom-field-documents button">
+                            <button type="button" onclick="document.getElementById('identidade').click();" class="custom-field-documents button">
                                 <i class="fas fa-file-upload"></i> Selecionar
                             </button>
-                            <button type="button" onclick="capturarImagem('identidade')"
-                                class="custom-field-documents button">
+                            <button type="button" onclick="capturarImagem('identidade')" class="custom-field-documents button">
                                 <i class="fas fa-camera"></i> Capturar
                             </button>
+                            <input type="file" id="identidade" name="identidade" style="display: none;" onchange="atualizarNomeArquivo('identidade')">
                         </div>
-                        <span>Arquivo: Nenhum arquivo enviado</span>
-                        <label for="comentario_identidade" class="cadastlabel-comentario">Comentário:</label> <textarea
-                            id="comentario_identidade" name="comentario_identidade" placeholder="Digite um comentário:"
-                            rows="3">{{ cliente.documentos.identidade.comentario if cliente and cliente.documentos and cliente.documentos.identidade else '' }}</textarea>
+                        
+                        <!-- Span para mostrar o nome do arquivo selecionado -->
+                        <span id="nome-arquivo-identidade">Arquivo: Nenhum arquivo enviado</span>
+                    
+                        <label for="comentario_identidade" class="cadastlabel-comentario">Comentário:</label> 
+                        <textarea id="comentario_identidade" name="comentario_identidade" placeholder="Digite um comentário:" rows="3">{{ cliente.documentos.identidade.comentario if cliente and cliente.documentos and cliente.documentos.identidade else '' }}</textarea>
                     </div>
+                    
 
 
                     <div class="document-column">
                         <!-- DOCUMENTO  CNH -->
                         <label for="cnh" class="cadastlabel-titulo">CNH</label>
                         <div class="button-container">
-                            <button type="button" onclick="document.getElementById('cnh').click();"
-                                class="custom-field-documents button">
+                            <button type="button" onclick="document.getElementById('cnh').click();" class="custom-field-documents button">
                                 <i class="fas fa-file-upload"></i> Selecionar
                             </button>
                             <button type="button" onclick="capturarImagem('cnh')" class="custom-field-documents button">
                                 <i class="fas fa-camera"></i> Capturar
                             </button>
+                            <input type="file" id="cnh" name="cnh" style="display: none;" onchange="atualizarNomeArquivo('cnh')">
                         </div>
                         <span>Arquivo: Nenhum arquivo enviado</span>
                         <label for="comentario_cnh" class="cadastlabel-comentario">Comentário:</label> <textarea
@@ -97,14 +102,13 @@
                         <!-- DOCUMENTO  COMP END. -->
                         <label for="comprovante_endereco" class="cadastlabel-titulo">Comprovante End.</label>
                         <div class="button-container">
-                            <button type="button" onclick="document.getElementById('comprovante_endereco').click();"
-                                class="custom-field-documents button">
+                            <button type="button" onclick="document.getElementById('comprovante_endereco').click();" class="custom-field-documents button">
                                 <i class="fas fa-file-upload"></i> Selecionar
                             </button>
-                            <button type="button" onclick="capturarImagem('comprovante_endereco')"
-                                class="custom-field-documents button">
+                            <button type="button" onclick="capturarImagem('comprovante_endereco')" class="custom-field-documents button">
                                 <i class="fas fa-camera"></i> Capturar
                             </button>
+                            <input type="file" id="comprovante_endereco" name="comprovante_endereco" style="display: none;" onchange="atualizarNomeArquivo('comprovante_endereco')">
                         </div>
                         <span>Arquivo: {{ cliente.documentos.comprovante_endereco.arquivo if cliente and
                             cliente.documentos and cliente.documentos.comprovante_endereco else 'Nenhum arquivo
@@ -112,8 +116,7 @@
                         <label for="comentario_comprovante" class="cadastlabel-comentario">Comentário:</label>
                         <textarea id="comentario_comprovante" name="comentario_comprovante"
                             placeholder="Digite um comentário:"
-                            rows="3">{{ cliente.documentos.comprovante_endereco.comentario if cliente and cliente.documentos and cliente.documentos.comprovante_endereco else '' }}</textarea>
-
+                            rows="3">{{ cliente.documentos.comprovante_endereco.comentario if cliente and cliente.documentos and cliente.documentos.comprovante_endereco else '' }}</textarea>  
                     </div>
 
                     <div class="document-column">
@@ -128,6 +131,7 @@
                                 class="custom-field-documents button">
                                 <i class="fas fa-camera"></i> Capturar
                             </button>
+                            <input type="file" id="outro" name="outro" style="display: none;">
                         </div>
                         <span>Arquivo: {{ cliente.documentos.outro.arquivo if cliente and cliente.documentos and
                             cliente.documentos.outro else 'Nenhum arquivo enviado' }}</span>
@@ -143,7 +147,7 @@
         </form>
 
     </div>
-    
+
     <!-- CPF inválido -->
     {% if cpf_invalido %}
     <script>
@@ -157,8 +161,6 @@
         cpfDuplicado();
     </script>
     {% endif %}
-    
-    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
 </body>
 
 </html>

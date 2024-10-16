@@ -1,23 +1,25 @@
 
-function mostrarOverlay(mensagem) {
+function toggleOverlay(mensagem = null) {
     const overlay = document.getElementById('overlay');
-    overlay.style.display = 'flex'; // Mostra o overlay
-    const mensagemDiv = overlay.querySelector('.mensagem');
-    mensagemDiv.innerText = mensagem; // Define a mensagem
+    const isHidden = overlay.style.display === 'none' || overlay.style.display === '';
+
+    if (isHidden && mensagem) {
+        const mensagemDiv = overlay.querySelector('.mensagem');
+        mensagemDiv.innerText = mensagem; // Define a mensagem
+        overlay.style.display = 'flex'; // Mostra o overlay
+    } else {
+        overlay.style.display = 'none'; // Esconde o overlay
+    }
 }
 
-function fecharPopup() {
-    const overlay = document.getElementById('overlay');
-    overlay.style.display = 'none'; // Esconde o overlay
-}
 
 
 function usuarioDesativado() {
-    mostrarOverlay("O usuário está desativado. Favor contactar o Administrador!");
+    toggleOverlay("O usuário está desativado. Favor contactar o Administrador!");
 }
 
 function usuarioInvalido() {
-    mostrarOverlay("Usuário ou senha inválidos!");
+    toggleOverlay("Usuário ou senha inválidos!");
 }
 
 // funções janela dashboard
@@ -31,29 +33,21 @@ function fecharPopup() {
 }
 
 
-document.addEventListener("DOMContentLoaded", function() {
-    // Redirecionar ao clicar no botão "Cadastrar Cliente"
-    document.getElementById("btn-cadast").addEventListener("click", function() {
-        window.location.href = '/cadastro_cliente';
-    });
 
-    // Redirecionar ao clicar no botão "Buscar Cliente"
-    document.getElementById("btn-busca").addEventListener("click", function() {
-        window.location.href = '/buscar_cliente';
-    });
-
-    // Redirecionar ao clicar no botão "Gerenciar Usuários"
-    document.getElementById("btn-geruser").addEventListener("click", function() {
-        window.location.href = '/cadastro_usuario';
-    });
+// Redirecionar ao clicar no botão "Cadastrar Cliente"
+document.getElementById("btn-cadast").addEventListener("click", function() {
+    window.location.href = '/cadastro_cliente';
 });
 
+// Redirecionar ao clicar no botão "Buscar Cliente"
+document.getElementById("btn-busca").addEventListener("click", function() {
+    window.location.href = '/buscar_cliente';
+});
 
-
-
-
-
-
+// Redirecionar ao clicar no botão "Gerenciar Usuários"
+document.getElementById("btn-geruser").addEventListener("click", function() {
+    window.location.href = '/cadastro_usuario';
+});
 
 //funcoes janela cadastro.html
 
@@ -89,40 +83,22 @@ function mostrarOverlay(mensagem) {
     overlay.style.display = 'flex'; // Exibe o overlay
 }
 
-// Função para exibir documentos em um overlay
+// Função para exibir documentos em um overlay janela detalhe cliente
+
 function mostrarDocOverlay(url) {
-    const overlay = document.createElement('div');
-    overlay.style.position = 'fixed';
-    overlay.style.top = '0';
-    overlay.style.left = '0';
-    overlay.style.width = '100%';
-    overlay.style.height = '100%';
-    overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
-    overlay.style.display = 'flex';
-    overlay.style.justifyContent = 'center';
-    overlay.style.alignItems = 'center';
-    overlay.style.zIndex = '1000';
-
-    const iframe = document.createElement('iframe');
-    iframe.src = url;
-    iframe.style.width = '80%';
-    iframe.style.height = '80%';
-    iframe.style.border = 'none';
-    iframe.style.borderRadius = '10px';
-
-    const botaoFechar = document.createElement('button');
-    botaoFechar.innerText = 'Fechar';
-    botaoFechar.style.position = 'absolute';
-    botaoFechar.style.top = '20px';
-    botaoFechar.style.right = '20px';
-    botaoFechar.onclick = function () {
-        document.body.removeChild(overlay);
-    };
-
-    overlay.appendChild(iframe);
-    overlay.appendChild(botaoFechar);
-    document.body.appendChild(overlay);
+    document.getElementById('doc-frame').src = url;
+    document.getElementById('overlay').style.display = 'block';
 }
+
+function fecharOverlay() {
+    document.getElementById('overlay').style.display = 'none';
+    document.getElementById('doc-frame').src = '';
+}
+
+function mostrarComentario(comentario) {
+    alert(comentario || 'Sem comentários');
+}
+
 
 
 // Função para capturar imagem
@@ -210,6 +186,19 @@ function cpfDuplicado() {
 
 // funcao janela cadastro.html
 
+function atualizarNomeArquivo(inputId) {
+    var input = document.getElementById(inputId);
+    var span = document.getElementById('nome-arquivo-' + inputId);
+    
+    if (input.files && input.files.length > 0) {
+        // Pega o nome do primeiro arquivo selecionado
+        var nomeArquivo = input.files[0].name;
+        span.textContent = "Arquivo: " + nomeArquivo;
+    } else {
+        span.textContent = "Arquivo: Nenhum arquivo enviado";
+    }
+}
+
 function updateFileName(input) {
     const label = input.nextElementSibling; // Obtém o rótulo ao lado do input
     if (input.files.length > 0) {
@@ -226,8 +215,8 @@ function formatarCpf(event) {
     let value = input.value.replace(/\D/g, ''); // Remove caracteres não numéricos
     if (value.length > 11) value = value.slice(0, 11); // Limita a 11 dígitos
     const formattedCpf = value.replace(/(\d{3})(\d)/, '$1.$2') // Adiciona o primeiro ponto
-                               .replace(/(\d{3})(\d)/, '$1.$2') // Adiciona o segundo ponto
-                               .replace(/(\d{3})(\d{1,2})$/, '$1-$2'); // Adiciona o hífen
+                            .replace(/(\d{3})(\d)/, '$1.$2') // Adiciona o segundo ponto
+                            .replace(/(\d{3})(\d{1,2})$/, '$1-$2'); // Adiciona o hífen
     input.value = formattedCpf; // Atualiza o valor do input
 }
 
@@ -236,9 +225,10 @@ function limparCampos() {
     document.querySelector('input[name="nome"]').value = '';
     document.querySelector('input[name="cpf"]').value = '';
     
-    // Submeter o formulário sem filtros para restaurar o estado original
-    document.querySelector('form').submit();
+    // Redirecionar para a URL da página sem filtros
+    window.location.href = window.location.pathname; // Isso mantém apenas o caminho da URL atual
 }
+
 
 // funções janela cadastro usuario.
 function mostrarOverlayCadastroUsuario(mensagem) {
@@ -424,7 +414,3 @@ function resetPassword(username) {
     })
     .catch(error => console.error('Erro na requisição:', error));
 }
-
-
-
-

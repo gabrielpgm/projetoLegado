@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
     <title>Login</title>
 </head>
 <body>
@@ -31,21 +32,16 @@
     <div id="overlay">
         <div id="popup">
             <div class="mensagem"></div>
-            <button onclick="fecharPopup()">Fechar</button>
+            <button onclick="toggleOverlay()">Fechar</button>
         </div>
     </div>
-
-    {% if usuario_desativado %}
-    <script>
-        usuarioDesativado();
-    </script>
-    {% endif %}
     
-    {% if usuario_invalido %}
-    <script>
-        usuarioInvalido();
-    </script>
+    {% if usuario_desativado %}
+        <script>usuarioDesativado();</script>
     {% endif %}
-    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+
+    {% if usuario_invalido %}
+        <script>usuarioInvalido();</script>
+    {% endif %}
 </body>
 </html>
