@@ -374,7 +374,8 @@ def cadastro_usuario():
             'nome': nome,
             'username': username,
             'password': senha_hash,
-            'tipo_acesso': tipo_acesso
+            'tipo_acesso': tipo_acesso,
+            'status_usuario': True  
         })
 
         return render_template('cadastro_usuario.html', usuario_cadastrado=True, usuarios=usuarios)

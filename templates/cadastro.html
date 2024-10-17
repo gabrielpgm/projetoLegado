@@ -30,9 +30,6 @@
             <input type="text" id="numero_identificador" name="numero_identificador"
                 value="{{ cliente.numero_identificador if cliente else '' }}" disabled><br><br>
         </fieldset>
-
-
-
     </div>
     <div id="cx-intcad">
         <form
@@ -57,16 +54,16 @@
 
                     <div class="document-column">
                         <!-- DOCUMENTO ID -->
-                    <label for="identidade" class="cadastlabel-titulo">Identidade</label>
-                    <div class="button-container">
-                        <button type="button" onclick="document.getElementById('identidade').click();" class="custom-field-documents button">
-                            <i class="fas fa-file-upload"></i> Selecionar
-                        </button>
-                        <button type="button" onclick="capturarImagem('identidade')" class="custom-field-documents button">
-                            <i class="fas fa-camera"></i> Capturar
-                        </button>
-                        <input type="file" id="identidade" name="identidade" style="display: none;" onchange="atualizarNomeArquivo('identidade')">
-                    </div>
+                        <label for="identidade" class="cadastlabel-titulo">Identidade</label>
+                        <div class="button-container">
+                            <button type="button" onclick="document.getElementById('identidade').click();" class="custom-field-documents button">
+                                <i class="fas fa-file-upload"></i> Selecionar
+                            </button>
+                            <button type="button" onclick="capturarImagem('identidade')" class="custom-field-documents button">
+                                <i class="fas fa-camera"></i> Capturar
+                            </button>
+                            <input type="file" id="identidade" name="identidade" style="display: none;" onchange="atualizarNomeArquivo('identidade')">
+                        </div>
                         
                         <!-- Span para mostrar o nome do arquivo selecionado -->
                         <span id="nome-arquivo-identidade">Arquivo: Nenhum arquivo enviado</span>
@@ -94,7 +91,6 @@
                         <label for="comentario_cnh" class="cadastlabel-comentario">Comentário:</label> <textarea
                             id="comentario_cnh" name="comentario_cnh" placeholder="Digite comentário:"
                             rows="3">{{ cliente.documentos.cnh.comentario if cliente and cliente.documentos and cliente.documentos.cnh else '' }}</textarea>
-
                     </div>
                 </div>
 
@@ -146,16 +142,6 @@
 
     </div>
 
-    <div id="overlay">
-        <div id="popup">
-            <div class="mensagem"></div>
-            
-        <button onclick="toggleOverlay()">Fechar</button>
-        </div>
-    </div>
-
-    
-    
     <!-- CPF inválido -->
     {% if cpf_invalido %}
     <script>

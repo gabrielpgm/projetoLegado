@@ -29,7 +29,8 @@
     </div>
 
     <div id="cx-intcad">
-        <form action="{{ url_for('editar_cliente', numero_identificador=cliente.numero_identificador) }}" method="GET">
+        <!-- Removi o <form> redundante que estava fora deste -->
+        <form action="{{ url_for('editar_cliente', numero_identificador=cliente.numero_identificador) }}" method="POST">
             <div id="jan-cad-dads">
                 <div class="input-group">
                     <input type="text" id="nome" name="nome" value="{{ cliente.nome }}" placeholder="Nome" required><br><br>

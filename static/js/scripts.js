@@ -1,4 +1,3 @@
-
 function toggleOverlay(mensagem = null) {
     const overlay = document.getElementById('overlay');
     const isHidden = overlay.style.display === 'none' || overlay.style.display === '';
@@ -11,8 +10,6 @@ function toggleOverlay(mensagem = null) {
         overlay.style.display = 'none'; // Esconde o overlay
     }
 }
-
-
 
 function usuarioDesativado() {
     toggleOverlay("O usuário está desativado. Favor contactar o Administrador!");
@@ -35,17 +32,17 @@ function fecharPopup() {
 
 
 // Redirecionar ao clicar no botão "Cadastrar Cliente"
-document.getElementById("btn-cadast").addEventListener("click", function () {
+document.getElementById("btndash-cadast").addEventListener("click", function () {
     window.location.href = '/cadastro_cliente';
 });
 
 // Redirecionar ao clicar no botão "Buscar Cliente"
-document.getElementById("btn-busca").addEventListener("click", function () {
+document.getElementById("btndash-busca").addEventListener("click", function () {
     window.location.href = '/buscar_cliente';
 });
 
 // Redirecionar ao clicar no botão "Gerenciar Usuários"
-document.getElementById("btn-geruser").addEventListener("click", function () {
+document.getElementById("btndash-geruser").addEventListener("click", function () {
     window.location.href = '/cadastro_usuario';
 });
 
@@ -102,21 +99,33 @@ function mostrarComentario(comentario) {
 
 
 function capturarImagem(inputId) {
+    console.log("Função capturarImagem chamada com id: " + inputId);
     const inputFile = document.getElementById(inputId);
+    console.error("Campo de arquivo não encontrado com o ID: " + inputId);
     const constraints = { video: true };
 
     navigator.mediaDevices.getUserMedia(constraints)
         .then(function (stream) {
+            // Criar o elemento de vídeo
             const video = document.createElement('video');
             video.srcObject = stream;
             video.autoplay = true;
+            video.style.width = "100%";
+            video.style.height = "auto";
 
+            // Criar o overlay
             const overlay = document.createElement('div');
             overlay.classList.add('overlay');
-            overlay.appendChild(video);
 
+            // Criar o container para o vídeo
+            const videoContainer = document.createElement('div');
+            videoContainer.classList.add('video-container');
+            videoContainer.appendChild(video);
+
+            // Criar o botão Capturar
             const captureButton = document.createElement('button');
             captureButton.innerText = 'Capturar';
+            captureButton.classList.add('capture-button');
             captureButton.onclick = function () {
                 const canvas = document.createElement('canvas');
                 canvas.width = video.videoWidth;
@@ -134,22 +143,26 @@ function capturarImagem(inputId) {
                 dataTransfer.items.add(newFile);
                 inputFile.files = dataTransfer.files;
 
-                // Atualizar o nome do arquivo usando a função existente
+                // Atualizar o nome do arquivo
                 atualizarNomeArquivo(inputId);
 
                 stopStream(stream, overlay);
             };
 
-            // Botão Cancelar (X)
+            // Criar o botão Cancelar (X)
             const cancelButton = document.createElement('button');
             cancelButton.classList.add('cancel-button');
-            cancelButton.innerHTML = '<i class="fas fa-times"></i>'; // Ícone XMARK
+            cancelButton.innerHTML = '<i class="fas fa-times"></i>';
             cancelButton.onclick = function () {
                 stopStream(stream, overlay);
             };
 
-            overlay.appendChild(captureButton);
+            // Adicionar os botões ao videoContainer
+            videoContainer.appendChild(captureButton);
+            overlay.appendChild(videoContainer);
             overlay.appendChild(cancelButton);
+
+            // Adicionar o overlay ao corpo do documento
             document.body.appendChild(overlay);
         })
         .catch(function (error) {
@@ -158,15 +171,14 @@ function capturarImagem(inputId) {
 }
 
 
+
 // Função para parar o stream e remover o overlay
 function stopStream(stream, overlay) {
     if (stream) {
         stream.getTracks().forEach(track => track.stop());
-        console.log("Stream parado.");
     }
     if (overlay) {
         overlay.remove(); // Remove o overlay do DOM
-        console.log("Overlay removido.");
     }
 }
 
@@ -182,6 +194,10 @@ function dataURLtoBlob(dataURL) {
     }
     return new Blob([u8arr], { type: mime });
 }
+
+
+
+
 
 
 
@@ -245,6 +261,39 @@ function limparCampos() {
 
 
 // funções janela cadastro usuario.
+
+function cadastrarUsuario(event) {
+    event.preventDefault(); // Impede o envio padrão do formulário
+
+    // Coleta os dados do formulário
+    const form = event.target;
+    const nome = form.nome.value;
+    const username = form.username.value;
+    const senha = form.senha.value;
+    const tipo_acesso = form.tipo_acesso.value;
+
+    // Envia os dados para o backend
+    fetch('/cadastro_usuario', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({
+            'nome': nome,
+            'username': username,
+            'senha': senha,
+            'tipo_acesso': tipo_acesso
+        })
+    })
+    .then(response => response.text())
+    .then(data => {
+        // Atualiza a página com a resposta do servidor
+        document.body.innerHTML = data; // Substitui o conteúdo da página pela resposta
+    })
+    .catch(error => console.error('Erro:', error));
+}
+
+
 function mostrarOverlayCadastroUsuario(mensagem) {
     const overlay = document.createElement('div');
     overlay.style.position = 'fixed';
@@ -277,11 +326,11 @@ function mostrarOverlayCadastroUsuario(mensagem) {
 }
 
 function usuarioDuplicado() {
-    mostrarOverlayCadastroUsuario("O usuário informado já está cadastrado. Por favor, utilize um usuário diferente.");
+    toggleOverlay("O usuário informado já está cadastrado. Por favor, utilize um usuário diferente.");
 }
 
 function usuarioCadastradoSucesso() {
-    mostrarOverlayCadastroUsuario("Usuário cadastrado com sucesso!")
+    toggleOverlay("Usuário cadastrado com sucesso!")
 }
 
 
@@ -401,9 +450,29 @@ function toggleUserStatus(username) {
         userRow.setAttribute('data-status', 'active'); // Atualiza o atributo de status
     }
 
-    // Aqui você pode também enviar uma requisição Ajax ou similar
-    // para atualizar o status no backend, se necessário.
+    // Envia uma requisição AJAX para atualizar o status no backend
+    fetch(`/toggle_usuario/${username}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            // Adicione mais cabeçalhos aqui, se necessário
+        },
+        body: JSON.stringify({}) // Se precisar enviar dados adicionais, coloque aqui
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Erro ao atualizar o status do usuário');
+        }
+        return response.json(); // Se você retornar algo do backend, processe aqui
+    })
+    .then(data => {
+        console.log('Status do usuário atualizado com sucesso:', data);
+    })
+    .catch(error => {
+        console.error('Erro:', error);
+    });
 }
+
 
 function resetPassword(username) {
     // Seleciona os ícones de lock e unlock
