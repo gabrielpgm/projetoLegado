@@ -66,7 +66,14 @@
                         </div>
                         
                         <!-- Span para mostrar o nome do arquivo selecionado -->
-                        <span id="nome-arquivo-identidade">Arquivo: Nenhum arquivo enviado</span>
+                        <span id="nome-arquivo-identidade">
+                            Arquivo: 
+                            {% if cliente and cliente.documentos and cliente.documentos.identidade and cliente.documentos.identidade.arquivo %}
+                                {{ cliente.documentos.identidade.arquivo.split('/')[-1] }}
+                            {% else %}
+                                Nenhum arquivo enviado
+                            {% endif %}
+                        </span>
                     
                         <label for="comentario_identidade" class="cadastlabel-comentario">Comentário:</label> 
                         <textarea id="comentario_identidade" name="comentario_identidade" placeholder="Digite um comentário:" rows="3">{{ cliente.documentos.identidade.comentario if cliente and cliente.documentos and cliente.documentos.identidade else '' }}</textarea>
@@ -87,7 +94,14 @@
                             </button>
                             <input type="file" id="cnh" name="cnh" style="display: none;" onchange="atualizarNomeArquivo('cnh')">
                         </div>
-                        <span id="nome-arquivo-cnh">Arquivo: Nenhum arquivo enviado</span>
+                        <span id="nome-arquivo-cnh">
+                            Arquivo: 
+                            {% if cliente and cliente.documentos and cliente.documentos.cnh and cliente.documentos.cnh.arquivo %}
+                                {{ cliente.documentos.cnh.arquivo.split('/')[-1] }}
+                            {% else %}
+                                Nenhum arquivo enviado
+                            {% endif %}
+                        </span>
                         <label for="comentario_cnh" class="cadastlabel-comentario">Comentário:</label> <textarea
                             id="comentario_cnh" name="comentario_cnh" placeholder="Digite comentário:"
                             rows="3">{{ cliente.documentos.cnh.comentario if cliente and cliente.documentos and cliente.documentos.cnh else '' }}</textarea>
@@ -107,7 +121,14 @@
                             </button>
                             <input type="file" id="comprovante_endereco" name="comprovante_endereco" style="display: none;" onchange="atualizarNomeArquivo('comprovante_endereco')">
                         </div>
-                        <span id="nome-arquivo-comprovante_endereco">Arquivo: Nenhum arquivo enviado</span>
+                        <span id="nome-arquivo-comprovante_endereco">
+                            Arquivo: 
+                            {% if cliente and cliente.documentos and cliente.documentos.comprovante_endereco and cliente.documentos.comprovante_endereco.arquivo %}
+                                {{ cliente.documentos.comprovante_endereco.arquivo.split('/')[-1] }}
+                            {% else %}
+                                Nenhum arquivo enviado
+                            {% endif %}
+                        </span>
                         <label for="comentario_comprovante" class="cadastlabel-comentario">Comentário:</label>
                         <textarea id="comentario_comprovante" name="comentario_comprovante"
                             placeholder="Digite um comentário:"
@@ -128,7 +149,14 @@
                             </button>
                             <input type="file" id="outro" name="outro" style="display: none;" onchange="atualizarNomeArquivo('outro')">
                         </div>
-                        <span id="nome-arquivo-outro">Arquivo: Nenhum arquivo enviado</span>
+                        <span id="nome-arquivo-outro">
+                            Arquivo: 
+                            {% if cliente and cliente.documentos and cliente.documentos.outro and cliente.documentos.outro.arquivo %}
+                                {{ cliente.documentos.outro.arquivo.split('/')[-1] }}
+                            {% else %}
+                                Nenhum arquivo enviado
+                            {% endif %}
+                        </span>
                         <label for="comentario_outro" class="cadastlabel-comentario">Comentário:</label><textarea
                             id="comentario_outro" name="comentario_outro" placeholder="Digite um comentário:"
                             rows="3"></textarea>
