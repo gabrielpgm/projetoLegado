@@ -35,17 +35,17 @@ function fecharPopup() {
 
 
 // Redirecionar ao clicar no botão "Cadastrar Cliente"
-document.getElementById("btn-cadast").addEventListener("click", function() {
+document.getElementById("btn-cadast").addEventListener("click", function () {
     window.location.href = '/cadastro_cliente';
 });
 
 // Redirecionar ao clicar no botão "Buscar Cliente"
-document.getElementById("btn-busca").addEventListener("click", function() {
+document.getElementById("btn-busca").addEventListener("click", function () {
     window.location.href = '/buscar_cliente';
 });
 
 // Redirecionar ao clicar no botão "Gerenciar Usuários"
-document.getElementById("btn-geruser").addEventListener("click", function() {
+document.getElementById("btn-geruser").addEventListener("click", function () {
     window.location.href = '/cadastro_usuario';
 });
 
@@ -56,8 +56,8 @@ function formatarCpf(event) {
     let value = input.value.replace(/\D/g, ''); // Remove caracteres não numéricos
     if (value.length > 11) value = value.slice(0, 11); // Limita a 11 dígitos
     const formattedCpf = value.replace(/(\d{3})(\d)/, '$1.$2') // Adiciona o primeiro ponto
-                                .replace(/(\d{3})(\d)/, '$1.$2') // Adiciona o segundo ponto
-                                .replace(/(\d{3})(\d{1,2})$/, '$1-$2'); // Adiciona o hífen
+        .replace(/(\d{3})(\d)/, '$1.$2') // Adiciona o segundo ponto
+        .replace(/(\d{3})(\d{1,2})$/, '$1-$2'); // Adiciona o hífen
     input.value = formattedCpf; // Atualiza o valor do input
 }
 
@@ -101,7 +101,6 @@ function mostrarComentario(comentario) {
 
 
 
-// Função para capturar imagem
 function capturarImagem(inputId) {
     const inputFile = document.getElementById(inputId);
     const constraints = { video: true };
@@ -135,13 +134,16 @@ function capturarImagem(inputId) {
                 dataTransfer.items.add(newFile);
                 inputFile.files = dataTransfer.files;
 
-                inputFile.nextElementSibling.textContent = fileName;
+                // Atualizar o nome do arquivo usando a função existente
+                atualizarNomeArquivo(inputId);
 
                 stopStream(stream, overlay);
             };
 
+            // Botão Cancelar (X)
             const cancelButton = document.createElement('button');
-            cancelButton.innerText = 'Cancelar';
+            cancelButton.classList.add('cancel-button');
+            cancelButton.innerHTML = '<i class="fas fa-times"></i>'; // Ícone XMARK
             cancelButton.onclick = function () {
                 stopStream(stream, overlay);
             };
@@ -155,9 +157,17 @@ function capturarImagem(inputId) {
         });
 }
 
+
+// Função para parar o stream e remover o overlay
 function stopStream(stream, overlay) {
-    stream.getTracks().forEach(track => track.stop());
-    document.body.removeChild(overlay);
+    if (stream) {
+        stream.getTracks().forEach(track => track.stop());
+        console.log("Stream parado.");
+    }
+    if (overlay) {
+        overlay.remove(); // Remove o overlay do DOM
+        console.log("Overlay removido.");
+    }
 }
 
 // Função para converter base64 para Blob
@@ -173,13 +183,17 @@ function dataURLtoBlob(dataURL) {
     return new Blob([u8arr], { type: mime });
 }
 
+
+
+
+
 // Funções para CPF inválido e duplicado
 function cpfInvalido() {
-    mostrarOverlay('CPF inválido. Verifique os dados.');
+    toggleOverlay('CPF inválido. Verifique os dados.');
 }
 
 function cpfDuplicado() {
-    mostrarOverlay('CPF duplicado. Já existe um cliente com esse CPF.');
+    toggleOverlay('CPF duplicado. Já existe um cliente com esse CPF.');
 }
 
 
@@ -189,7 +203,7 @@ function cpfDuplicado() {
 function atualizarNomeArquivo(inputId) {
     var input = document.getElementById(inputId);
     var span = document.getElementById('nome-arquivo-' + inputId);
-    
+
     if (input.files && input.files.length > 0) {
         // Pega o nome do primeiro arquivo selecionado
         var nomeArquivo = input.files[0].name;
@@ -215,8 +229,8 @@ function formatarCpf(event) {
     let value = input.value.replace(/\D/g, ''); // Remove caracteres não numéricos
     if (value.length > 11) value = value.slice(0, 11); // Limita a 11 dígitos
     const formattedCpf = value.replace(/(\d{3})(\d)/, '$1.$2') // Adiciona o primeiro ponto
-                            .replace(/(\d{3})(\d)/, '$1.$2') // Adiciona o segundo ponto
-                            .replace(/(\d{3})(\d{1,2})$/, '$1-$2'); // Adiciona o hífen
+        .replace(/(\d{3})(\d)/, '$1.$2') // Adiciona o segundo ponto
+        .replace(/(\d{3})(\d{1,2})$/, '$1-$2'); // Adiciona o hífen
     input.value = formattedCpf; // Atualiza o valor do input
 }
 
@@ -224,7 +238,7 @@ function limparCampos() {
     // Limpar os campos de busca
     document.querySelector('input[name="nome"]').value = '';
     document.querySelector('input[name="cpf"]').value = '';
-    
+
     // Redirecionar para a URL da página sem filtros
     window.location.href = window.location.pathname; // Isso mantém apenas o caminho da URL atual
 }
@@ -266,7 +280,7 @@ function usuarioDuplicado() {
     mostrarOverlayCadastroUsuario("O usuário informado já está cadastrado. Por favor, utilize um usuário diferente.");
 }
 
-function usuarioCadastradoSucesso(){
+function usuarioCadastradoSucesso() {
     mostrarOverlayCadastroUsuario("Usuário cadastrado com sucesso!")
 }
 
@@ -284,24 +298,24 @@ function toggleUsuario(username, button) {
         },
         body: JSON.stringify({ status: !isActive }) // Envia o novo estado
     })
-    .then(response => {
-        if (response.ok) {
-            // Atualiza a interface do usuário
-            button.classList.toggle('active', !isActive);
-            button.classList.toggle('inactive', isActive);
-            button.textContent = isActive ? 'Ativar' : 'Desativar';
-        } else {
-            // Lida com erros
-            console.error('Erro ao atualizar o status do usuário');
-        }
-    })
-    .catch(error => {
-        console.error('Erro ao fazer a requisição:', error);
-    });
+        .then(response => {
+            if (response.ok) {
+                // Atualiza a interface do usuário
+                button.classList.toggle('active', !isActive);
+                button.classList.toggle('inactive', isActive);
+                button.textContent = isActive ? 'Ativar' : 'Desativar';
+            } else {
+                // Lida com erros
+                console.error('Erro ao atualizar o status do usuário');
+            }
+        })
+        .catch(error => {
+            console.error('Erro ao fazer a requisição:', error);
+        });
 }
 
 // Quantidade de usuários por página
-const rowsPerPage = 5; 
+const rowsPerPage = 5;
 let currentPage = 1;
 const rows = document.querySelectorAll('.custom-row-user');
 const totalPages = Math.ceil(rows.length / rowsPerPage);
@@ -342,17 +356,17 @@ function prevPage() {
 }
 
 // Inicializa a exibição com a primeira página
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     displayRows(currentPage);
 });
 
 
 
 // função teste toogle
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     // Ao carregar a página, aplique a classe correta (ativo/inativo) com base no atributo data-status
     const userRows = document.querySelectorAll('.custom-row-user');
-    
+
     userRows.forEach(row => {
         const status = row.getAttribute('data-status');
         if (status === 'active') {
@@ -403,14 +417,14 @@ function resetPassword(username) {
             'Content-Type': 'application/json',
         }
     })
-    .then(response => {
-        if (response.ok) {
-            // Alterna os ícones: esconde o lock, mostra o unlock
-            lockIcon.style.display = 'none';
-            unlockIcon.style.display = 'inline';
-        } else {
-            console.error('Falha ao redefinir a senha.');
-        }
-    })
-    .catch(error => console.error('Erro na requisição:', error));
+        .then(response => {
+            if (response.ok) {
+                // Alterna os ícones: esconde o lock, mostra o unlock
+                lockIcon.style.display = 'none';
+                unlockIcon.style.display = 'inline';
+            } else {
+                console.error('Falha ao redefinir a senha.');
+            }
+        })
+        .catch(error => console.error('Erro na requisição:', error));
 }

@@ -57,16 +57,16 @@
 
                     <div class="document-column">
                         <!-- DOCUMENTO ID -->
-                        <label for="identidade" class="cadastlabel-titulo">Identidade</label>
-                        <div class="button-container">
-                            <button type="button" onclick="document.getElementById('identidade').click();" class="custom-field-documents button">
-                                <i class="fas fa-file-upload"></i> Selecionar
-                            </button>
-                            <button type="button" onclick="capturarImagem('identidade')" class="custom-field-documents button">
-                                <i class="fas fa-camera"></i> Capturar
-                            </button>
-                            <input type="file" id="identidade" name="identidade" style="display: none;" onchange="atualizarNomeArquivo('identidade')">
-                        </div>
+                    <label for="identidade" class="cadastlabel-titulo">Identidade</label>
+                    <div class="button-container">
+                        <button type="button" onclick="document.getElementById('identidade').click();" class="custom-field-documents button">
+                            <i class="fas fa-file-upload"></i> Selecionar
+                        </button>
+                        <button type="button" onclick="capturarImagem('identidade')" class="custom-field-documents button">
+                            <i class="fas fa-camera"></i> Capturar
+                        </button>
+                        <input type="file" id="identidade" name="identidade" style="display: none;" onchange="atualizarNomeArquivo('identidade')">
+                    </div>
                         
                         <!-- Span para mostrar o nome do arquivo selecionado -->
                         <span id="nome-arquivo-identidade">Arquivo: Nenhum arquivo enviado</span>
@@ -81,6 +81,7 @@
                         <!-- DOCUMENTO  CNH -->
                         <label for="cnh" class="cadastlabel-titulo">CNH</label>
                         <div class="button-container">
+
                             <button type="button" onclick="document.getElementById('cnh').click();" class="custom-field-documents button">
                                 <i class="fas fa-file-upload"></i> Selecionar
                             </button>
@@ -89,7 +90,7 @@
                             </button>
                             <input type="file" id="cnh" name="cnh" style="display: none;" onchange="atualizarNomeArquivo('cnh')">
                         </div>
-                        <span>Arquivo: Nenhum arquivo enviado</span>
+                        <span id="nome-arquivo-cnh">Arquivo: Nenhum arquivo enviado</span>
                         <label for="comentario_cnh" class="cadastlabel-comentario">Comentário:</label> <textarea
                             id="comentario_cnh" name="comentario_cnh" placeholder="Digite comentário:"
                             rows="3">{{ cliente.documentos.cnh.comentario if cliente and cliente.documentos and cliente.documentos.cnh else '' }}</textarea>
@@ -110,13 +111,11 @@
                             </button>
                             <input type="file" id="comprovante_endereco" name="comprovante_endereco" style="display: none;" onchange="atualizarNomeArquivo('comprovante_endereco')">
                         </div>
-                        <span>Arquivo: {{ cliente.documentos.comprovante_endereco.arquivo if cliente and
-                            cliente.documentos and cliente.documentos.comprovante_endereco else 'Nenhum arquivo
-                            enviado' }}</span>
+                        <span id="nome-arquivo-comprovante_endereco">Arquivo: Nenhum arquivo enviado</span>
                         <label for="comentario_comprovante" class="cadastlabel-comentario">Comentário:</label>
                         <textarea id="comentario_comprovante" name="comentario_comprovante"
                             placeholder="Digite um comentário:"
-                            rows="3">{{ cliente.documentos.comprovante_endereco.comentario if cliente and cliente.documentos and cliente.documentos.comprovante_endereco else '' }}</textarea>  
+                            rows="3"></textarea>  
                     </div>
 
                     <div class="document-column">
@@ -131,13 +130,12 @@
                                 class="custom-field-documents button">
                                 <i class="fas fa-camera"></i> Capturar
                             </button>
-                            <input type="file" id="outro" name="outro" style="display: none;">
+                            <input type="file" id="outro" name="outro" style="display: none;" onchange="atualizarNomeArquivo('outro')">
                         </div>
-                        <span>Arquivo: {{ cliente.documentos.outro.arquivo if cliente and cliente.documentos and
-                            cliente.documentos.outro else 'Nenhum arquivo enviado' }}</span>
+                        <span id="nome-arquivo-outro">Arquivo: Nenhum arquivo enviado</span>
                         <label for="comentario_outro" class="cadastlabel-comentario">Comentário:</label><textarea
                             id="comentario_outro" name="comentario_outro" placeholder="Digite um comentário:"
-                            rows="3">{{ cliente.documentos.outro.comentario if cliente and cliente.documentos and cliente.documentos.outro else '' }}</textarea>
+                            rows="3"></textarea>
 
                     </div>
                 </div>
@@ -148,6 +146,16 @@
 
     </div>
 
+    <div id="overlay">
+        <div id="popup">
+            <div class="mensagem"></div>
+            
+        <button onclick="toggleOverlay()">Fechar</button>
+        </div>
+    </div>
+
+    
+    
     <!-- CPF inválido -->
     {% if cpf_invalido %}
     <script>

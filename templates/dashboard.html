@@ -42,21 +42,23 @@
     <div id="popup">
         <h2>Alterar Senha</h2>
         <form id="alterarSenhaForm" method="POST" action="{{ url_for('alterar_senha') }}" onsubmit="return false;">
-            <p>
+          
                 <input type="password" name="senha_anterior" placeholder="Senha Anterior" required>
-            </p>
-            <p> 
-                <input type="password" name="nova_senha" placeholder="Nova Senha" required>
-            </p>
-            <p>
-                <input type="password" name="confirmar_senha" placeholder="Confirmar Nova Senha" required>
-            </p>
             
-            <button type="button" onclick="enviarAlterarSenha()">Alterar Senha</button>
+                <input type="password" name="nova_senha" placeholder="Nova Senha" required>
+           
+                <input type="password" name="confirmar_senha" placeholder="Confirmar Nova Senha" required>
+            
+            <button type="button" onclick="enviarAlterarSenha()" >Alterar Senha </button>
+            
         </form>
-        <button onclick="fecharPopup()">Fechar</button>
     </div>
+
+    <button class="close-button" onclick="fecharPopup()">
+        <i class="fas fa-times fa-2x"></i>  
+    
 </div>
+
 <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
 </body>
 </html>
