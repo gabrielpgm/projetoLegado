@@ -19,7 +19,7 @@ body {
     top: 0; /* Inicia no topo da tela */
     width: 70vw; /* Ocupa 70% da largura da tela em telas maiores */
     height: 50%; /* Ocupa 60% da altura da tela */
-    background-color: #16737D; /* Cor de fundo */
+    background: linear-gradient(149deg, #16636c, #29a0ad);
     border-radius: 0 0 15px 15px; /* Bordas arredondadas nas bordas inferiores */
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); /* Adiciona sombra */
     box-sizing: border-box; /* Inclui borda e preenchimento no cálculo da largura */
@@ -128,7 +128,7 @@ form {
     top: 0; /* Inicia no topo da tela */
     width: 70vw; /* Ocupa 70% da largura da tela em telas maiores */
     height: 870px; /* Ocupa 60% da altura da tela */
-    background-color: #16737d; /* Cor de fundo */
+    background: linear-gradient(95deg, #16636c, #168895);
     border-radius: 0 0 15px 15px; /* Bordas arredondadas nas bordas inferiores */
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); /* Adiciona sombra */
     box-sizing: border-box; /* Inclui borda e preenchimento no cálculo da largura */
@@ -199,21 +199,21 @@ form {
 
 /* Efeito de hover para o botão Cadastrar Cliente */
 #btndash-cadast:hover {
-    background-color: #64c5cf; /* Cor de fundo quando o mouse passa sobre o botão */
+    background-color: #429186; /* Cor de fundo quando o mouse passa sobre o botão */
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Sombra aumentada ao passar o mouse */
 }
 
 
 /* Efeito de hover para o botão Buscar Cliente */
 #btndash-busca:hover {
-    background-color: #64c5cf; /* Cor de fundo quando o mouse passa sobre o botão */
+    background-color: #429186; /* Cor de fundo quando o mouse passa sobre o botão */
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Sombra aumentada ao passar o mouse */
 }
 
 
 /* Efeito de hover para o botão Gerenciar Usuários */
 #btndash-geruser:hover {
-    background-color: #64c5cf; /* Cor de fundo quando o mouse passa sobre o botão */
+    background-color: #429186; /* Cor de fundo quando o mouse passa sobre o botão */
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Sombra aumentada ao passar o mouse */
 }
 
@@ -344,36 +344,58 @@ input {
 }
 
 
-.overlay video {
-    max-width: 80%; /* Ajusta o tamanho do vídeo */
-    border-radius: 10px;
-}
 .close-button {
     position: absolute; /* Para posicionar o botão de fechar */
     top: 10px; /* Distância do topo */
     right: 10px; /* Distância da direita */
 }
 
+/* Estilos básicos para o overlay da câmera */
+.camera-overlay {
+    position: fixed; /* Garante que o overlay cubra toda a tela */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9); /* Fundo semitransparente */
+    z-index: 9999; /* Faz com que o overlay fique sobre todos os outros elementos */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    display: none; /* Inicialmente escondido */
+}
+
+
 
 /* Container do vídeo */
 .video-container {
-    background-color: white;
     padding: 20px;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
     position: relative;
+
+}
+.video-container video {
+    max-width: 100%;
+    border-radius: 8px;
+}
+.capture-button {
+    background-color: #145b5e; /* Cor de fundo */
+    color: white; /* Cor do texto */
+    border: none; /* Remove bordas */
+    padding: 10px 15px; /* Adiciona espaçamento */
+    border-radius: 25px; /* Arredonda os cantos */
+    cursor: pointer; /* Muda o cursor ao passar sobre o botão */
+    transition: background-color 0.3s; /* Transição suave para hover */
+    margin: 10px auto;
+    font-size: 24px;
 }
 
-.capture-button {
-    margin-top: 10px;
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-    border-radius: 5px;
+.capture-button:hover {
+    background-color: #429186;
+   
 }
 
 .cancel-button {
@@ -382,7 +404,7 @@ input {
     right: 10px;
     background: transparent;
     border: none;
-    font-size: 24px;
+    font-size: 26px;
     color: white;
     cursor: pointer;
 }
@@ -606,7 +628,7 @@ input {
     width: 70vw; /* Ocupa 70% da largura da tela em telas maiores */
     min-width: 300px; /* Largura mínima */
     height: 93px; /* Permite que a altura se ajuste ao conteúdo */
-    background-color: #16737d; /* Cor de fundo */
+    background: linear-gradient(95deg, #16636c, #10909e);
     border-radius: 0 0 15px 15px; /* Bordas arredondadas nas bordas inferiores */
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); /* Adiciona sombra */
     box-sizing: border-box; /* Inclui borda e preenchimento no cálculo da largura */
@@ -827,18 +849,19 @@ button.btn-bigaction {
     background-color: #16737d;
     color: white;
     font-size: 16px;
-    padding: 10px 20px;
+    /* padding: 10px 20px; */
     border: .5px solid #16737d; /* Borda padrão */
-    border-radius: 10px;
+    border-radius: 20px;
     cursor: pointer;
     width: 363px;
     height: 40px;
     box-shadow: 0 4px 10px #00000033;
     transition: background-color 0.3s;
+    font-size: 22px;
 }
 
 button.btn-bigaction:hover {
-    background-color: #145b5e;
+    background-color: #429186;
 }
 
 

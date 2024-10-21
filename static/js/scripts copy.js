@@ -152,10 +152,6 @@ function capturarImagem(inputId) {
                 dataTransfer.items.add(newFile);
                 inputFile.files = dataTransfer.files;
 
-                // Chamar a função para atualizar o nome do arquivo no campo
-                atualizarNomeArquivo(inputId);
-
-                // Fechar o overlay
                 stopStream(stream, overlay);
             };
 
@@ -183,7 +179,6 @@ function capturarImagem(inputId) {
             console.error("Erro ao acessar a câmera:", error);
         });
 }
-
 
 
 
