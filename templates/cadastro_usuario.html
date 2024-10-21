@@ -20,22 +20,27 @@
             <div id="jan-cad-tipo">
                 <div class="input-group">
                     <form action="/cadastro_usuario" method="POST">
-                        <input type="text" name="nome" placeholder="Nome" required>
-                        <input type="text" name="username" placeholder="Nome de Usuário" required>
-                        <input type="password" name="senha" placeholder="Senha" required>    
+                        <div class="form-content">
+                            <div class="form-inputs">
+                                <input type="text" name="nome" placeholder="Nome" required>
+                                <input type="text" name="username" placeholder="Nome de Usuário" required>
+                                <input type="password" name="senha" placeholder="Senha" required>
         
-                        <div class="input-group-ratio">
-                            <input type="radio" name="tipo_acesso" value="Administrador" required> Administrador
-                            <input type="radio" name="tipo_acesso" value="Padrão" required> Padrão     
+                                <div class="input-group-ratio">
+                                    <input type="radio" name="tipo_acesso" value="Administrador" required> Administrador
+                                    <input type="radio" name="tipo_acesso" value="Padrão" required> Padrão
+                                </div>
+                            </div>
+        
+                            <div class="form-button">
+                                <button type="submit"><i class="fa-solid fa-floppy-disk"></i></button>
+                            </div>
                         </div>
-                        
-                        <button type="submit"><i class="fa-solid fa-floppy-disk"></i></button>
                     </form>
                 </div>
             </div>
         </div>
-        
-        
+               
         <fieldset class="custom-field-usuarios">
             <legend>Usuários Cadastrados</legend>
 
@@ -57,7 +62,7 @@
                                 <!-- Ícone lock para senha padrão -->
                                 <i class="fa-solid fa-lock" id="lock-{{ usuario.username }}" 
                                     onclick="resetPassword('{{ usuario.username }}')" 
-                                    style="color: rgb(255, 255, 255); display: inline;"></i>
+                                    style="color: rgb(139, 139, 139); display: inline;"></i>
                                 <!-- Ícone unlock para senha alterada -->
                                 <i class="fa-solid fa-unlock" id="unlock-{{ usuario.username }}" 
                                     style="color: orange; display: none;"></i>
@@ -82,9 +87,28 @@
             </div>
             <!-- Botões de Paginação -->
             <div id="pagination-controls">
-                <button onclick="prevPage()" id="prev-btn" disabled><i class="fa-solid fa-angle-left"></i></button>
-                <button onclick="nextPage()" id="next-btn"><i class="fa-solid fa-angle-right"></i></button>  
+                {% if page > 1 %}
+                    <!-- <a href="{{ url_for('cadastro_usuario', page=page-1) }}" id="prev-btn"><i class="fa-solid fa-angle-left"></i></a> -->
+
+                    <button onclick="location.href='{{ url_for('cadastro_usuario', page=page - 1) }}'" id="prev-btn">
+                        <i class="fa-solid fa-angle-left"></i>
+                {% else %}
+                    <button id="prev-btn" disabled><i class="fa-solid fa-angle-left"></i></button>
+                {% endif %}
+
+
+                {% if page * 5 < total_usuarios %}
+                    <!-- <a href="{{ url_for('cadastro_usuario', page=page+1) }}" id="next-btn"><i class="fa-solid fa-angle-right"></i></a> -->
+
+                    <button onclick="location.href='{{ url_for('cadastro_usuario', page=page + 1) }}'" id="next-btn">
+                    
+                        <i class="fa-solid fa-angle-right"></i> <!-- Ícone de avançar -->
+                    </button>
+                {% else %}
+                    <button id="next-btn" disabled><i class="fa-solid fa-angle-right"></i></button>
+                {% endif %}
             </div>
+            
         </fieldset>      
 </div>
     
@@ -106,6 +130,5 @@
         usuarioCadastradoSucesso();
     </script>
     {% endif %}
-    
 </body>
 </html>

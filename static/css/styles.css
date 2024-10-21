@@ -445,7 +445,7 @@ input {
     font-family: "Outfit", sans-serif;
     padding: 15px;
     max-width: 350px; /* Define um limite máximo de largura */
-    margin: 10px auto; /* Centraliza o contêiner horizontalmente */
+    margin: 5px auto; /* Centraliza o contêiner horizontalmente */
 }
 
 #jan-dads-busca {
@@ -462,7 +462,7 @@ input {
     flex-direction: column; /* Mantém os grupos de input um abaixo do outro */
     font-family: "Outfit", sans-serif;
     width: 350px;
-    margin: auto;
+    margin: -10px auto;
 }
 
 #jan-cad-tipo button{
@@ -470,12 +470,37 @@ input {
     height: 45px; /* Ajusta a altura total do input */
 }
 
+/* Estilizando o grupo de inputs e botão */
+.form-content {
+    display: flex; /* Habilita o uso de Flexbox */
+    justify-content: space-between; /* Espaço entre os inputs e o botão */
+    align-items: center; /* Centraliza verticalmente os itens */
+}
+
+.form-inputs {
+    display: flex;
+    flex-direction: column; /* Deixa os inputs em coluna */
+    gap: 10px; /* Espaçamento entre os inputs */
+}
+
+.form-button {
+    margin-left: -20px; /* Espaçamento entre o último input e o botão */
+}
+
+
+
+
+
+
+
+
+
 
 
 
 
 .input-group  {
-    width: 200px; /* Largura total do input */
+    width: 250px; /* Largura total do input */
     display: flex; /* Alinhamento flexível dos elementos */
     justify-content: center; /* Centraliza os itens horizontalmente */
     align-items: center; /* Centraliza verticalmente */
@@ -495,11 +520,11 @@ input {
 
 .input-group-ratio {
     width: 280px; /* Largura total do input */
-    height: 20px;
+    height: 10px;
     display: flex; /* Alinhamento flexível dos elementos */
     justify-content: center; /* Centraliza os itens horizontalmente */
     align-items: center; /* Centraliza verticalmente */
-    gap: -20px; /* Adiciona espaçamento entre os inputs */
+    gap: -10px; /* Adiciona espaçamento entre os inputs */
     margin: 12px;
 }
 
@@ -829,13 +854,14 @@ button.btn-bigaction:hover {
     display: flex;
     align-items: center;
     width: 340px;
+    height: 80px;
     background: linear-gradient(149deg, #16636c, #29a0ad); /* Degradê diagonal */
     border-radius: 8px; /* Bordas arredondadas */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4); /* Sombra */
     margin-bottom: 10px; /* Espaçamento entre os itens */
     transition: background-color 0.3s, box-shadow 0.3s; /* Efeito suave */
     justify-content: center; /* Espaça os itens para as extremidades */
-    margin: 5px auto;
+    margin: 10px auto;
 }
 
 .custom-row-user:hover{
@@ -858,10 +884,11 @@ button.btn-bigaction:hover {
 
 .user-info {
     display: flex; /* Alinha os itens em linha */
-    justify-content: space-between; /* Espaça os itens */
-    align-items: flex-start; /* Alinha os itens no início */
+    justify-content: flex-start; /* Alinha os itens ao início (esquerda) */
+    align-items: flex-start; /* Alinha os itens no topo (início) verticalmente */
     padding: 9px;
 }
+
 
 .password-icons, .status-icons {
     display: flex;
@@ -869,11 +896,23 @@ button.btn-bigaction:hover {
     align-items: center;
     margin: 10px auto;
     size: 10px;
+    
 }
 
 .password-icons i, .status-icons i {
-    margin: 0 5px; /* Adiciona um espaço entre os ícones */
-    transition: transform 0.3s ease; /* Efeito suave na transformação */
+    
+    background-color: rgb(255, 255, 255); /* Define a cor do fundo (vermelho neste caso) */
+    border-radius: 50%; /* Torna o fundo redondo */
+    padding: 10px; /* Ajusta o espaço ao redor do ícone para dar a aparência de um círculo */
+    color: white; /* Cor do ícone */
+    display: inline-block; /* Garante que o ícone e o fundo sejam exibidos corretamente */
+    width: 10px; /* Largura do círculo */
+    height: 10px; /* Altura do círculo */
+    line-height: 10px; /* Ajusta o alinhamento vertical do ícone */
+    text-align: center; /* Centraliza o ícone dentro do círculo */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Sombra sutil */
+    
+    
 }
 
 .password-icons i:hover, .status-icons i:hover {
@@ -887,7 +926,7 @@ button.btn-bigaction:hover {
     flex-direction: column; /* Título em cima do valor */
     margin-right: 12px; /* Espaço entre os campos */
     margin-bottom: 5px;
-    align-items: center; /* Centraliza horizontalmente */
+    align-items: flex-start; /* Centraliza horizontalmente */
     justify-self: center;
 }
 
@@ -917,7 +956,7 @@ button.btn-bigaction:hover {
     border-collapse: separate; /* Permite o espaçamento entre as linhas */
     border-spacing: 0 10px; /* Adiciona espaçamento de 5px entre as linhas */
     width: 97%; /* Faz com que a tabela ocupe 97% da largura disponível */
-    margin: 0 auto; /* Centraliza a tabela horizontalmente */
+    margin: 10px auto; /* Centraliza a tabela horizontalmente */
     width: 350px;
 }
 
@@ -926,6 +965,7 @@ button.btn-bigaction:hover {
     border-radius: 8px; /* Bordas arredondadas */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4); /* Adiciona sombreamento */
     transition: background-color 0.3s, box-shadow 0.3s; /* Adiciona transição suave */
+   
 }
 
 .custom-row:hover {
@@ -994,7 +1034,7 @@ button.btn-bigaction:hover {
     padding: 5px; /* Espaçamento interno */
     background-color: #f9f9f9; /* Cor de fundo suave */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Sombra sutil */
-    height: 610px; /* Altura fixa */
+    height: 590px; /* Altura fixa */
     width: 350px; /* Largura fixa */
     margin-bottom: 15px; /* Espaçamento inferior */
     overflow: hidden; /* Impede que o conteúdo expanda o campo */

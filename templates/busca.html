@@ -3,6 +3,7 @@
 <head>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">   
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
 </head>
 <body>
     
@@ -87,8 +88,7 @@
                         
                     </button>
                 {% endif %}
-            
-                <strong><span>{{ page or 1 }} de {{ total_pages or 1 }}</span></strong>
+        
             
                 {% if page and page < total_pages %}
                     <button onclick="location.href='{{ url_for('busca_cliente', page=page + 1) }}'" id="next-btn">
@@ -102,13 +102,8 @@
                     </button>
                 {% endif %}
             </div>    
-        </fieldset>
-        
-        
-        
+        </fieldset>  
            
     </div>
-        
-    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script> 
 </body>
 </html>

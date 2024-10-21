@@ -353,7 +353,12 @@ def editar_cliente(numero_identificador):
 
 @app.route('/cadastro_usuario', methods=['GET', 'POST'])
 def cadastro_usuario():
-    usuarios = list(db.users.find())  # Busca todos os usuários cadastrados
+    per_page = 5  # Número de usuários por página
+    page = int(request.args.get('page', 1))  # Página atual, padrão é 1
+
+    # Buscar os usuários de forma paginada
+    total_usuarios = db.users.count_documents({})  # Total de usuários no banco
+    usuarios = list(db.users.find().skip((page - 1) * per_page).limit(per_page))  # Paginando
 
     if request.method == 'POST':
         nome = request.form['nome']
@@ -364,7 +369,7 @@ def cadastro_usuario():
         # Verificar se o nome de usuário já existe
         usuario_existente = db.users.find_one({'username': username})
         if usuario_existente:
-            return render_template('cadastro_usuario.html', usuario_duplicado=True, usuarios=usuarios)
+            return render_template('cadastro_usuario.html', usuario_duplicado=True, usuarios=usuarios, total_usuarios=total_usuarios, page=page)
 
         # Hash da senha
         senha_hash = generate_password_hash(senha)
@@ -378,9 +383,13 @@ def cadastro_usuario():
             'status_usuario': True  
         })
 
-        return render_template('cadastro_usuario.html', usuario_cadastrado=True, usuarios=usuarios)
+        # Recarregar a lista paginada após o cadastro
+        usuarios = list(db.users.find().skip((page - 1) * per_page).limit(per_page))
 
-    return render_template('cadastro_usuario.html', usuarios=usuarios)
+        return render_template('cadastro_usuario.html', usuario_cadastrado=True, usuarios=usuarios, total_usuarios=total_usuarios, page=page)
+
+    return render_template('cadastro_usuario.html', usuarios=usuarios, total_usuarios=total_usuarios, page=page)
+
 
 @app.route('/toggle_usuario/<username>', methods=['POST'])
 def toggle_usuario(username):
