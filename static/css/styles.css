@@ -467,7 +467,7 @@ input {
     font-family: "Outfit", sans-serif;
     padding: 15px;
     max-width: 350px; /* Define um limite máximo de largura */
-    margin: 5px auto; /* Centraliza o contêiner horizontalmente */
+    margin: auto; /* Centraliza o contêiner horizontalmente */
 }
 
 #jan-dads-busca {
@@ -476,7 +476,7 @@ input {
     font-family: "Outfit", sans-serif;
     padding: 15px;
     width: 350px;
-    margin: 10px auto;
+    margin: -5px auto;
 }
 
 #jan-cad-tipo {
@@ -494,9 +494,11 @@ input {
 
 /* Estilizando o grupo de inputs e botão */
 .form-content {
+    position: fixed;
     display: flex; /* Habilita o uso de Flexbox */
     justify-content: space-between; /* Espaço entre os inputs e o botão */
     align-items: center; /* Centraliza verticalmente os itens */
+    margin: -20px auto;
 }
 
 .form-inputs {
@@ -523,6 +525,7 @@ input {
 
 .input-group  {
     width: 250px; /* Largura total do input */
+    height: 40px;
     display: flex; /* Alinhamento flexível dos elementos */
     justify-content: center; /* Centraliza os itens horizontalmente */
     align-items: center; /* Centraliza verticalmente */
@@ -689,11 +692,11 @@ input {
     padding: 5px; /* Espaçamento interno */
     background-color: #f9f9f9; /* Cor de fundo suave */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Sombra sutil */
-    height: 550px; /* Altura fixa */
+    height: 510px; /* Altura fixa */
     width: 350px; /* Largura fixa */
     margin-bottom: 15px; /* Espaçamento inferior */
     overflow: hidden; /* Impede que o conteúdo expanda o campo */
-    margin: -15px auto;
+    margin: 145px auto;
 }
 
 .custom-field-documents {
@@ -884,7 +887,7 @@ button.btn-bigaction:hover {
     margin-bottom: 10px; /* Espaçamento entre os itens */
     transition: background-color 0.3s, box-shadow 0.3s; /* Efeito suave */
     justify-content: center; /* Espaça os itens para as extremidades */
-    margin: 10px auto;
+    margin: 5px auto;
 }
 
 .custom-row-user:hover{
@@ -997,7 +1000,7 @@ button.btn-bigaction:hover {
 }
 
 .custom-row th, .custom-row td {
-    padding: 6px;
+    padding: 5px;
     text-align: center;
     border: none; /* Remove qualquer borda padrão da tabela */
 }
@@ -1057,7 +1060,7 @@ button.btn-bigaction:hover {
     padding: 5px; /* Espaçamento interno */
     background-color: #f9f9f9; /* Cor de fundo suave */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Sombra sutil */
-    height: 590px; /* Altura fixa */
+    height: 560px; /* Altura fixa */
     width: 350px; /* Largura fixa */
     margin-bottom: 15px; /* Espaçamento inferior */
     overflow: hidden; /* Impede que o conteúdo expanda o campo */
@@ -1131,7 +1134,7 @@ button.btn-bigaction:hover {
 
 @media (max-width: 700px) {
     #cx-extlgn {
-        width: 90vw; /* Ocupa 100% da largura da tela em dispositivos móveis */
+        width: 100%; /* Ocupa 100% da largura da tela em dispositivos móveis */
         height: 59vh; /* Ocupa 100% da altura da tela em dispositivos móveis */
         border-radius: 0 0 20px 20px; /* Remove as bordas arredondadas em dispositivos móveis */
         min-width: 400px;
@@ -1142,7 +1145,6 @@ button.btn-bigaction:hover {
         height: 412px; /* Altura fixa */
         top: 542px; /* Centraliza verticalmente em dispositivos móveis */
         transform: translate(-50%, -50%); /* Garante centralização horizontal e vertical */
-        min-width: 400px;
     }
     #cx-extdash {
         width: 100%; /* Ocupa 100% da largura da tela em dispositivos móveis */
@@ -1157,14 +1159,14 @@ button.btn-bigaction:hover {
         min-width: 400px;
     }
     #cx-extcad {
-        width: 95%; /* Ocupa 100% da largura da tela em dispositivos móveis */
+        width: 100%; /* Ocupa 100% da largura da tela em dispositivos móveis */
         height: 93px; /* Ocupa 100% da altura da tela em dispositivos móveis */
         border-radius: 0 0 20px 20px; /* Remove as bordas arredondadas em dispositivos móveis */
         min-width: 400px;
     }
 
     #cx-intcad {
-        width: 95%; /* Ocupa 100% da largura da tela em dispositivos móveis */
+        width: 100%; /* Ocupa 100% da largura da tela em dispositivos móveis */
         height: 810px; /* Ocupa 100% da altura da tela em dispositivos móveis */
         border-radius: 20px 20px 20px 20px; /* Remove as bordas arredondadas em dispositivos móveis */
         min-width: 400px;
