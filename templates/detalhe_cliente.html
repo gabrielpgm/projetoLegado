@@ -49,9 +49,9 @@
                         <label for="identidade" class="cadastlabel-titulo">Identidade</label>
                         <div class="valida-envio">
                             {% if cliente.documentos.identidade and cliente.documentos.identidade.arquivo %}
-                                <i class="fa-solid fa-check fa-2x" style="color: #0aff0aaa;"></i> <!-- Ícone de check se o documento foi enviado -->
+                                <i class="fa-solid fa-check fa-2x" style="color: #0aff0aaa;"></i> 
                             {% else %}
-                                <i class="fa-solid fa-xmark fa-2x" style="color: #ff0000ce;"></i> <!-- Ícone de xmark se o documento não foi enviado -->
+                                <i class="fa-solid fa-xmark fa-2x" style="color: #ff0000ce;"></i> 
                             {% endif %}
                         </div>
                         {% if cliente.documentos.identidade and cliente.documentos.identidade.arquivo %}
@@ -77,9 +77,9 @@
                         <label for="cnh" class="cadastlabel-titulo">CNH</label>
                         <div class="valida-envio">
                             {% if cliente.documentos.cnh and cliente.documentos.cnh.arquivo %}
-                                <i class="fa-solid fa-check fa-2x" style="color: #0aff0aaa;"></i> <!-- Ícone de check se o documento foi enviado -->
+                                <i class="fa-solid fa-check fa-2x" style="color: #0aff0aaa;"></i> 
                             {% else %}
-                                <i class="fa-solid fa-xmark fa-2x" style="color: #ff0000ce;"></i> <!-- Ícone de xmark se o documento não foi enviado -->
+                                <i class="fa-solid fa-xmark fa-2x" style="color: #ff0000ce;"></i>
                             {% endif %}
                         </div>
                         {% if cliente.documentos.cnh and cliente.documentos.cnh.arquivo %}
@@ -101,7 +101,6 @@
                         {% endif %}
                     </div>
 
-                    <!-- Outros campos seguem como estavam -->
                     {% endif %}
                 </div>
                 <div class="document-row">
@@ -110,9 +109,9 @@
                         <label for="comprovante_endereco" class="cadastlabel-titulo">Comprovante End.</label>
                         <div class="valida-envio">
                             {% if cliente.documentos.comprovante_endereco and cliente.documentos.comprovante_endereco.arquivo %}
-                                <i class="fa-solid fa-check fa-2x" style="color: #0aff0aaa;"></i> <!-- Ícone de check se o documento foi enviado -->
+                                <i class="fa-solid fa-check fa-2x" style="color: #0aff0aaa;"></i> 
                             {% else %}
-                                <i class="fa-solid fa-xmark fa-2x" style="color: #ff0000ce;"></i> <!-- Ícone de xmark se o documento não foi enviado -->
+                                <i class="fa-solid fa-xmark fa-2x" style="color: #ff0000ce;"></i> 
                             {% endif %}
                         </div>
                         {% if cliente.documentos.comprovante_endereco and cliente.documentos.comprovante_endereco.arquivo %}
@@ -140,9 +139,9 @@
                         <label for="outro" class="cadastlabel-titulo">OUTROS</label>
                         <div class="valida-envio">
                             {% if cliente.documentos.outros and cliente.documentos.outros.arquivo %}
-                                <i class="fa-solid fa-check fa-2x" style="color: #0aff0aaa;"></i> <!-- Ícone de check se o documento foi enviado -->
+                                <i class="fa-solid fa-check fa-2x" style="color: #0aff0aaa;"></i> 
                             {% else %}
-                                <i class="fa-solid fa-xmark fa-2x" style="color: #ff0000ce;"></i> <!-- Ícone de xmark se o documento não foi enviado -->
+                                <i class="fa-solid fa-xmark fa-2x" style="color: #ff0000ce;"></i> 
                             {% endif %}
                         </div>
                         {% if cliente.documentos.outros and cliente.documentos.outros.arquivo %}
@@ -169,8 +168,6 @@
 
             <button type="submit" class="btn-bigaction">Editar Cliente</button>
         </form>
-        <!-- Formulário de edição fechado corretamente -->
-
     </div>
 
     {% elif modo == 'editar' %}
@@ -189,8 +186,6 @@
         <label for="comentario_identidade">Comentário Identidade:</label>
         <input type="text" id="comentario_identidade" name="comentario_identidade"
             value="{{ cliente.documentos.identidade.comentario }}"><br><br>
-
-        <!-- Outros campos seguem como estavam -->
         {% endif %}
         
         <button type="submit">Salvar Alterações</button>

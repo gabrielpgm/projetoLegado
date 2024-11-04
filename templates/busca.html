@@ -81,12 +81,12 @@
             <div id="pagination-controls">
                 {% if page and page > 1 %}
                     <button onclick="location.href='{{ url_for('busca_cliente', page=page - 1) }}'" id="prev-btn">
-                        <i class="fa-solid fa-angle-left"></i> <!-- Ícone de voltar -->
+                        <i class="fa-solid fa-angle-left"></i> 
                         
                     </button>
                 {% else %}
                     <button id="prev-btn" disabled>
-                        <i class="fa-solid fa-angle-left"></i> <!-- Ícone de voltar -->
+                        <i class="fa-solid fa-angle-left"></i> 
                         
                     </button>
                 {% endif %}
@@ -95,12 +95,12 @@
                 {% if page and page < total_pages %}
                     <button onclick="location.href='{{ url_for('busca_cliente', page=page + 1) }}'" id="next-btn">
                     
-                        <i class="fa-solid fa-angle-right"></i> <!-- Ícone de avançar -->
+                        <i class="fa-solid fa-angle-right"></i> 
                     </button>
                 {% else %}
                     <button id="next-btn" disabled>
                         
-                        <i class="fa-solid fa-angle-right"></i> <!-- Ícone de avançar -->
+                        <i class="fa-solid fa-angle-right"></i> 
                     </button>
                 {% endif %}
             </div>    

@@ -61,11 +61,11 @@
                         <div class="user-field">
                             <label><strong>Senha Padrão</strong></label>
                             <div class="password-icons">
-                                <!-- Ícone lock para senha padrão -->
+                                
                                 <i class="fa-solid fa-lock" id="lock-{{ usuario.username }}" 
                                     onclick="resetPassword('{{ usuario.username }}')" 
                                     style="color: rgb(139, 139, 139); display: inline;"></i>
-                                <!-- Ícone unlock para senha alterada -->
+                                
                                 <i class="fa-solid fa-unlock" id="unlock-{{ usuario.username }}" 
                                     style="color: orange; display: none;"></i>
                             </div>
@@ -73,11 +73,11 @@
                         <div class="user-field">
                             <label><strong>Ativar</strong></label>
                             <div class="status-icons">
-                                <!-- Ícone thumbs-up para ativo (verde) -->
+                                
                                 <i class="fa-solid fa-thumbs-up" id="thumb-up-{{ usuario.username }}" 
                                     onclick="toggleUserStatus('{{ usuario.username }}')" 
                                     style="color: green; display: {{ 'inline' if usuario.status_usuario else 'none' }}"></i>
-                                <!-- Ícone thumbs-down para inativo (vermelho) -->
+                                
                                 <i class="fa-solid fa-thumbs-down" id="thumb-down-{{ usuario.username }}" 
                                     onclick="toggleUserStatus('{{ usuario.username }}')" 
                                     style="color: red; display: {{ 'none' if usuario.status_usuario else 'inline' }}"></i>
@@ -104,7 +104,7 @@
 
                     <button onclick="location.href='{{ url_for('cadastro_usuario', page=page + 1) }}'" id="next-btn">
                     
-                        <i class="fa-solid fa-angle-right"></i> <!-- Ícone de avançar -->
+                        <i class="fa-solid fa-angle-right"></i>
                     </button>
                 {% else %}
                     <button id="next-btn" disabled><i class="fa-solid fa-angle-right"></i></button>
